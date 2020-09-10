@@ -1,0 +1,214 @@
+{
+  "$comment": "See 'JSON Schema Mappings' in IntelliJ to apply schema as a validator.",
+  "$comment": "Use  { http://www.jsonschema2pojo.org/ }  to generate POJOs from this schema.",
+  "$comment": "TODO: include proper 'default', 'dependencies' and 'description'.",
+  "$schema": "http://json-schema.org/draft/2019-09/schema#",
+
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "liftoff-json-version",
+    "basic"
+  ],
+  "properties": {
+
+    "liftoff-json-version": {
+      "type": "number",
+      "$comment": "We want integers, so this is an initial attempt. '1.0' is still valid, though.",
+      "multipleOf": 1
+    },
+
+    "basic": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "project-name",
+        "core-package",
+        "main-class"
+      ],
+      "properties": {
+        "project-name": {
+          "type": "string"
+        },
+        "core-package": {
+          "type": "string"
+        },
+        "main-class": {
+          "type": "string"
+        },
+        "android-sdk-path": {
+          "type": "string"
+        }
+      }
+    },
+
+    "platforms": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "enum": [
+          "android",
+          "core",
+          "desktop-legacy",
+          "headless",
+          "html",
+          "ios",
+          "lwjgl3",
+          "server",
+          "shared"
+        ]
+      },
+      "$comment": "The 'core' platform gets added by default anyways. This is just for a quick setup.",
+      "default": [
+        "core"
+      ]
+    },
+
+    "languages": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "language",
+          "version"
+        ],
+        "properties": {
+          "language": {
+            "type": "string",
+            "enum": [
+              "scala",
+              "kotlin",
+              "groovy"
+            ]
+          },
+          "version": {
+            "type": "string"
+          }
+        }
+      }
+    },
+
+    "extensions": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "enum": [
+          "ashley",
+          "box2d-lights",
+          "ai",
+          "box2d",
+          "bullet",
+          "controllers",
+          "freetype",
+          "tools"
+        ]
+      }
+    },
+
+    "third-party": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "library",
+          "version"
+        ],
+        "properties": {
+          "library": {
+            "type": "string"
+          },
+          "version": {
+            "type": "string"
+          }
+        }
+      }
+    },
+
+    "versions": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "libgdx": {
+          "type": "string",
+          "default": "1.9.11"
+        },
+        "java": {
+          "type": "string"
+        },
+        "android-plugin": {
+          "type": "string"
+        },
+        "android-target-api": {
+          "type": "number",
+          "$comment": "We want integers, so this is an initial attempt. '1.0' is still valid, though.",
+          "multipleOf": 1
+        },
+        "gwt-plugin": {
+          "type": "string"
+        },
+        "application": {
+          "type": "string",
+          "default": "0.0.1-SNAPSHOT"
+        },
+        "server-java": {
+          "type": "string"
+        },
+        "desktop-java": {
+          "type": "string"
+        },
+        "robovm": {
+          "type": "string"
+        }
+      },
+      "$comment": "A default empty object should (?) create an object with the defaults defined above",
+      "default": {}
+    },
+
+    "add-ons": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "enum": [
+          "readme",
+          "gui-assets",
+          "gradle-wrapper"
+        ]
+      }
+    },
+
+    "template": {
+      "type": "string",
+      "enum": [
+        "application-adapter",
+        "application-listener",
+        "classic",
+        "empty",
+        "game",
+        "input-processor",
+        "scene2d",
+        "autumn-mvc-basic",
+        "autumn-mvc-box2d-visui",
+        "autumn-mvc-visui",
+        "kiwi-input-aware-application-listener",
+        "kiwi-abstract-application-listener",
+        "lml-basic",
+        "noise4j",
+        "visui-basic",
+        "visui-showcase",
+        "websocket-basic"
+      ],
+      "default": "application-adapter"
+    },
+
+    "post-generation-gradle-task-command": {
+      "type": "string"
+    }
+  }
+}
