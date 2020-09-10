@@ -1,7 +1,7 @@
 package com.github.payne.generator;
 
-import com.github.payne.model.BasicData;
-import com.github.payne.model.LanguagesData;
+import com.github.payne.generator.model.BasicData;
+import com.github.payne.generator.model.LanguagesData;
 import lombok.Data;
 import lombok.NonNull;
 
