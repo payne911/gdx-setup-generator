@@ -8,8 +8,8 @@ public class Generator implements IGenerator {
     private final Map<String, byte[]> virtualFileStructure = new HashMap<>();
 
     @Override
-    public Map<String, byte[]> generateFileStructure(GeneratorModel generatorModel) {
+    public GeneratedProject generateFileStructure(GeneratorConfigs generatorConfigs) {
 
-        return virtualFileStructure;
+        return null;
     }
 }
