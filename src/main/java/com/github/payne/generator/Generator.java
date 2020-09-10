@@ -1,15 +1,13 @@
 package com.github.payne.generator;
 
-import java.util.HashMap;
-import java.util.Map;
+import com.github.payne.generator.input.GeneratorConfigs;
+import com.github.payne.generator.output.GeneratedProject;
 
 public class Generator implements IGenerator {
 
-    private final Map<String, byte[]> virtualFileStructure = new HashMap<>();
-
     @Override
     public GeneratedProject generateFileStructure(GeneratorConfigs generatorConfigs) {
-
+        // todo: implement the logic
         return null;
     }
 }

@@ -1,4 +1,4 @@
-package com.github.payne.generator.model.enums;
+package com.github.payne.generator.input.model.enums;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

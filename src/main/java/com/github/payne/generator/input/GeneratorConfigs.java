@@ -1,10 +1,10 @@
-package com.github.payne.generator;
+package com.github.payne.generator.input;
 
-import com.github.payne.generator.model.VersionedLanguage;
-import com.github.payne.generator.model.enums.AddOn;
-import com.github.payne.generator.model.enums.Extension;
-import com.github.payne.generator.model.enums.Platform;
-import com.github.payne.generator.model.enums.Template;
+import com.github.payne.generator.input.model.VersionedLanguage;
+import com.github.payne.generator.input.model.enums.AddOn;
+import com.github.payne.generator.input.model.enums.Extension;
+import com.github.payne.generator.input.model.enums.Platform;
+import com.github.payne.generator.input.model.enums.Template;
 import com.github.payne.utils.Pair;
 import java.util.HashSet;
 import java.util.Set;

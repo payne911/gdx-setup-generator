@@ -1,6 +1,6 @@
-package com.github.payne.generator.model;
+package com.github.payne.generator.input.model;
 
-import com.github.payne.generator.model.enums.Language;
+import com.github.payne.generator.input.model.enums.Language;
 import com.github.payne.utils.Pair;
 import lombok.Getter;
 
