@@ -1,6 +1,6 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="Visualizer" type="Application" factoryName="Application">
-    <option name="MAIN_CLASS_NAME" value="com.github.payne.VisualizerLauncher"/>
+    <option name="MAIN_CLASS_NAME" value="com.github.payne.ui.VisualizerLauncher"/>
     <module name="gdx-setup-generator.test"/>
     <extension name="coverage">
       <pattern>

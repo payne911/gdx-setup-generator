@@ -9,6 +9,7 @@ buildscript {
 plugins {
     id 'java'
     id 'io.freefair.lombok' version '5.1.0'
+    id 'com.adarshr.test-logger' version '2.1.0'
 }
 
 group 'com.github.payne'
@@ -25,4 +26,14 @@ dependencies {
 
     testImplementation group: 'com.badlogicgames.gdx', name: 'gdx-backend-lwjgl', version: gdxVersion
     testImplementation group: 'com.badlogicgames.gdx', name: 'gdx-platform', version: gdxVersion, classifier: 'natives-desktop'
+}
+
+// TestLogger gradle plugin doc: https://github.com/radarsh/gradle-test-logger-plugin#configuration
+testlogger {
+    showFullStackTraces true
+    showSimpleNames false // 'true' would "com.github.payne.FileTests" -> "FileTests"
+}
+
+test {
+    testlogger { }
 }
