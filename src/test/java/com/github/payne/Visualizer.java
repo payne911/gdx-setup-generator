@@ -7,6 +7,10 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.github.payne.generator.Generator;
+import com.github.payne.generator.input.GeneratorConfigs;
+import com.github.payne.generator.output.GeneratedProject;
+import com.github.payne.generator.output.vfs.FileNode;
 
 public class Visualizer extends Game {
 
@@ -15,6 +19,11 @@ public class Visualizer extends Game {
     public Stage stage;
     public Table main;
     public Skin skin;
+
+    public Generator generator = new Generator();
+    public GeneratorConfigs input;
+    public GeneratedProject output;
+    public FileNode root;
 
     @Override
     public void create() {
@@ -34,6 +43,18 @@ public class Visualizer extends Game {
                 .expandX()
                 .pad(10)
                 .getActor().setFontScale(1.2f);
+
+        input = new GeneratorConfigs();
+        input.setProjectName("awesome-project");
+
+        output = generator.generateFileStructure(input);
+        root = output.getVirtualFileSystem().getRoot();
+        root.getChildren().forEach(this::navigate);
+    }
+
+    private void navigate(FileNode node) {
+        // todo (raeleus): do stuff here
+        node.getChildren().forEach(this::navigate); // recursive call through the tree
     }
 
     @Override
