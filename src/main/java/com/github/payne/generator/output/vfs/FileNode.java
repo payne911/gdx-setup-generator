@@ -1,5 +1,6 @@
 package com.github.payne.generator.output.vfs;
 
+import com.github.payne.generator.annotations.NotTested;
 import com.github.payne.utils.FileUtils;
 import java.util.LinkedList;
 import java.util.List;
@@ -103,6 +104,7 @@ public class FileNode { // todo: maybe 'abstract' and create 'File' and 'Folder'
      * @param name name of the child Node
      * @return the found or created Node
      */
+    @NotTested
     public FileNode getOrCreateChild(String name) {
         return children.stream()
                 .filter(node -> node.getName().equals(name))
@@ -115,10 +117,12 @@ public class FileNode { // todo: maybe 'abstract' and create 'File' and 'Folder'
      *
      * @throws NoSuchElementException if a child with that name didn't exit
      */
+    @NotTested
     public FileNode getChild(String name) throws NoSuchElementException {
         return getOptionalChild(name).orElseThrow();
     }
 
+    @NotTested
     public Optional<FileNode> getOptionalChild(String name) {
         return children.stream()
                 .filter(node -> node.getName().equals(name))

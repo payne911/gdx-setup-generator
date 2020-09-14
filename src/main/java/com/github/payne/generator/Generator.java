@@ -1,9 +1,13 @@
 package com.github.payne.generator;
 
+import com.github.payne.generator.annotations.NotImplemented;
+import com.github.payne.generator.annotations.NotTested;
 import com.github.payne.generator.input.GeneratorConfigs;
 import com.github.payne.generator.output.GeneratedProject;
 import com.github.payne.generator.output.vfs.VirtualFileSystem;
 
+@NotTested
+@NotImplemented
 public class Generator implements IGenerator {
 
     @Override

@@ -11,6 +11,29 @@ import org.junit.Test;
 public class FileNodeTests {
 
     @Test
+    public void isFolder() {
+        FileNode root = new FileNode("root");
+
+        FileNode folder1 = new FileNode("folder1");
+        root.addChild(folder1);
+        FileNode folder2 = new FileNode("folder2");
+        folder1.addChild(folder2);
+        FileNode folder3 = new FileNode("folder3");
+        root.addChild(folder3);
+        FileNode file1 = new FileNode("file1.txt", "text1".getBytes());
+        root.addChild(file1);
+        FileNode file2 = new FileNode("file2", "".getBytes());
+        folder3.addChild(file2);
+
+        assertTrue(root.isFolder());
+        assertTrue(folder1.isFolder());
+        assertTrue(folder2.isFolder());
+        assertTrue(folder3.isFolder());
+        assertFalse(file1.isFolder());
+        assertFalse(file2.isFolder());
+    }
+
+    @Test
     public void fullPath() {
         FileNode root = new FileNode("root");
 

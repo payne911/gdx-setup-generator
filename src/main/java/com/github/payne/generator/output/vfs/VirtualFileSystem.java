@@ -1,5 +1,7 @@
 package com.github.payne.generator.output.vfs;
 
+import com.github.payne.generator.annotations.NotImplemented;
+import com.github.payne.generator.annotations.NotTested;
 import com.github.payne.utils.FileUtils;
 import java.util.LinkedList;
 import java.util.List;
@@ -32,6 +34,7 @@ public class VirtualFileSystem implements SavableVfs {
     }
 
     @Override
+    @NotTested
     public FileNode addRelativeToParent(List<String> pathFromParent, FileNode parent,
             FileNode child) {
         if (FileUtils.isEmptyPath(pathFromParent)) { // trivial case: empty query
@@ -56,6 +59,8 @@ public class VirtualFileSystem implements SavableVfs {
 
     @Override
     @SneakyThrows // todo: don't forget to remove
+    @NotTested
+    @NotImplemented
     public FileNode copyFolder(List<String> srcPathFromRes, List<String> destPathFromRoot) {
         // todo: content of folders is string of files and folders names, separated by "\n"...
         return copyFile(srcPathFromRes, destPathFromRoot);
