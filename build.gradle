@@ -31,7 +31,7 @@ dependencies {
 // TestLogger gradle plugin doc: https://github.com/radarsh/gradle-test-logger-plugin#configuration
 testlogger {
     showFullStackTraces true
-    showSimpleNames false // 'true' would "com.github.payne.FileTests" -> "FileTests"
+    showSimpleNames true // 'false'   would   "FileTests" -> "com.github.payne.FileTests"
 }
 
 test {
