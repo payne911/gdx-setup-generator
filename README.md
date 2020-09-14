@@ -1,4 +1,4 @@
-![build](https://github.com/payne911/gdx-setup-generator/workflows/Java%20CI%20with%20Gradle/badge.svg)
+![build](https://github.com/payne911/gdx-setup-generator/workflows/build/badge.svg)
 
 Input is ``GeneratorConfigs.java``.
 
