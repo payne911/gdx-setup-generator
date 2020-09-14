@@ -154,42 +154,6 @@ public class VirtualFileSystemTests {
         assertTrue(vfs.getRoot().getChild(CORE).getChild("java").isFolder());
     }
 
-//    @Test
-//    public void copyFolder() {
-//        FileNode root = new FileNode("root");
-//        VirtualFileSystem vfs = new VirtualFileSystem(root);
-//
-//        final String CORE = "core";
-//        final String COPIED = "test.txt";
-//        final String RESOURCE_FOLDER = "copy-res-test";
-//
-//        FileNode folder = new FileNode("folder");
-//        vfs.addFromRoot(Arrays.asList(CORE, "java"), folder);
-//        FileNode file = new FileNode("file.txt", "Wow!".getBytes());
-//        vfs.addFromRoot(Arrays.asList(CORE), file);
-//
-//        System.out.println("HERE");
-//        vfs.copyFolder(Arrays.asList(RESOURCE_FOLDER), Arrays.asList(CORE));
-//
-//        /*
-//            root
-//            |__core
-//               |__java
-//                  |__folder
-//               |__file.txt
-//               |__copy-res-test
-//                  |__sub-folder
-//                     |__test3.txt
-//                  |__test.txt
-//                  |__test2.txt
-//         */
-//        String strContent = new String(vfs.getRoot().getChild(CORE).getChild(RESOURCE_FOLDER).getContent());
-//        System.out.println("TEST");
-//        System.out.println(strContent);
-//        assertEquals("PieMenu", strContent);
-//
-//    }
-
     @Test
     public void addToParent() {
         VirtualFileSystem vfs = new VirtualFileSystem("root");
