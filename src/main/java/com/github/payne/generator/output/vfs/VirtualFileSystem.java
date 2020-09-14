@@ -1,7 +1,6 @@
 package com.github.payne.generator.output.vfs;
 
 import com.github.payne.utils.FileUtils;
-import java.util.ArrayDeque;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -17,7 +16,6 @@ import lombok.SneakyThrows;
 public class VirtualFileSystem implements SavableVfs {
 
     private final FileNode root;
-    private final ArrayDeque<FileNode> queue = new ArrayDeque<>();
 
     public VirtualFileSystem(String projectName) {
         this.root = new FileNode(projectName);
