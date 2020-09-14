@@ -10,13 +10,35 @@ import java.util.List;
  */
 public interface SavableVfs {
 
-    void addFromRoot(List<String> pathFromRoot, FileNode child);
+    FileNode addFromRoot(List<String> pathFromRoot, FileNode child);
 
-    void addToParent(FileNode parent, FileNode child);
+    FileNode addToParent(FileNode parent, FileNode child);
 
-    void addRelativeToParent(List<String> pathFromParent, FileNode parent, FileNode child);
+    FileNode addRelativeToParent(List<String> pathFromParent, FileNode parent, FileNode child);
 
-    void copy(List<String> srcPathFromResources, List<String> destinationPathFromRoot);
+    /**
+     * Created a new {@link FileNode} with the content of the File located in the resources folder
+     * at the specified path.
+     * <p>
+     * If the desired file is at {@code src/main/resources/some-folder/my-file.txt}, the input
+     * destination path would be {@code Arrays.asList("some-folder")}, and the resulting {@link
+     * FileNode} will have the exact same name and content as the original.
+     *
+     * @param srcPathFromRes   For {@code src/main/resources/some-folder/my-file.txt}, use {@code
+     *                         Arrays.asList("some-folder")}.
+     * @param destPathFromRoot For {@code you-project-name-as-root/folder}, use {@code
+     *                         Arrays.asList("folder")}}.
+     * @return the newly-created node
+     */
+    FileNode copyFile(List<String> srcPathFromRes, List<String> destPathFromRoot);
 
+    FileNode copyFolder(List<String> srcPathFromRes, List<String> destPathFromRoot);
+
+    /**
+     * Places folders and then files in alphabetical order recursively through each folder, starting
+     * from the root.
+     * <p>
+     * This is not case-sensitive: no particular order is enforced between "ab" and "AB".
+     */
     void sortByNames();
 }

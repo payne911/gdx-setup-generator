@@ -101,9 +101,13 @@ public class FileTests {
     }
 
     @Test
+    public void addRelativeToParent() {
+        // todo: add test
+    }
+
+    @Test
     public void addFromRoot() {
-        FileNode root = new FileNode("root");
-        VirtualFileSystem vfs = new VirtualFileSystem(root);
+        VirtualFileSystem vfs = new VirtualFileSystem("root");
 
         final String CORE = "core";
         final String SRC = "src";
@@ -150,6 +154,7 @@ public class FileTests {
          */
 
         // Extracting generated intermediary folders
+        FileNode root = vfs.getRoot();
         FileNode coreFolder = root.getChild(CORE);
         FileNode srcFolder = coreFolder.getChild(SRC);
         FileNode mainFolder = srcFolder.getChild(MAIN);
@@ -205,5 +210,240 @@ public class FileTests {
         assertFalse(javaFile2.isFolder());
         assertFalse(testFile.isFolder());
         assertFalse(groovyFile.isFolder());
+    }
+
+    @Test
+    public void copyFile() {
+        VirtualFileSystem vfs = new VirtualFileSystem("root");
+
+        final String CORE = "core";
+        final String COPIED = "test.txt";
+        final String RESOURCE_FOLDER = "copy-res-test";
+
+        FileNode folder = new FileNode("folder");
+        vfs.addFromRoot(Arrays.asList(CORE, "java"), folder);
+        FileNode file = new FileNode("file.txt", "Wow!".getBytes());
+        vfs.addFromRoot(Arrays.asList(CORE), file);
+
+        vfs.copyFile(Arrays.asList(RESOURCE_FOLDER, COPIED), Arrays.asList(CORE));
+
+        /*
+            root
+            |__core
+               |__java
+                  |__folder
+               |__file.txt
+               |__test.txt
+         */
+        String strContent = new String(vfs.getRoot().getChild(CORE).getChild(COPIED).getContent());
+        assertEquals("PieMenu", strContent);
+
+        assertEquals(1, vfs.getRoot().getChildren().size());
+        assertEquals(3, vfs.getRoot().getChild(CORE).getChildren().size());
+        assertTrue(vfs.getRoot().getChild(CORE).getChild("java").isFolder());
+    }
+
+//    @Test
+//    public void copyFolder() {
+//        FileNode root = new FileNode("root");
+//        VirtualFileSystem vfs = new VirtualFileSystem(root);
+//
+//        final String CORE = "core";
+//        final String COPIED = "test.txt";
+//        final String RESOURCE_FOLDER = "copy-res-test";
+//
+//        FileNode folder = new FileNode("folder");
+//        vfs.addFromRoot(Arrays.asList(CORE, "java"), folder);
+//        FileNode file = new FileNode("file.txt", "Wow!".getBytes());
+//        vfs.addFromRoot(Arrays.asList(CORE), file);
+//
+//        System.out.println("HERE");
+//        vfs.copyFolder(Arrays.asList(RESOURCE_FOLDER), Arrays.asList(CORE));
+//
+//        /*
+//            root
+//            |__core
+//               |__java
+//                  |__folder
+//               |__file.txt
+//               |__copy-res-test
+//                  |__sub-folder
+//                     |__test3.txt
+//                  |__test.txt
+//                  |__test2.txt
+//         */
+//        String strContent = new String(vfs.getRoot().getChild(CORE).getChild(RESOURCE_FOLDER).getContent());
+//        System.out.println("TEST");
+//        System.out.println(strContent);
+//        assertEquals("PieMenu", strContent);
+//
+//    }
+
+    @Test
+    public void addToParent() {
+        VirtualFileSystem vfs = new VirtualFileSystem("root");
+        FileNode root = vfs.getRoot();
+
+        FileNode folder = new FileNode("folder");
+        FileNode rootFile = new FileNode("rootFile.txt", "text".getBytes());
+        FileNode folderFile1 = new FileNode("folderFile1.txt", "wow".getBytes());
+        FileNode folderFile2 = new FileNode("folderFile2.txt", "BUY IOTA".getBytes());
+
+        vfs.addToParent(root, rootFile);
+        vfs.addToParent(root, folder);
+        vfs.addToParent(folder, folderFile1);
+        vfs.addToParent(folder, folderFile2);
+
+        /*
+            root
+            |__folder
+               |__folderFile1.txt
+               |__folderFile2.txt
+            |__rootFile.txt
+         */
+
+        assertEquals(2, root.getChildren().size());
+        assertTrue(root.getChildren().contains(rootFile));
+        assertTrue(root.getChildren().contains(folder));
+
+        assertEquals(2, folder.getChildren().size());
+        assertTrue(folder.getChildren().contains(folderFile1));
+        assertTrue(folder.getChildren().contains(folderFile2));
+    }
+
+    @Test
+    public void addChild_folder() {
+        FileNode root = new FileNode("root");
+
+        final String DUPLICATED_NAME = "ab";
+
+        FileNode duplicated = new FileNode(DUPLICATED_NAME);
+        root.addChild(duplicated);
+        FileNode duplicate = new FileNode(DUPLICATED_NAME);
+        root.addChild(duplicate);
+
+        assertEquals("Root should only have 1 child", 1, root.getChildren().size());
+        assertEquals("Should be same memory reference", duplicated, root.getChild(DUPLICATED_NAME));
+    }
+
+    @Test
+    public void addChild_file() {
+        FileNode root = new FileNode("root");
+
+        final String FOLDER_NAME = "ab";
+        final String DUPLICATED_NAME = FOLDER_NAME + ".txt";
+        final byte[] OVERWRITTEN_TEXT = "PieMenu".getBytes();
+
+        FileNode folder = new FileNode(FOLDER_NAME);
+        root.addChild(folder);
+        FileNode first = new FileNode(DUPLICATED_NAME, "I love Nate".getBytes());
+        root.addChild(first);
+        FileNode second = new FileNode(DUPLICATED_NAME, OVERWRITTEN_TEXT);
+        root.addChild(second);
+
+        assertEquals(2, root.getChildren().size());
+        assertEquals("Folder should still be there", folder, root.getChild(FOLDER_NAME));
+        assertEquals("Content was not overwritten", OVERWRITTEN_TEXT, first.getContent());
+        assertEquals("Should be same memory reference", first, root.getChild(DUPLICATED_NAME));
+        assertFalse("No reference should exist", root.getChildren().contains(second));
+    }
+
+    @Test(expected = UnsupportedOperationException.class)
+    public void addChild_throwOnMix1() {
+        FileNode root = new FileNode("root");
+
+        final String NAME = "ab";
+
+        FileNode folder = new FileNode(NAME);
+        root.addChild(folder);
+        FileNode file = new FileNode(NAME, "sexy mgsx".getBytes());
+        root.addChild(file);
+    }
+
+    @Test(expected = UnsupportedOperationException.class)
+    public void addChild_throwOnMix2() {
+        FileNode root = new FileNode("root");
+
+        final String NAME = "ab";
+
+        FileNode file = new FileNode(NAME, "sexy mgsx".getBytes());
+        root.addChild(file);
+        FileNode folder = new FileNode(NAME);
+        root.addChild(folder);
+    }
+
+    @Test
+    public void sortByName_foldersOrdering() {
+        VirtualFileSystem vfs = new VirtualFileSystem("root");
+        FileNode root = vfs.getRoot();
+
+        FileNode fourth = new FileNode("bc");
+        vfs.addToParent(root, fourth);
+        FileNode fifth = new FileNode("BC");
+        vfs.addToParent(root, fifth);
+        FileNode first = new FileNode("a");
+        vfs.addToParent(root, first);
+        FileNode second = new FileNode("AB");
+        vfs.addToParent(root, second);
+        FileNode third = new FileNode("ab");
+        vfs.addToParent(root, third);
+
+        vfs.sortByNames();
+
+        assertEquals(5, root.getChildren().size());
+        assertEquals(first, root.getChildren().get(0));
+        assertEquals(second, root.getChildren().get(1));
+        assertEquals(third, root.getChildren().get(2));
+        assertEquals(fourth, root.getChildren().get(3));
+        assertEquals(fifth, root.getChildren().get(4));
+    }
+
+    @Test
+    public void sortByName_filesOrdering() {
+        VirtualFileSystem vfs = new VirtualFileSystem("root");
+        FileNode root = vfs.getRoot();
+
+        FileNode fourth = new FileNode("bc", "a".getBytes());
+        vfs.addToParent(root, fourth);
+        FileNode fifth = new FileNode("BC", "b".getBytes());
+        vfs.addToParent(root, fifth);
+        FileNode first = new FileNode("a", "c".getBytes());
+        vfs.addToParent(root, first);
+        FileNode second = new FileNode("AB", "d".getBytes());
+        vfs.addToParent(root, second);
+        FileNode third = new FileNode("ab", "e".getBytes());
+        vfs.addToParent(root, third);
+
+        vfs.sortByNames();
+
+        assertEquals(5, root.getChildren().size());
+        assertEquals(first, root.getChildren().get(0));
+        assertEquals(second, root.getChildren().get(1));
+        assertEquals(third, root.getChildren().get(2));
+        assertEquals(fourth, root.getChildren().get(3));
+        assertEquals(fifth, root.getChildren().get(4));
+    }
+
+    @Test
+    public void sortByName_mixedOrdering() {
+        VirtualFileSystem vfs = new VirtualFileSystem("root");
+        FileNode root = vfs.getRoot();
+
+        FileNode fourth = new FileNode("b", "I am a file too!".getBytes());
+        vfs.addToParent(root, fourth);
+        FileNode third = new FileNode("a", "I am a file".getBytes());
+        vfs.addToParent(root, third);
+        FileNode second = new FileNode("z");
+        vfs.addToParent(root, second);
+        FileNode first = new FileNode("F");
+        vfs.addToParent(root, first);
+
+        vfs.sortByNames();
+
+        assertEquals(4, root.getChildren().size());
+        assertEquals(first, root.getChildren().get(0));
+        assertEquals(second, root.getChildren().get(1));
+        assertEquals(third, root.getChildren().get(2));
+        assertEquals(fourth, root.getChildren().get(3));
     }
 }

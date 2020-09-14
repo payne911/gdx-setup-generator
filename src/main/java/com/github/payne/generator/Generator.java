@@ -7,7 +7,9 @@ public class Generator implements IGenerator {
 
     @Override
     public GeneratedProject generateFileStructure(GeneratorConfigs generatorConfigs) {
+        GeneratedProject generatedProject = new GeneratedProject();
         // todo: implement the logic
-        return null;
+        generatedProject.getVirtualFileSystem().sortByNames();
+        return generatedProject;
     }
 }

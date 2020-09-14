@@ -5,9 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
-import lombok.AccessLevel;
 import lombok.Data;
-import lombok.Setter;
 import lombok.ToString;
 
 /**
@@ -25,8 +23,7 @@ public class FileNode { // todo: maybe 'abstract' and create 'File' and 'Folder'
     private FileNode parent; // todo: maybe prevent the Setter from being generated ?
 
     @ToString.Exclude // to prevent StackOverflow
-    @Setter(AccessLevel.NONE)
-    private final List<FileNode> children = new LinkedList<>();
+    private List<FileNode> children = new LinkedList<>();
 
     /**
      * Creates a folder.
@@ -80,11 +77,17 @@ public class FileNode { // todo: maybe 'abstract' and create 'File' and 'Folder'
      * its content is replaced with this new one's.
      *
      * @param child added to the list of children.
-     * @return the newly created child Node
+     * @return the newly created child Node.
+     * @throws UnsupportedOperationException can't have a file and a folder with the same name
+     *                                       inside the same folder.
      */
-    public FileNode addChild(FileNode child) {
+    public FileNode addChild(FileNode child) throws UnsupportedOperationException {
         try {
             FileNode alreadyExistingChild = getChild(child.name);
+            if (child.isFolder != alreadyExistingChild.isFolder) {
+                throw new UnsupportedOperationException(
+                        "Can't have a file and a folder with the same name inside the same folder.");
+            }
             alreadyExistingChild.content = child.content;
             return alreadyExistingChild;
         } catch (NoSuchElementException e) {

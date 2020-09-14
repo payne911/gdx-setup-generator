@@ -1,8 +1,13 @@
 package com.github.payne.generator.output.vfs;
 
 import com.github.payne.utils.FileUtils;
+import java.util.ArrayDeque;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 import lombok.Data;
+import lombok.SneakyThrows;
 
 /**
  * Simulates a File System. Acts as a custom Tree data structure where the files and folders are
@@ -12,35 +17,79 @@ import lombok.Data;
 public class VirtualFileSystem implements SavableVfs {
 
     private final FileNode root;
+    private final ArrayDeque<FileNode> queue = new ArrayDeque<>();
 
-    @Override
-    public void addFromRoot(List<String> pathFromRoot, FileNode child) {
-        addRelativeToParent(pathFromRoot, root, child);
+    public VirtualFileSystem(String projectName) {
+        this.root = new FileNode(projectName);
     }
 
     @Override
-    public void addToParent(FileNode parent, FileNode child) {
-        parent.addChild(child);
+    public FileNode addFromRoot(List<String> pathFromRoot, FileNode child) {
+        return addRelativeToParent(pathFromRoot, root, child);
     }
 
     @Override
-    public void addRelativeToParent(List<String> pathFromParent, FileNode parent, FileNode child) {
+    public FileNode addToParent(FileNode parent, FileNode child) {
+        return parent.addChild(child);
+    }
+
+    @Override
+    public FileNode addRelativeToParent(List<String> pathFromParent, FileNode parent,
+            FileNode child) {
         if (FileUtils.isEmptyPath(pathFromParent)) { // trivial case: empty query
-            addToParent(parent, child);
-            return;
+            return addToParent(parent, child);
         }
 
         FileNode newParent = parent.getOrCreateChild(pathFromParent.get(0));
-        addRelativeToParent(pathFromParent.subList(1, pathFromParent.size()), newParent, child);
+        return addRelativeToParent(pathFromParent.subList(1, pathFromParent.size()), newParent,
+                child);
     }
 
     @Override
-    public void copy(List<String> srcPathFromResources, List<String> destinationPathFromRoot) {
-        // todo
+    @SneakyThrows // todo: don't forget to remove
+    public FileNode copyFile(List<String> srcPathFromRes, List<String> destPathFromRoot) {
+        String srcPath = FileUtils.joinPath(srcPathFromRes);
+        byte[] content = getClass().getClassLoader().getResourceAsStream(srcPath).readAllBytes();
+
+        String name = srcPathFromRes.get(srcPathFromRes.size() - 1);
+        FileNode created = new FileNode(name, content);
+        return addFromRoot(destPathFromRoot, created);
+    }
+
+    @Override
+    @SneakyThrows // todo: don't forget to remove
+    public FileNode copyFolder(List<String> srcPathFromRes, List<String> destPathFromRoot) {
+        // todo: content of folders is string of files and folders names, separated by "\n"...
+        return copyFile(srcPathFromRes, destPathFromRoot);
     }
 
     @Override
     public void sortByNames() {
-        // todo (BFS)
+        bfsSort(root);
+    }
+
+    private void bfsSort(FileNode node) {
+        Map<Boolean, List<FileNode>> split = node.getChildren().stream()
+                .collect(Collectors.partitioningBy(FileNode::isFolder));
+        List<FileNode> folders = split.get(true);
+        List<FileNode> files = split.get(false);
+
+        sortByName(folders);
+        sortByName(files);
+
+        List<FileNode> sortedList = new LinkedList<>();
+        sortedList.addAll(folders); // folders first
+        sortedList.addAll(files);
+        node.setChildren(sortedList); // replacing older list
+
+        folders.forEach(this::bfsSort); // recursively going through all sub-folders
+    }
+
+    private void sortByName(List<FileNode> nodes) {
+        nodes.sort((node1, node2) -> {
+            String name1 = node1.getName();
+            String name2 = node2.getName();
+            return name1.compareToIgnoreCase(name2);
+        });
     }
 }
