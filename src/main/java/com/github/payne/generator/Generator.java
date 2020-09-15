@@ -1,13 +1,12 @@
 package com.github.payne.generator;
 
-import com.github.payne.generator.annotations.NotImplemented;
 import com.github.payne.generator.annotations.NotTested;
 import com.github.payne.generator.input.GeneratorConfigs;
 import com.github.payne.generator.output.GeneratedProject;
 import com.github.payne.generator.output.vfs.VirtualFileSystem;
+import com.github.payne.logic.LogicProcessor;
 
 @NotTested
-@NotImplemented
 public class Generator implements IGenerator {
 
     @Override
@@ -17,7 +16,8 @@ public class Generator implements IGenerator {
         GeneratedProject output = new GeneratedProject();
         output.setVirtualFileSystem(new VirtualFileSystem(input.getProjectName()));
 
-        // todo: implement the logic
+        LogicProcessor logicProcessor = new LogicProcessor(output);
+        logicProcessor.applyInputs(input);
 
         output.getVirtualFileSystem().sortByNames(); // enforcing a sorted output
         return output;

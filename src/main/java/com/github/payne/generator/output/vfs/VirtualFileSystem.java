@@ -50,6 +50,7 @@ public class VirtualFileSystem implements SavableVfs {
     public FileNode copyFile(List<String> srcPathFromRes, List<String> destPathFromRoot) {
         String srcPath = FileUtils.joinPath(srcPathFromRes);
         byte[] content = getClass().getClassLoader().getResourceAsStream(srcPath).readAllBytes();
+        // todo: verify that "readAllBytes" is supported by GWT
 
         String name = srcPathFromRes.get(srcPathFromRes.size() - 1);
         FileNode created = new FileNode(name, content);
