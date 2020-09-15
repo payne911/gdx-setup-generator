@@ -10,6 +10,8 @@ import java.util.List;
  */
 public interface SavableVfs {
 
+    FileNode getRoot();
+
     FileNode addFromRoot(List<String> pathFromRoot, FileNode child);
 
     FileNode addToParent(FileNode parent, FileNode child);

@@ -38,8 +38,4 @@ public class GeneratorConfigs {
     private String roboVmVersion = "2.3.9";
     private String postGenerationGradleTaskCommand;
     private Integer targetAndroidApi = 29;
-
-    {
-        platforms.add(Platform.CORE); // 'CORE' is always included
-    }
 }

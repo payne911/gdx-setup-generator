@@ -10,7 +10,7 @@ import lombok.ToString;
 public enum Platform {
     ANDROID("android"),
     CORE("core"),
-    DESKTOP_LEGACY("desktop-legacy"),
+    DESKTOP_LEGACY("desktop"),
     HEADLESS("headless"),
     HTML("html"),
     IOS("ios"),
