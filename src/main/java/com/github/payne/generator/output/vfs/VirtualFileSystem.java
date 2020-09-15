@@ -34,7 +34,6 @@ public class VirtualFileSystem implements SavableVfs {
     }
 
     @Override
-    @NotTested
     public FileNode addRelativeToParent(List<String> pathFromParent, FileNode parent,
             FileNode child) {
         if (FileUtils.isEmptyPath(pathFromParent)) { // trivial case: empty query

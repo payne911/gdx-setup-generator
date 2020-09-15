@@ -13,7 +13,59 @@ public class VirtualFileSystemTests {
 
     @Test
     public void addRelativeToParent() {
-        // todo: add test
+        VirtualFileSystem vfs = new VirtualFileSystem("root");
+        FileNode root = vfs.getRoot();
+
+        final String FIRST_FOLDER = "firstFolder";
+        final String THIRD_FOLDER = "thirdFolder";
+        final String FOURTH_FOLDER = "fourthFolder";
+        final String FIFTH_FOLDER = "fifthFolder";
+
+        FileNode folder1 = new FileNode(FIRST_FOLDER);
+        vfs.addRelativeToParent(Arrays.asList(""), root, folder1);
+        FileNode folder2 = new FileNode("secondFolder");
+        vfs.addRelativeToParent(Arrays.asList(""), root, folder2);
+        FileNode folder3 = new FileNode(THIRD_FOLDER);
+        vfs.addRelativeToParent(Arrays.asList(FIRST_FOLDER), root, folder3);
+        FileNode folder4 = new FileNode(FOURTH_FOLDER);
+        vfs.addRelativeToParent(Arrays.asList(FIRST_FOLDER, THIRD_FOLDER), root, folder4);
+        FileNode folder5 = new FileNode(FIFTH_FOLDER);
+        vfs.addRelativeToParent(Arrays.asList(THIRD_FOLDER, FOURTH_FOLDER), folder1, folder5);
+
+        FileNode file1 = new FileNode("firstFile", "whatever".getBytes());
+        vfs.addRelativeToParent(Arrays.asList(""), root, file1);
+        FileNode file2 = new FileNode("secondFile", "whatever".getBytes());
+        vfs.addRelativeToParent(Arrays.asList(FOURTH_FOLDER, FIFTH_FOLDER), folder3, file2);
+
+        /*
+            root
+            |__folder1
+               |__folder3
+                  |__folder4
+                     |__folder5
+                        |__file2
+            |__folder2
+            |__file1
+         */
+
+        assertEquals(3, root.getChildren().size());
+        assertEquals(1, folder1.getChildren().size());
+        assertEquals(1, folder3.getChildren().size());
+        assertEquals(1, folder4.getChildren().size());
+        assertEquals(1, folder5.getChildren().size());
+        assertEquals(0, file1.getChildren().size());
+        assertEquals(0, file2.getChildren().size());
+
+        assertTrue(root.getChildren().contains(file1));
+        assertTrue(root.getChildren().contains(folder1));
+        assertTrue(root.getChildren().contains(folder2));
+        assertTrue(folder1.getChildren().contains(folder3));
+        assertTrue(folder3.getChildren().contains(folder4));
+        assertTrue(folder4.getChildren().contains(folder5));
+        assertTrue(folder5.getChildren().contains(file2));
+
+        assertFalse(root.getChildren().contains(folder3));
+        assertFalse(folder3.getChildren().contains(folder5));
     }
 
     @Test
@@ -146,6 +198,7 @@ public class VirtualFileSystemTests {
                |__file.txt
                |__test.txt
          */
+
         String strContent = new String(vfs.getRoot().getChild(CORE).getChild(COPIED).getContent());
         assertEquals("PieMenu", strContent);
 
