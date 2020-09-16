@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import lombok.Data;
-import lombok.SneakyThrows;
 
 /**
  * Simulates a File System. Acts as a custom Tree data structure where the files and folders are
@@ -52,10 +51,8 @@ public class VirtualFileSystem implements SavableVfs {
     }
 
     @Override
-    @SneakyThrows // todo: don't forget to remove
     public FileNode copyFile(List<String> srcPathFromRes, List<String> destPathFromRoot) {
-        String srcPath = FileUtils.joinPath(srcPathFromRes);
-        byte[] content = getClass().getClassLoader().getResourceAsStream(srcPath).readAllBytes();
+        byte[] content = FileUtils.readResourceFile(srcPathFromRes);
         // todo: verify that "readAllBytes" is supported by GWT
 
         String name = srcPathFromRes.get(srcPathFromRes.size() - 1);
@@ -64,7 +61,6 @@ public class VirtualFileSystem implements SavableVfs {
     }
 
     @Override
-    @SneakyThrows // todo: don't forget to remove
     @NotTested
     public FileNode copyFile(List<String> srcPathFromRes, List<String> destPathFromRoot,
             String rename) {
@@ -74,7 +70,6 @@ public class VirtualFileSystem implements SavableVfs {
     }
 
     @Override
-    @SneakyThrows // todo: don't forget to remove
     @NotTested
     @NotImplemented
     public FileNode copyFolder(List<String> srcPathFromRes, List<String> destPathFromRoot,

@@ -200,7 +200,7 @@ public class VirtualFileSystemTests {
          */
 
         String strContent = new String(vfs.getRoot().getChild(CORE).getChild(COPIED).getContent());
-        assertEquals("PieMenu", strContent);
+        assertEquals("PieMenu ${replaced}", strContent);
 
         assertEquals(1, vfs.getRoot().getChildren().size());
         assertEquals(3, vfs.getRoot().getChild(CORE).getChildren().size());
