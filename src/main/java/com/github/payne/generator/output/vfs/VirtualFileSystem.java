@@ -3,6 +3,7 @@ package com.github.payne.generator.output.vfs;
 import com.github.payne.generator.annotations.NotImplemented;
 import com.github.payne.generator.annotations.NotTested;
 import com.github.payne.utils.FileUtils;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -65,10 +66,39 @@ public class VirtualFileSystem implements SavableVfs {
     @Override
     @SneakyThrows // todo: don't forget to remove
     @NotTested
+    public FileNode copyFile(List<String> srcPathFromRes, List<String> destPathFromRoot,
+            String rename) {
+        FileNode copied = copyFile(srcPathFromRes, destPathFromRoot);
+        copied.setName(rename);
+        return copied;
+    }
+
+    @Override
+    @SneakyThrows // todo: don't forget to remove
+    @NotTested
     @NotImplemented
-    public FileNode copyFolder(List<String> srcPathFromRes, List<String> destPathFromRoot) {
+    public FileNode copyFolder(List<String> srcPathFromRes, List<String> destPathFromRoot,
+            boolean include) {
         // todo: content of folders is string of files and folders names, separated by "\n"...
         return copyFile(srcPathFromRes, destPathFromRoot);
+    }
+
+    @Override
+    @NotTested
+    public FileNode copyFileToRoot(List<String> srcPathFromRes) {
+        return copyFile(srcPathFromRes, Arrays.asList(""));
+    }
+
+    @Override
+    @NotTested
+    public FileNode copyFileToRoot(List<String> srcPathFromRes, String rename) {
+        return copyFile(srcPathFromRes, Arrays.asList(""), rename);
+    }
+
+    @Override
+    @NotTested
+    public FileNode copyFolderToRoot(List<String> srcPathFromRes, boolean include) {
+        return copyFolder(srcPathFromRes, Arrays.asList(""), include);
     }
 
     @Override

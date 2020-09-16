@@ -15,7 +15,7 @@ import lombok.ToString;
 @Data
 public class FileNode { // todo: maybe 'abstract' and create 'File' and 'Folder' ?
 
-    private final String name;
+    private String name;
     private final boolean isFolder; // todo: could be a utility method...
 
     @ToString.Exclude
