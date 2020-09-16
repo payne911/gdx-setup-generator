@@ -61,6 +61,7 @@ public class FileUtilsTests {
 
         String result = FileUtils.replaceFileContent(input, replacements);
 
+        // todo: shouldn't depend on LineFeeds (had to add '\r')
         assertEquals("<3 TEttinger <3\r\nthat's it", result);
     }
 }

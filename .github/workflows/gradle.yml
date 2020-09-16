@@ -11,16 +11,16 @@ on:
 
 jobs:
   build:
-    runs-on: windows-latest
+    runs-on: windows-latest # line-endings are messing with tests on Ubuntu
     name: Java CI with Gradlew
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Set up JDK 11
-      uses: actions/setup-java@v1
-      with:
-        java-version: 11
-    - name: Grant execute permission for gradlew
-      run: chmod +x gradlew
+      - uses: actions/checkout@v2
+      - name: Set up JDK 11
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
     - name: Build with Gradle
       run: ./gradlew build
