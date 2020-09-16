@@ -2,11 +2,9 @@ package com.github.payne.generator.input.model;
 
 import com.github.payne.generator.input.model.enums.Language;
 import com.github.payne.utils.Pair;
-import lombok.Getter;
 
 public class VersionedLanguage {
 
-    @Getter
     private Pair<Language, String> language;
 
     public VersionedLanguage(Language language) {
@@ -15,5 +13,17 @@ public class VersionedLanguage {
 
     public VersionedLanguage(Language language, String version) {
         this.language = new Pair<>(language, version);
+    }
+
+    public Language getLanguage() {
+        return language.first;
+    }
+
+    public String getDefaultVersion() {
+        return language.second;
+    }
+
+    public boolean isSameLanguage(Language other) {
+        return getLanguage().getValue().equals(other.getValue());
     }
 }

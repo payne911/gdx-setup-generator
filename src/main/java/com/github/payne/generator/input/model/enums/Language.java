@@ -8,6 +8,7 @@ import lombok.ToString;
 @ToString
 @RequiredArgsConstructor
 public enum Language {
+    JAVA("java", "1.8"),
     SCALA("scala", "2.13.+"),
     KOTLIN("kotlin", "1.3.+"),
     GROOVY("groovy", "3.0.+");

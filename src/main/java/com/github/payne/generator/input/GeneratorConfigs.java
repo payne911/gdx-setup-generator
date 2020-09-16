@@ -1,11 +1,12 @@
 package com.github.payne.generator.input;
 
 import com.github.payne.generator.input.model.VersionedLanguage;
+import com.github.payne.generator.input.model.VersionedLibrary;
 import com.github.payne.generator.input.model.enums.AddOn;
 import com.github.payne.generator.input.model.enums.Extension;
+import com.github.payne.generator.input.model.enums.Language;
 import com.github.payne.generator.input.model.enums.Platform;
 import com.github.payne.generator.input.model.enums.Template;
-import com.github.payne.utils.Pair;
 import java.util.HashSet;
 import java.util.Set;
 import lombok.Data;
@@ -21,11 +22,11 @@ public class GeneratorConfigs {
 
     private Template template = Template.APPLICATION_LISTENER;
 
-    private Set<Platform> platforms = new HashSet<>();
     private Set<AddOn> addOns = new HashSet<>();
+    private Set<Platform> platforms = new HashSet<>();
     private Set<Extension> extensions = new HashSet<>();
     private Set<VersionedLanguage> languages = new HashSet<>();
-    private Set<Pair<String, String>> libraries = new HashSet<>();
+    private Set<VersionedLibrary> libraries = new HashSet<>();
 
     /* Advanced configuration. */
     private String libGdxVersion = "1.9.11";
@@ -38,4 +39,22 @@ public class GeneratorConfigs {
     private String roboVmVersion = "2.3.9";
     private String postGenerationGradleTaskCommand;
     private Integer targetAndroidApi = 29;
+
+
+    public boolean contains(AddOn addOn) {
+        return addOns.contains(addOn);
+    }
+
+    public boolean contains(Platform platform) {
+        return platforms.contains(platform);
+    }
+
+    public boolean contains(Language language) {
+        for (VersionedLanguage lang : getLanguages()) {
+            if (lang.isSameLanguage(language)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

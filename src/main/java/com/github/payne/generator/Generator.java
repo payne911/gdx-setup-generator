@@ -2,6 +2,8 @@ package com.github.payne.generator;
 
 import com.github.payne.generator.annotations.NotTested;
 import com.github.payne.generator.input.GeneratorConfigs;
+import com.github.payne.generator.input.model.VersionedLanguage;
+import com.github.payne.generator.input.model.enums.Language;
 import com.github.payne.generator.input.model.enums.Platform;
 import com.github.payne.generator.output.GeneratedProject;
 import com.github.payne.generator.output.vfs.VirtualFileSystem;
@@ -12,9 +14,9 @@ public class Generator implements IGenerator {
 
     @Override
     public GeneratedProject generateFileStructure(GeneratorConfigs input) {
+        validate(input);
         addDefaults(input);
         GeneratedProject output = init(input);
-        validate(input);
         generate(input, output);
         groom(output);
         return output;
@@ -26,7 +28,21 @@ public class Generator implements IGenerator {
      * @param input the {@link GeneratorConfigs} which gets modified.
      */
     private void addDefaults(GeneratorConfigs input) {
-        input.getPlatforms().add(Platform.CORE);
+        coreDefault(input);
+        javaDefault(input);
+    }
+
+    private void coreDefault(GeneratorConfigs input) {
+        input.getPlatforms().add(Platform.CORE); // it's a set so there can't be duplicates
+    }
+
+    private void javaDefault(GeneratorConfigs input) {
+        Language java = Language.JAVA;
+        if (input.contains(java)) {
+            return;
+        }
+        VersionedLanguage defaultJava = new VersionedLanguage(java, java.getDefaultVersion());
+        input.getLanguages().add(defaultJava);
     }
 
     /**
