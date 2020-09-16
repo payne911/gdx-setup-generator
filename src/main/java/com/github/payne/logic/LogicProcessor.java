@@ -46,7 +46,7 @@ public class LogicProcessor {
     }
 
     public void addSkinAssets() {
-        if (input.getAddOns().contains(AddOn.GUI_ASSETS)) {
+        if (input.contains(AddOn.GUI_ASSETS)) {
             vfs.copyFolder(Arrays.asList("generator", "static", "assets"),
                     Arrays.asList(ASSETS_FOLDER), false);
         }
