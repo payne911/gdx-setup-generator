@@ -1,0 +1,43 @@
+buildscript {
+	repositories {
+    mavenLocal()
+    mavenCentral()
+    google()
+    maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
+    jcenter()
+	}
+	dependencies {
+${buildDependencies}	}
+}
+
+allprojects {
+	apply plugin: 'eclipse'
+	apply plugin: 'idea'
+}
+
+configure(subprojects${android}) {
+${plugins}
+	sourceCompatibility = ${javaVersion}
+	compileJava {
+		options.incremental = true
+	}
+}
+
+subprojects {
+	version = '${appVersion}'
+	ext.appName = '${projectName}'
+	repositories {
+		mavenLocal()
+		mavenCentral()
+		maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
+		maven { url 'https://jitpack.io' }
+		jcenter()
+	}
+}
+
+// Clearing Eclipse project data in root folder:
+tasks.eclipse.doLast {
+	delete '.project'
+	delete '.classpath'
+	delete '.settings/'
+}
