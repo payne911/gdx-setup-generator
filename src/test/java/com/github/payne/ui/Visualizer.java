@@ -35,7 +35,7 @@ public class Visualizer extends Game {
 
     Widget fileContent;
     Widget fileFullPath;
-    Table clickableVfs;
+    Table fileList;
     SplitPane bottomSplit;
 
     @Override
@@ -53,14 +53,14 @@ public class Visualizer extends Game {
     private void setUp() {
         main.setDebug(true);
 
-        clickableVfs = new Table(skin);
+        fileList = new Table(skin);
         Table fileContentTable = new Table(skin);
-        ScrollPane pane1 = new ScrollPane(clickableVfs);
+        ScrollPane pane1 = new ScrollPane(fileList);
         SplitPane topSplit = new SplitPane(pane1, fileContentTable, false, skin);
         Table bottomTable = new Table(skin);
         bottomSplit = new SplitPane(topSplit, bottomTable, true, skin);
 
-        clickableVfs
+        fileList
                 .add(new Label("Files will appear here after configuration.\n".repeat(40), skin))
                 .grow();
         fileFullPath = new Label("Here will appear the full path of the selected file.", skin);
@@ -78,7 +78,7 @@ public class Visualizer extends Game {
         bottomTable.add(generateBtn).growY();
 
         int pad = 10;
-        clickableVfs.defaults().pad(pad);
+        fileList.defaults().pad(pad);
         fileContentTable.defaults().pad(pad);
         bottomTable.defaults().pad(pad);
 
