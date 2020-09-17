@@ -12,11 +12,11 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @DynamicFile("generator/dynamic/root-build-gradle.txt")
-public class RootGradleFile extends GradleFile {
+public class RootBuildGradleFile extends BuildGradleFile {
 
     private final Map<String, String> replacements = new HashMap<>();
 
-    public RootGradleFile(GeneratorConfigs input) {
+    public RootBuildGradleFile(GeneratorConfigs input) {
         super();
 
         if (input.contains(Language.KOTLIN)) {

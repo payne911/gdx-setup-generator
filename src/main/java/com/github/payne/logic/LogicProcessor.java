@@ -10,7 +10,7 @@ import com.github.payne.generator.output.vfs.FileNode;
 import com.github.payne.generator.output.vfs.SavableVfs;
 import com.github.payne.logic.files.GeneratedFile;
 import com.github.payne.logic.files.GradlePropertiesFile;
-import com.github.payne.logic.files.RootGradleFile;
+import com.github.payne.logic.files.RootBuildGradleFile;
 import java.util.Arrays;
 
 @NotTested
@@ -59,7 +59,7 @@ public class LogicProcessor {
     }
 
     public void addRootBuildGradle() {
-        GeneratedFile rootBuildGradle = new RootGradleFile(input);
+        GeneratedFile rootBuildGradle = new RootBuildGradleFile(input);
         vfs.addToParent(root, rootBuildGradle.createFile());
     }
 
