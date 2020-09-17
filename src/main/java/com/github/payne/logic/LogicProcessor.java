@@ -32,25 +32,35 @@ public class LogicProcessor {
     }
 
     public void applyInputs() {
-        addGitIgnore();
-        addSkinAssets();
-        addGradleProperties();
+        addRootFiles();
+        addRootFolders();
 
-        addReadmeFile();
-        input.getPlatforms().forEach(this::addPlatform);
-        addBuildGradles();
         applyTemplate();
+    }
+
+    public void addRootFiles() {
+        addGitIgnore();
+        addRootBuildGradle();
+        addReadmeFile();
+        addGradleProperties();
+    }
+
+    public void addRootFolders() {
+        addSkinAssets();
+        addPlatforms();
+    }
+
+    public void addPlatforms() {
+        input.getPlatforms().forEach(this::addPlatform);
     }
 
     public void addGitIgnore() {
         vfs.copyFileToRoot(Arrays.asList("generator", "static", "gitignore"), ".gitignore");
     }
 
-    public void addBuildGradles() {
+    public void addRootBuildGradle() {
         String rootBuildGradle = new RootGradleFile(input).getContent();
         vfs.addToParent(root, new FileNode(GradleFile.NAME, rootBuildGradle.getBytes()));
-
-        // todo: add each platform's individual build.gradle (affected by JVM Languages!)
     }
 
     public void addGradleProperties() {
@@ -72,6 +82,8 @@ public class LogicProcessor {
     public void addPlatform(Platform platform) {
         System.out.println("Applying " + platform);
         System.out.println("=============================");
+
+        // todo: add each platform's individual build.gradle (affected by JVM Languages!)
     }
 
     public void addReadmeFile() {
