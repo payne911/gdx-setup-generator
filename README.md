@@ -33,14 +33,15 @@ This is an effort to extract the logic from the [``liftoff``](https://github.com
 
 For the most part, the underlying parts of the logic remained the same.
 
-One of the key differences is that instead of generating the project by going from one input-option to the next (which was the natural choice for an approach using ``LML-MVC``), this rather focuses the generation on each separated file.
+Differences:
+* One of the key differences is that instead of generating the project by going from one input-option to the next (which was the natural choice for an approach using ``LML-MVC``), this rather focuses the generation on each separated file.
 As an example, ``liftoff`` had a class which took the "Kotlin Language Option" and acted on the properties of the different other components affected by that choice.
 This current project instead focuses on specific generated files instead: thus, the "Kotlin Language Option" configuration is observed within the class which takes care of generating the ``android`` module's ``build.gradle`` file (and all other files related, separately).
 While this file-oriented approach breaks a few software engineering principles, I feel like it's a more natural way of interacting with the code: it's easier to think of our desires in terms of the convention-based generated file structure rather than in terms of the arbitrarily-structured input.
-
-Another interesting difference is the existence of "dynamic files": instead of having text-blocks in the code, certain files are part of the resources and include "keys" at specific places which are to be dynamically replaced in the code.
-
-Moreover, the project was ported from Kotlin to Java to increase maintainability on the long-term (as not everyone knows Kotlin). The secondary goal is to facilitate an eventually GWT-compatible version.
+* As a corollary, it's easier to maintain the code because a file's content is always completely determined at its instantiation, rather than spanning through different classes' processes.
+* Possibility to recursively copy the content of a folder in the ``resources``.
+* Another interesting difference is the existence of "dynamic files": instead of having text-blocks in the code, certain files are part of the resources and include "keys" at specific places which are to be dynamically replaced in the code.
+* Moreover, the project was ported from Kotlin to Java to increase maintainability on the long-term (as not everyone knows Kotlin). The secondary goal is to facilitate an eventually GWT-compatible version.
 
 ## GWT
 
