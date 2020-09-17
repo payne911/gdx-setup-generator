@@ -3,6 +3,7 @@ package com.github.payne.logic.files;
 import com.github.payne.generator.input.GeneratorConfigs;
 import com.github.payne.generator.input.model.enums.Language;
 import com.github.payne.generator.input.model.enums.Platform;
+import com.github.payne.logic.files.abstracts.GeneratedFile;
 import com.github.payne.utils.StringUtils;
 
 public class GradlePropertiesFile extends GeneratedFile {

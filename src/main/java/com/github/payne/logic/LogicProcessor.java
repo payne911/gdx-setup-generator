@@ -8,9 +8,9 @@ import com.github.payne.generator.input.model.enums.Platform;
 import com.github.payne.generator.output.GeneratedProject;
 import com.github.payne.generator.output.vfs.FileNode;
 import com.github.payne.generator.output.vfs.SavableVfs;
-import com.github.payne.logic.files.GeneratedFile;
 import com.github.payne.logic.files.GradlePropertiesFile;
 import com.github.payne.logic.files.RootBuildGradleFile;
+import com.github.payne.logic.files.abstracts.GeneratedFile;
 import java.util.Arrays;
 
 @NotTested

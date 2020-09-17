@@ -1,4 +1,4 @@
-package com.github.payne.logic.files;
+package com.github.payne.logic.files.abstracts;
 
 import com.github.payne.utils.StringUtils;
 import java.util.Collection;

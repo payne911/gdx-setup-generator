@@ -1,4 +1,4 @@
-package com.github.payne.logic.files;
+package com.github.payne.logic.files.abstracts;
 
 import com.github.payne.generator.output.vfs.FileNode;
 import lombok.Data;

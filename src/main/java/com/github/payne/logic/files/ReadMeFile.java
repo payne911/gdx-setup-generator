@@ -3,6 +3,7 @@ package com.github.payne.logic.files;
 import com.github.payne.generator.annotations.DynamicFile;
 import com.github.payne.generator.input.GeneratorConfigs;
 import com.github.payne.generator.input.model.enums.AddOn;
+import com.github.payne.logic.files.abstracts.GeneratedFile;
 import com.github.payne.utils.FileUtils;
 import java.util.Arrays;
 import java.util.HashMap;
