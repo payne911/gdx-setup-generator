@@ -14,11 +14,24 @@ import java.util.stream.Collectors;
 @DynamicFile("generator/dynamic/root-build-gradle.txt")
 public class RootGradleFile extends GradleFile {
 
-    @Override
-    public String getContent(GeneratorConfigs input) {
-        Map<String, String> replacements = new HashMap<>();
-        replacements
-                .put("buildDependencies", joinDependencies(dependencies, "classpath", "\t\t"));
+    private final Map<String, String> replacements = new HashMap<>();
+
+    public RootGradleFile(GeneratorConfigs input) {
+        if (input.contains(Language.KOTLIN)) {
+            buildDependencies.add("\"org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion\"");
+        }
+        if (input.contains(Platform.ANDROID)) {
+            buildDependencies.add("\"com.android.tools.build:gradle:$androidPluginVersion\"");
+        }
+        if (input.contains(Platform.HTML)) {
+            buildDependencies.add("\"org.wisepersist:gwt-gradle-plugin:$gwtPluginVersion\"");
+        }
+        if (input.contains(Platform.IOS)) {
+            buildDependencies.add("\"com.mobidevelop.robovm:robovm-gradle-plugin:$robovmVersion\"");
+        }
+
+        replacements.put("buildDependencies",
+                joinDependencies(getBuildDependencies(), "classpath", "\t\t"));
         replacements.put("android", input.contains(Platform.ANDROID)
                 ? " - project(':android')"
                 : "");
@@ -34,7 +47,10 @@ public class RootGradleFile extends GradleFile {
         replacements.put("javaVersion", input.getJavaVersion());
         replacements.put("appVersion", input.getApplicationVersion());
         replacements.put("projectName", input.getProjectName());
+    }
 
+    @Override
+    public String getContent() {
         List<String> resPath = Arrays.asList("generator", "dynamic", "root-build-gradle.txt");
         String initialFile = FileUtils.readResourceFileAsString(resPath);
         return FileUtils.replaceFileContent(initialFile, replacements);

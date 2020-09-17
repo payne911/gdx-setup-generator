@@ -8,6 +8,8 @@ import com.github.payne.generator.input.model.enums.Platform;
 import com.github.payne.generator.output.GeneratedProject;
 import com.github.payne.generator.output.vfs.FileNode;
 import com.github.payne.generator.output.vfs.SavableVfs;
+import com.github.payne.logic.files.GradleFile;
+import com.github.payne.logic.files.RootGradleFile;
 import java.util.Arrays;
 
 @NotTested
@@ -29,23 +31,27 @@ public class LogicProcessor {
     }
 
     public void applyInputs() {
-        addBasicFiles();
+        addGitIgnore();
+        addBuildGradleFiles();
         addSkinAssets();
-        addLibraries();
         applyTemplate();
         input.getPlatforms().forEach(this::addPlatform);
         addJvmLanguagesSupport();
         addReadmeFile();
         saveProperties();
-        saveFiles();
     }
 
-    public void addBasicFiles() {
+    public void addGitIgnore() {
         vfs.copyFileToRoot(Arrays.asList("generator", "static", "gitignore"), ".gitignore");
-        root.addChild(new FileNode(ASSETS_FOLDER)); // there's always the main assets folder
+    }
+
+    public void addBuildGradleFiles() {
+        String rootGradleFileContent = new RootGradleFile(input).getContent();
+        vfs.addToParent(root, new FileNode(GradleFile.NAME, rootGradleFileContent.getBytes()));
     }
 
     public void addSkinAssets() {
+        vfs.addToParent(root, new FileNode(ASSETS_FOLDER)); // there's always the main assets folder
         if (input.contains(AddOn.GUI_ASSETS)) {
             vfs.copyFolder(Arrays.asList("generator", "static", "assets"),
                     Arrays.asList(ASSETS_FOLDER), false);
@@ -60,10 +66,6 @@ public class LogicProcessor {
 
     public void addPlatform(Platform platform) {
         System.out.println("Applying " + platform);
-        System.out.println("Applying " + platform.ordinal());
-        System.out.println("Applying " + platform.name());
-        System.out.println("Applying " + platform.getValue());
-        System.out.println("Applying " + platform.toString());
         System.out.println("=============================");
     }
 
@@ -71,11 +73,11 @@ public class LogicProcessor {
     }
 
     public void addReadmeFile() {
+        if (input.contains(AddOn.README)) {
+
+        }
     }
 
     public void saveProperties() {
-    }
-
-    public void saveFiles() {
     }
 }

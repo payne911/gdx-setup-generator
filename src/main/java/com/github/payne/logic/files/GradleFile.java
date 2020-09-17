@@ -1,6 +1,5 @@
 package com.github.payne.logic.files;
 
-import com.github.payne.generator.input.GeneratorConfigs;
 import com.github.payne.utils.StringUtil;
 import java.util.Collection;
 import java.util.HashSet;
@@ -16,7 +15,7 @@ public abstract class GradleFile {
 
     public static final String NAME = "build.gradle";
 
-    abstract public String getContent(GeneratorConfigs input);
+    public abstract String getContent();
 
     public String joinDependencies(Collection<String> dependencies) {
         return joinDependencies(dependencies, "implementation", "\t");
