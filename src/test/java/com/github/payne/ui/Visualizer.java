@@ -12,7 +12,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.SplitPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.ui.Widget;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.github.payne.generator.Generator;
@@ -33,8 +32,8 @@ public class Visualizer extends Game {
     public GeneratedProject output;
     public FileNode root;
 
-    Widget fileContent;
-    Widget fileFullPath;
+    Label fileContent;
+    Label fileFullPath;
     Table fileList;
     SplitPane bottomSplit;
 
@@ -94,6 +93,8 @@ public class Visualizer extends Game {
         generateBtn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                fileList.clearChildren();
+                bottomSplit.setSplitAmount(.9f);
                 generate();
             }
         });
@@ -109,7 +110,23 @@ public class Visualizer extends Game {
     }
 
     private void navigate(FileNode node) {
-        node.getChildren().forEach(this::navigate); // recursive call through the tree
+        System.out.println(node);
+
+        Button fileBtn = new TextButton(markFolder(node) + node.getName(), skin);
+        fileList.add(fileBtn).row();
+        fileBtn.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                fileFullPath.setText(node.getFullPath());
+                fileContent.setText(node.isFolder() ? "" : new String(node.getContent()));
+            }
+        });
+
+        node.getChildren().forEach(this::navigate); // recursive call through the sorted tree
+    }
+
+    private String markFolder(FileNode node) {
+        return "[" + (node.isFolder() ? "X" : " ") + "] ";
     }
 
     @Override
