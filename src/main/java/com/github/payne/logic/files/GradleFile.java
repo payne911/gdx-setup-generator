@@ -1,6 +1,6 @@
 package com.github.payne.logic.files;
 
-import com.github.payne.utils.StringUtil;
+import com.github.payne.utils.StringUtils;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -31,7 +31,7 @@ public abstract class GradleFile {
         } else {
             String prefix = preType + type;
             String postfix = "\n";
-            return StringUtil.join(dependencies, prefix, "\n" + prefix, postfix);
+            return StringUtils.join(dependencies, prefix, "\n" + prefix, postfix);
         }
     }
 

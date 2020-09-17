@@ -16,6 +16,7 @@ For GWT-compatibility, this needs to be changed:
 * Downgrade JDK from 14 to 11 (text-blocks, etc.)
 * ``FileUtils#readResourceFile`` uses a ClassLoader
 * ``FileUtils#replaceResourceFileContent`` uses a Regex
+* ``StringUtils#keepLetters`` uses a Regex
 
 # Concerns
 

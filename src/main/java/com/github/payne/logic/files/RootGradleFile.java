@@ -37,7 +37,7 @@ public class RootGradleFile extends GradleFile {
                 : "");
         replacements.put("plugins", String.join("\n", input.getLanguages().stream()
                 .map(lang -> {
-                    String pluginName = lang.getLanguage().getValue();
+                    String pluginName = lang.getLanguage();
                     if (lang.isSameLanguage(Language.JAVA)) {
                         pluginName += "-library";
                     }

@@ -3,9 +3,9 @@ package com.github.payne.utils;
 import java.util.Collection;
 import java.util.Objects;
 
-public final class StringUtil {
+public final class StringUtils {
 
-    private StringUtil() {
+    private StringUtils() {
     }
 
     public static String join(Collection<String> elements, String prefix, String delimiter,
@@ -23,5 +23,9 @@ public final class StringUtil {
             return defaultsTo;
         }
         return current;
+    }
+
+    public static String keepLetters(String input) {
+        return input.replaceAll("[^A-Za-z]+", "");
     }
 }

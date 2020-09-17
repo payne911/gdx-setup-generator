@@ -34,7 +34,7 @@ public class GeneratorConfigs {
     private String javaVersion = "8.0";
     private String serverJavaVersion = "8.0";
     private String desktopJavaVersion = "8.0";
-    private String androidVersion = "4.0.0";
+    private String androidPluginVersion = "4.0.0";
     private String gwtPluginVersion = "1.0.13";
     private String roboVmVersion = "2.3.9";
     private String postGenerationGradleTaskCommand;

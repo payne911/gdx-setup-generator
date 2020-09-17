@@ -50,6 +50,15 @@ public class Generator implements IGenerator {
      */
     private boolean validate(GeneratorConfigs input) {
         // todo: validation on inputs ?
+
+        /*
+            Examples:
+                * GWT version
+                * Android Target API [9,30]
+                * Java version [7,14]
+                * GWT with other JVM languages
+                * etc
+         */
         return true;
     }
 

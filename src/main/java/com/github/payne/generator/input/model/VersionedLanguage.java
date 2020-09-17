@@ -15,8 +15,8 @@ public class VersionedLanguage {
         this.language = new Pair<>(language, version);
     }
 
-    public Language getLanguage() {
-        return language.first;
+    public String getLanguage() {
+        return language.first.getValue();
     }
 
     public String getDefaultVersion() {
@@ -24,6 +24,6 @@ public class VersionedLanguage {
     }
 
     public boolean isSameLanguage(Language other) {
-        return getLanguage().getValue().equals(other.getValue());
+        return getLanguage().equals(other.getValue());
     }
 }

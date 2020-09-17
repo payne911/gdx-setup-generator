@@ -9,6 +9,7 @@ import com.github.payne.generator.output.GeneratedProject;
 import com.github.payne.generator.output.vfs.FileNode;
 import com.github.payne.generator.output.vfs.SavableVfs;
 import com.github.payne.logic.files.GradleFile;
+import com.github.payne.logic.files.GradlePropertiesFile;
 import com.github.payne.logic.files.RootGradleFile;
 import java.util.Arrays;
 
@@ -32,22 +33,29 @@ public class LogicProcessor {
 
     public void applyInputs() {
         addGitIgnore();
-        addBuildGradleFiles();
         addSkinAssets();
-        applyTemplate();
-        input.getPlatforms().forEach(this::addPlatform);
-        addJvmLanguagesSupport();
+        addGradleProperties();
+
         addReadmeFile();
-        saveProperties();
+        input.getPlatforms().forEach(this::addPlatform);
+        addBuildGradles();
+        applyTemplate();
     }
 
     public void addGitIgnore() {
         vfs.copyFileToRoot(Arrays.asList("generator", "static", "gitignore"), ".gitignore");
     }
 
-    public void addBuildGradleFiles() {
-        String rootGradleFileContent = new RootGradleFile(input).getContent();
-        vfs.addToParent(root, new FileNode(GradleFile.NAME, rootGradleFileContent.getBytes()));
+    public void addBuildGradles() {
+        String rootBuildGradle = new RootGradleFile(input).getContent();
+        vfs.addToParent(root, new FileNode(GradleFile.NAME, rootBuildGradle.getBytes()));
+
+        // todo: add each platform's individual build.gradle (affected by JVM Languages!)
+    }
+
+    public void addGradleProperties() {
+        String gradleProperties = new GradlePropertiesFile(input).getContent();
+        vfs.addToParent(root, new FileNode(GradlePropertiesFile.NAME, gradleProperties.getBytes()));
     }
 
     public void addSkinAssets() {
@@ -58,9 +66,6 @@ public class LogicProcessor {
         }
     }
 
-    public void addLibraries() {
-    }
-
     public void applyTemplate() {
     }
 
@@ -69,15 +74,9 @@ public class LogicProcessor {
         System.out.println("=============================");
     }
 
-    public void addJvmLanguagesSupport() {
-    }
-
     public void addReadmeFile() {
         if (input.contains(AddOn.README)) {
 
         }
-    }
-
-    public void saveProperties() {
     }
 }
