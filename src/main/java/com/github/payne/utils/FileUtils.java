@@ -1,6 +1,5 @@
 package com.github.payne.utils;
 
-import com.github.payne.generator.annotations.NotTested;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -44,13 +43,28 @@ public final class FileUtils {
         return new String(readResourceFile(srcPathFromRes));
     }
 
-    @NotTested
+    /**
+     * Does not modify the file. Returns a new {@code String}.
+     *
+     * @param srcPathFromRes example: {@code Arrays.asList("generator", "dynamic", "readme.txt")}
+     * @param replacements   the keys should be present in the designated file, surrounded by "${}"
+     * @return the content of the file, with the keys replaced by the values of the provided map
+     * @see #keyPattern(String)
+     */
     public static String replaceFileContent(final List<String> srcPathFromRes,
             Map<String, String> replacements) {
         String initialFileContent = readResourceFileAsString(srcPathFromRes);
         return replaceStringContent(initialFileContent, replacements);
     }
 
+    /**
+     * Does not modify the {@code String} input. Returns a new {@code String}.
+     *
+     * @param initial      the input
+     * @param replacements the keys should be present in the designated file, surrounded by "${}"
+     * @return the content of the input, with the keys replaced by the values of the provided map
+     * @see #keyPattern(String)
+     */
     public static String replaceStringContent(String initial, Map<String, String> replacements) {
         String result = initial;
         for (Entry<String, String> entry : replacements.entrySet()) {
@@ -59,6 +73,18 @@ public final class FileUtils {
         return result;
     }
 
+    /**
+     * To replace a single key's instances within a {@code String}.
+     * <p>
+     * If you plan on chaining this, make sure you use the returned {@code String}. However, in that
+     * case, you might want to consider using {@link #replaceStringContent(String, Map)} instead.
+     *
+     * @param initial     the input
+     * @param key         should be present in the input {@code String} surrounded by "${}"
+     * @param replacement the {@code key} will be replaced by this {@code String}
+     * @return the content of the input, with the keys replaced by the value provided
+     * @see #keyPattern(String)
+     */
     public static String replaceStringContent(String initial, String key, String replacement) {
         return initial.replaceAll(keyPattern(key), replacement);
     }
