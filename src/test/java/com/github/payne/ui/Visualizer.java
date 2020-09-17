@@ -3,13 +3,17 @@ package com.github.payne.ui;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.SplitPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Widget;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.github.payne.generator.Generator;
 import com.github.payne.generator.input.GeneratorConfigs;
@@ -53,19 +57,30 @@ public class Visualizer extends Game {
         Table fileContentTable = new Table(skin);
         ScrollPane pane1 = new ScrollPane(clickableVfs);
         SplitPane topSplit = new SplitPane(pane1, fileContentTable, false, skin);
-        ScrollPane inputPane = new ScrollPane(new Label("Configuration file!\n".repeat(40), skin));
-        bottomSplit = new SplitPane(topSplit, inputPane, true, skin);
+        Table bottomTable = new Table(skin);
+        bottomSplit = new SplitPane(topSplit, bottomTable, true, skin);
 
-        int pad = 10;
         clickableVfs
                 .add(new Label("Files will appear here after configuration.\n".repeat(40), skin))
-                .grow().pad(pad);
+                .grow();
         fileFullPath = new Label("Here will appear the full path of the selected file.", skin);
         fileContent = new Label("Click on a file (on the left) to see its content.\n".repeat(40),
                 skin);
         ScrollPane pane2 = new ScrollPane(fileContent);
-        fileContentTable.add(fileFullPath).growX().pad(pad).row();
-        fileContentTable.add(pane2).grow().pad(pad);
+        fileContentTable.add(fileFullPath).growX().row();
+        fileContentTable.add(pane2).grow();
+
+        Table inputTable = new Table(skin);
+        inputTable.add(new Label("Configuration file!\n".repeat(40), skin));
+        ScrollPane inputPane = new ScrollPane(inputTable);
+        Button generateBtn = new TextButton("GO", skin);
+        bottomTable.add(inputPane).grow();
+        bottomTable.add(generateBtn).growY();
+
+        int pad = 10;
+        clickableVfs.defaults().pad(pad);
+        fileContentTable.defaults().pad(pad);
+        bottomTable.defaults().pad(pad);
 
         topSplit.setMinSplitAmount(.2f);
         topSplit.setMaxSplitAmount(.8f);
@@ -76,10 +91,15 @@ public class Visualizer extends Game {
 
         main.add(bottomSplit).grow();
 
-        prepareModel();
+        generateBtn.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                generate();
+            }
+        });
     }
 
-    private void prepareModel() {
+    private void generate() {
         input = new GeneratorConfigs();
         input.setProjectName("awesome-project");
 
@@ -89,7 +109,6 @@ public class Visualizer extends Game {
     }
 
     private void navigate(FileNode node) {
-        // todo (raeleus): do stuff here
         node.getChildren().forEach(this::navigate); // recursive call through the tree
     }
 
