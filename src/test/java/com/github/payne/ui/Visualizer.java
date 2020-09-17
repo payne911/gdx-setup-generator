@@ -4,8 +4,12 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.SplitPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.Widget;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.github.payne.generator.Generator;
 import com.github.payne.generator.input.GeneratorConfigs;
@@ -25,6 +29,11 @@ public class Visualizer extends Game {
     public GeneratedProject output;
     public FileNode root;
 
+    Widget fileContent;
+    Widget fileFullPath;
+    Table clickableVfs;
+    SplitPane bottomSplit;
+
     @Override
     public void create() {
         skin = new Skin(Gdx.files.internal(SKIN_PATH));
@@ -38,12 +47,39 @@ public class Visualizer extends Game {
     }
 
     private void setUp() {
-        main.defaults().pad(20);
-        main.add("Welcome to the almighty Zebra!")
-                .expandX()
-                .pad(10)
-                .getActor().setFontScale(1.2f);
+        main.setDebug(true);
 
+        clickableVfs = new Table(skin);
+        Table fileContentTable = new Table(skin);
+        ScrollPane pane1 = new ScrollPane(clickableVfs);
+        SplitPane topSplit = new SplitPane(pane1, fileContentTable, false, skin);
+        ScrollPane inputPane = new ScrollPane(new Label("Configuration file!\n".repeat(40), skin));
+        bottomSplit = new SplitPane(topSplit, inputPane, true, skin);
+
+        int pad = 10;
+        clickableVfs
+                .add(new Label("Files will appear here after configuration.\n".repeat(40), skin))
+                .grow().pad(pad);
+        fileFullPath = new Label("Here will appear the full path of the selected file.", skin);
+        fileContent = new Label("Click on a file (on the left) to see its content.\n".repeat(40),
+                skin);
+        ScrollPane pane2 = new ScrollPane(fileContent);
+        fileContentTable.add(fileFullPath).growX().pad(pad).row();
+        fileContentTable.add(pane2).grow().pad(pad);
+
+        topSplit.setMinSplitAmount(.2f);
+        topSplit.setMaxSplitAmount(.8f);
+        topSplit.setSplitAmount(.25f);
+        bottomSplit.setMinSplitAmount(.1f);
+        bottomSplit.setMaxSplitAmount(.9f);
+        bottomSplit.setSplitAmount(.3f);
+
+        main.add(bottomSplit).grow();
+
+        prepareModel();
+    }
+
+    private void prepareModel() {
         input = new GeneratorConfigs();
         input.setProjectName("awesome-project");
 
