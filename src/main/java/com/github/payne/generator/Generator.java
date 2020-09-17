@@ -28,6 +28,7 @@ public class Generator implements IGenerator {
      * @param input the {@link GeneratorConfigs} which gets modified.
      */
     private void addDefaults(GeneratorConfigs input) {
+        // todo: maybe move primitive defaults out of GenConfigs and add WarningMessage for each ?
         coreDefault(input);
         javaDefault(input);
     }

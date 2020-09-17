@@ -15,9 +15,9 @@ import lombok.Data;
 //@Builder
 public class GeneratorConfigs {
 
-    private String projectName;
-    private String corePackage;
-    private String mainClass;
+    private String projectName = "MyGdxProjectName";
+    private String corePackage = "com.gdx.game";
+    private String mainClass = "MainClass";
     private String androidSdkPath;
 
     private Template template = Template.APPLICATION_LISTENER;
