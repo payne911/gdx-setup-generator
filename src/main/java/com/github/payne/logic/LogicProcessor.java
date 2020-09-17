@@ -22,8 +22,6 @@ public class LogicProcessor {
     private final SavableVfs vfs;
     private final FileNode root;
 
-    public static final String ASSETS_FOLDER = "assets";
-
     public LogicProcessor(GeneratorConfigs input, GeneratedProject project) {
         this.input = input;
         this.project = project;
@@ -47,6 +45,7 @@ public class LogicProcessor {
 
     public void addRootFolders() {
         addAssets();
+        addGradleWrapper();
         addPlatforms();
     }
 
@@ -69,10 +68,16 @@ public class LogicProcessor {
     }
 
     public void addAssets() {
-        vfs.addToParent(root, new FileNode(ASSETS_FOLDER)); // there's always the main assets folder
+        vfs.addToParent(root, new FileNode(input.getAssetsFolder()));
         if (input.contains(AddOn.GUI_ASSETS)) {
             vfs.copyFolder(Arrays.asList("generator", "static", "assets"),
-                    Arrays.asList(ASSETS_FOLDER), false);
+                    Arrays.asList(input.getAssetsFolder()), false);
+        }
+    }
+
+    private void addGradleWrapper() {
+        if (input.contains(AddOn.GRADLE_WRAPPER)) {
+            vfs.copyFolderToRoot(Arrays.asList("generator", "static", "gradle"), true);
         }
     }
 
