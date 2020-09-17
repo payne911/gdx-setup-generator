@@ -51,11 +51,11 @@ public class GradlePropertiesFile extends GeneratedFile {
     }
 
     private void addProperty(String name, String value) {
-        sb.append(name + "=" + value);
+        sb.append(name + "=" + value + "\n");
     }
 
     private void addVersion(String name, String value) {
-        sb.append(name + "Version=" + value);
+        sb.append(name + "Version=" + value + "\n");
     }
 
     private String findGwtVersion(String gdxVersion) {
