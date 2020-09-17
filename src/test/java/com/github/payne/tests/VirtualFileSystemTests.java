@@ -240,6 +240,30 @@ public class VirtualFileSystemTests {
     }
 
     @Test
+    public void addToRoot() {
+        VirtualFileSystem vfs = new VirtualFileSystem("root");
+
+        FileNode folder = new FileNode("folder");
+        FileNode folder2 = new FileNode("folder2");
+
+        vfs.addToRoot(folder);
+        vfs.addToRoot(folder2);
+
+        /*
+            root
+            |__folder1
+            |__folder2
+         */
+
+        assertEquals(2, vfs.getRoot().getChildren().size());
+        assertTrue(vfs.getRoot().getChildren().contains(folder));
+        assertTrue(vfs.getRoot().getChildren().contains(folder2));
+
+        assertEquals(0, folder.getChildren().size());
+        assertEquals(0, folder2.getChildren().size());
+    }
+
+    @Test
     public void sortByName_foldersOrdering() {
         VirtualFileSystem vfs = new VirtualFileSystem("root");
         FileNode root = vfs.getRoot();

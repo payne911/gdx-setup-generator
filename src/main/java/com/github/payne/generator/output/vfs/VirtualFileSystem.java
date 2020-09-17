@@ -29,6 +29,11 @@ public class VirtualFileSystem implements SavableVfs {
     }
 
     @Override
+    public FileNode addToRoot(FileNode child) {
+        return addToParent(root, child);
+    }
+
+    @Override
     public FileNode addFromRoot(List<String> pathFromRoot, FileNode child) {
         return addRelativeToParent(pathFromRoot, root, child);
     }

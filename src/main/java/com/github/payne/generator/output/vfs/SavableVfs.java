@@ -15,6 +15,11 @@ public interface SavableVfs {
     /**
      * @return the newly-created node.
      */
+    FileNode addToRoot(FileNode child);
+
+    /**
+     * @return the newly-created node.
+     */
     FileNode addFromRoot(List<String> pathFromRoot, FileNode child);
 
     /**
