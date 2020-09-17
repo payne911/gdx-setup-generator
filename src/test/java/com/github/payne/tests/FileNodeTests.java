@@ -14,7 +14,7 @@ public class FileNodeTests {
     public void isFolder() {
         FileNode root = new FileNode("root");
 
-        FileNode folder1 = new FileNode("folder1");
+        FileNode folder1 = new FileNode("folder1", null);
         root.addChild(folder1);
         FileNode folder2 = new FileNode("folder2");
         folder1.addChild(folder2);
@@ -29,6 +29,7 @@ public class FileNodeTests {
         assertTrue(folder1.isFolder());
         assertTrue(folder2.isFolder());
         assertTrue(folder3.isFolder());
+
         assertFalse(file1.isFolder());
         assertFalse(file2.isFolder());
     }

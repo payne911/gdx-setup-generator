@@ -13,10 +13,9 @@ import lombok.ToString;
  * The representation of a File or a Folder in the {@link VirtualFileSystem}.
  */
 @Data
-public class FileNode { // todo: maybe 'abstract' and create 'File' and 'Folder' ?
+public class FileNode {
 
     private String name;
-    private final boolean isFolder; // todo: could be a utility method...
 
     @ToString.Exclude
     private byte[] content;
@@ -32,12 +31,11 @@ public class FileNode { // todo: maybe 'abstract' and create 'File' and 'Folder'
      * @param name name of the folder.
      */
     public FileNode(String name) {
-        this.name = name;
-        this.isFolder = true;
+        this(name, null);
     }
 
     /**
-     * Creates a file.
+     * Creates a file, unless {@code content} is {@code null}.
      *
      * @param name    name of the file (including extension).
      * @param content content of the file.
@@ -45,7 +43,13 @@ public class FileNode { // todo: maybe 'abstract' and create 'File' and 'Folder'
     public FileNode(String name, byte[] content) {
         this.name = name;
         this.content = content;
-        this.isFolder = false;
+    }
+
+    /**
+     * @return {@code true} only if the {@code content} is {@code null}.
+     */
+    public boolean isFolder() {
+        return content == null;
     }
 
     /**
@@ -85,7 +89,7 @@ public class FileNode { // todo: maybe 'abstract' and create 'File' and 'Folder'
     public FileNode addChild(FileNode child) throws UnsupportedOperationException {
         try {
             FileNode alreadyExistingChild = getChild(child.name);
-            if (child.isFolder != alreadyExistingChild.isFolder) {
+            if (child.isFolder() != alreadyExistingChild.isFolder()) {
                 throw new UnsupportedOperationException(
                         "Can't have a file and a folder with the same name inside the same folder.");
             }
