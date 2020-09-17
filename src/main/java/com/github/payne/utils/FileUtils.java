@@ -1,5 +1,6 @@
 package com.github.payne.utils;
 
+import com.github.payne.generator.annotations.NotTested;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -43,19 +44,26 @@ public final class FileUtils {
         return new String(readResourceFile(srcPathFromRes));
     }
 
-    public static String replaceFileContent(String initial, String key, String replacement) {
+    @NotTested
+    public static String replaceFileContent(final List<String> srcPathFromRes,
+            Map<String, String> replacements) {
+        String initialFileContent = readResourceFileAsString(srcPathFromRes);
+        return replaceStringContent(initialFileContent, replacements);
+    }
+
+    public static String replaceStringContent(String initial, Map<String, String> replacements) {
+        String result = initial;
+        for (Entry<String, String> entry : replacements.entrySet()) {
+            result = replaceStringContent(result, entry.getKey(), entry.getValue());
+        }
+        return result;
+    }
+
+    public static String replaceStringContent(String initial, String key, String replacement) {
         return initial.replaceAll(keyPattern(key), replacement);
     }
 
     private static String keyPattern(String key) {
         return "\\$\\{" + key + "\\}";
-    }
-
-    public static String replaceFileContent(String initial, Map<String, String> replacements) {
-        String result = initial;
-        for (Entry<String, String> entry : replacements.entrySet()) {
-            result = replaceFileContent(result, entry.getKey(), entry.getValue());
-        }
-        return result;
     }
 }

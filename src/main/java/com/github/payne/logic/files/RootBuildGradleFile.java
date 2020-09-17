@@ -53,8 +53,7 @@ public class RootBuildGradleFile extends BuildGradleFile {
 
     @Override
     public String getContent() {
-        List<String> resPath = Arrays.asList("generator", "dynamic", "root-build-gradle.txt");
-        String initialFile = FileUtils.readResourceFileAsString(resPath);
-        return FileUtils.replaceFileContent(initialFile, replacements);
+        List<String> resPath = Arrays.asList("generator", "dynamic", "readme.txt");
+        return FileUtils.replaceFileContent(resPath, replacements);
     }
 }
