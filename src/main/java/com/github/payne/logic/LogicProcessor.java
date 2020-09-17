@@ -8,7 +8,7 @@ import com.github.payne.generator.input.model.enums.Platform;
 import com.github.payne.generator.output.GeneratedProject;
 import com.github.payne.generator.output.vfs.FileNode;
 import com.github.payne.generator.output.vfs.SavableVfs;
-import com.github.payne.logic.files.GradleFile;
+import com.github.payne.logic.files.GeneratedFile;
 import com.github.payne.logic.files.GradlePropertiesFile;
 import com.github.payne.logic.files.RootGradleFile;
 import java.util.Arrays;
@@ -46,7 +46,7 @@ public class LogicProcessor {
     }
 
     public void addRootFolders() {
-        addSkinAssets();
+        addAssets();
         addPlatforms();
     }
 
@@ -59,16 +59,16 @@ public class LogicProcessor {
     }
 
     public void addRootBuildGradle() {
-        String rootBuildGradle = new RootGradleFile(input).getContent();
-        vfs.addToParent(root, new FileNode(GradleFile.NAME, rootBuildGradle.getBytes()));
+        GeneratedFile rootBuildGradle = new RootGradleFile(input);
+        vfs.addToParent(root, rootBuildGradle.createFile());
     }
 
     public void addGradleProperties() {
-        String gradleProperties = new GradlePropertiesFile(input).getContent();
-        vfs.addToParent(root, new FileNode(GradlePropertiesFile.NAME, gradleProperties.getBytes()));
+        GeneratedFile gradleProperties = new GradlePropertiesFile(input);
+        vfs.addToParent(root, gradleProperties.createFile());
     }
 
-    public void addSkinAssets() {
+    public void addAssets() {
         vfs.addToParent(root, new FileNode(ASSETS_FOLDER)); // there's always the main assets folder
         if (input.contains(AddOn.GUI_ASSETS)) {
             vfs.copyFolder(Arrays.asList("generator", "static", "assets"),
@@ -88,7 +88,8 @@ public class LogicProcessor {
 
     public void addReadmeFile() {
         if (input.contains(AddOn.README)) {
-
+            GeneratedFile readme = new GradlePropertiesFile(input);
+            vfs.addToParent(root, readme.createFile());
         }
     }
 }

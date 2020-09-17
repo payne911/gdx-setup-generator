@@ -17,6 +17,8 @@ public class RootGradleFile extends GradleFile {
     private final Map<String, String> replacements = new HashMap<>();
 
     public RootGradleFile(GeneratorConfigs input) {
+        super();
+
         if (input.contains(Language.KOTLIN)) {
             buildDependencies.add("\"org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion\"");
         }

@@ -6,16 +6,16 @@ import java.util.HashSet;
 import java.util.Set;
 import lombok.Getter;
 
-public abstract class GradleFile {
+public abstract class GradleFile extends GeneratedFile {
 
     @Getter
     protected final Set<String> buildDependencies = new HashSet<>();
     @Getter
     protected final Set<String> dependencies = new HashSet<>();
 
-    public static final String NAME = "build.gradle";
-
-    public abstract String getContent();
+    public GradleFile() {
+        super("build.gradle");
+    }
 
     public String joinDependencies(Collection<String> dependencies) {
         return joinDependencies(dependencies, "implementation", "\t");

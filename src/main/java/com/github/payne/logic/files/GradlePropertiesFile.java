@@ -5,14 +5,15 @@ import com.github.payne.generator.input.model.enums.Language;
 import com.github.payne.generator.input.model.enums.Platform;
 import com.github.payne.utils.StringUtils;
 
-public class GradlePropertiesFile {
+public class GradlePropertiesFile extends GeneratedFile {
 
     private final StringBuilder sb = new StringBuilder();
 
-    public static final String NAME = "gradle.properties";
     public static final String GDX_VERSION = "gdx"; // gets "Version" appended
 
     public GradlePropertiesFile(GeneratorConfigs input) {
+        super("gradle.properties");
+
         addProperty("org.gradle.daemon",
                 "false"); // was having very bad memory usage with daemon+Android
         addProperty("org.gradle.jvmargs",
