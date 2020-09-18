@@ -59,8 +59,7 @@ public class Visualizer extends Game {
         Table bottomTable = new Table(skin);
         bottomSplit = new SplitPane(topSplit, bottomTable, true, skin);
 
-        fileList
-                .add(new Label("Files will appear here after configuration.\n".repeat(40), skin))
+        fileList.add(new Label("Files will appear here after configuration.\n".repeat(40), skin))
                 .grow();
         fileFullPath = new Label("Here will appear the full path of the selected file.", skin);
         fileContent = new Label("Click on a file (on the left) to see its content.\n".repeat(40),
@@ -74,10 +73,10 @@ public class Visualizer extends Game {
         ScrollPane inputPane = new ScrollPane(inputTable);
         Button generateBtn = new TextButton("GO", skin);
         bottomTable.add(inputPane).grow();
-        bottomTable.add(generateBtn).growY();
+        bottomTable.add(generateBtn).width(200).growY();
 
         int pad = 10;
-        fileList.defaults().pad(pad);
+        fileList.defaults().pad(pad / 4f);
         fileContentTable.defaults().pad(pad);
         bottomTable.defaults().pad(pad);
 
@@ -106,14 +105,14 @@ public class Visualizer extends Game {
 
         output = generator.generateFileStructure(input);
         root = output.getVirtualFileSystem().getRoot();
-        root.getChildren().forEach(this::navigate);
+        navigate(root);
     }
 
     private void navigate(FileNode node) {
         System.out.println(node);
 
         Button fileBtn = new TextButton(markFolder(node) + node.getName(), skin);
-        fileList.add(fileBtn).row();
+        fileList.add(fileBtn).growX().row();
         fileBtn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
