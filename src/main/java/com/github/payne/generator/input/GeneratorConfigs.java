@@ -38,7 +38,7 @@ public class GeneratorConfigs {
     private String androidPluginVersion = "4.0.0";
     private String gwtPluginVersion = "1.0.13";
     private String roboVmVersion = "2.3.9";
-    private String postGenerationGradleTaskCommand;
+    private String postGenerationTask;
     private Integer targetAndroidApi = 29;
 
 

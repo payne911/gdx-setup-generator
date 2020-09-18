@@ -13,11 +13,13 @@ import com.badlogic.gdx.scenes.scene2d.ui.SplitPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.github.payne.generator.Generator;
 import com.github.payne.generator.input.GeneratorConfigs;
 import com.github.payne.generator.output.GeneratedProject;
 import com.github.payne.generator.output.vfs.FileNode;
+import com.github.payne.ui.components.InputConfigsDisplay;
 
 public class Visualizer extends Game {
 
@@ -34,7 +36,7 @@ public class Visualizer extends Game {
 
     Label fileContent;
     Label fileFullPath;
-    Table fileList;
+    Table filesList;
     SplitPane bottomSplit;
 
     @Override
@@ -50,69 +52,76 @@ public class Visualizer extends Game {
     }
 
     private void setUp() {
-        main.setDebug(true);
-
-        fileList = new Table(skin);
+        filesList = new Table(skin);
         Table fileContentTable = new Table(skin);
-        ScrollPane pane1 = new ScrollPane(fileList);
-        SplitPane topSplit = new SplitPane(pane1, fileContentTable, false, skin);
+        ScrollPane filesListScrollPane = new ScrollPane(filesList);
+        SplitPane topSplit = new SplitPane(filesListScrollPane, fileContentTable, false, skin);
         Table bottomTable = new Table(skin);
         bottomSplit = new SplitPane(topSplit, bottomTable, true, skin);
 
-        fileList.add(new Label("Files will appear here after configuration.\n".repeat(40), skin))
-                .grow();
-        fileFullPath = new Label("Here will appear the full path of the selected file.", skin);
-        fileContent = new Label("Click on a file (on the left) to see its content.\n".repeat(40),
-                skin);
-        ScrollPane pane2 = new ScrollPane(fileContent);
-        fileContentTable.add(fileFullPath).growX().row();
-        fileContentTable.add(pane2).grow();
+        filesList.add(new Label("Files will appear here", skin)).grow();
+        fileFullPath = new Label("Full path of the selected file", skin);
+        fileContent = new Label("Click on a file (on the left) to see its content", skin);
+        fileContent.setAlignment(Align.topLeft);
+        ScrollPane fileContentScrollPane = new ScrollPane(fileContent);
+        fileContentTable.add(fileFullPath).padBottom(25).growX().row();
+        fileContentTable.add(fileContentScrollPane).grow();
 
         Table inputTable = new Table(skin);
-        inputTable.add(new Label("Configuration file!\n".repeat(40), skin));
         ScrollPane inputPane = new ScrollPane(inputTable);
         Button generateBtn = new TextButton("GO", skin);
         bottomTable.add(inputPane).grow();
-        bottomTable.add(generateBtn).width(200).growY();
+        bottomTable.add(generateBtn).width(160).growY();
 
         int pad = 10;
-        fileList.defaults().pad(pad / 4f);
         fileContentTable.defaults().pad(pad);
         bottomTable.defaults().pad(pad);
+        filesList.align(Align.topLeft).defaults().pad(2.5f);
 
         topSplit.setMinSplitAmount(.2f);
         topSplit.setMaxSplitAmount(.8f);
         topSplit.setSplitAmount(.25f);
         bottomSplit.setMinSplitAmount(.1f);
         bottomSplit.setMaxSplitAmount(.9f);
-        bottomSplit.setSplitAmount(.3f);
+        bottomSplit.setSplitAmount(.15f);
 
         main.add(bottomSplit).grow();
+
+        displayConfigs(inputTable);
 
         generateBtn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                fileList.clearChildren();
+                filesList.clearChildren();
+                fileContent.setText("");
+                fileFullPath.setText("");
                 bottomSplit.setSplitAmount(.9f);
                 generate();
+                fileContentScrollPane.setScrollBarPositions(false, false);
             }
         });
     }
 
+    private void displayConfigs(Table table) {
+        InputConfigsDisplay inputs = new InputConfigsDisplay(skin, table);
+        inputs.init();
+    }
+
     private void generate() {
-        input = new GeneratorConfigs();
+        input = new GeneratorConfigs(); // todo: construct from the InputConfigsDisplay values!
         input.setProjectName("awesome-project");
 
         output = generator.generateFileStructure(input);
         root = output.getVirtualFileSystem().getRoot();
-        navigate(root);
+        navigate(root, 0);
     }
 
-    private void navigate(FileNode node) {
-        System.out.println(node);
+    private void navigate(FileNode node, int depth) {
+        System.out.println("depth: " + depth + " | node: " + node);
 
-        Button fileBtn = new TextButton(markFolder(node) + node.getName(), skin);
-        fileList.add(fileBtn).growX().row();
+        var fileBtn = new TextButton(prefix(node) + node.getName(), skin);
+        filesList.add(fileBtn).padLeft(depth * 20).growX().row();
+        fileBtn.getLabel().setAlignment(Align.left);
         fileBtn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -121,11 +130,15 @@ public class Visualizer extends Game {
             }
         });
 
-        node.getChildren().forEach(this::navigate); // recursive call through the sorted tree
+        // recursive call through the sorted tree
+        depth++;
+        for (FileNode n : node.getChildren()) {
+            navigate(n, depth);
+        }
     }
 
-    private String markFolder(FileNode node) {
-        return "[" + (node.isFolder() ? "X" : " ") + "] ";
+    private String prefix(FileNode node) {
+        return (node.isFolder() ? "[X]" : "") + " ";
     }
 
     @Override

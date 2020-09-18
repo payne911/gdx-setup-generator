@@ -7,8 +7,8 @@ public class VisualizerLauncher {
 
     public static void main(String[] arg) {
         LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-        config.width = 1300;
-        config.height = 800;
+        config.width = 1500;
+        config.height = 900;
         new LwjglApplication(new Visualizer(), config);
     }
 }
