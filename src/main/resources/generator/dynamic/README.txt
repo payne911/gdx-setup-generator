@@ -8,7 +8,7 @@ ${readmeDescription}
 
 This project uses [Gradle](http://gradle.org/) to manage dependencies.
 
-${addGradleWrapper)
+${addGradleWrapper}
                 
 Useful Gradle tasks and flags:
 
