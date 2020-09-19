@@ -21,20 +21,20 @@ public class RootBuildGradleFile extends BuildGradleFile {
         super();
 
         if (input.contains(Language.KOTLIN)) {
-            buildDependencies.add("\"org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion\"");
+            buildDeps.add("\"org.jetbrains.kotlin:kotlin-gradle-plugin:\\$kotlinVersion\"");
         }
         if (input.contains(Platform.ANDROID)) {
-            buildDependencies.add("\"com.android.tools.build:gradle:$androidPluginVersion\"");
+            buildDeps.add("\"com.android.tools.build:gradle:\\$androidPluginVersion\"");
         }
         if (input.contains(Platform.HTML)) {
-            buildDependencies.add("\"org.wisepersist:gwt-gradle-plugin:$gwtPluginVersion\"");
+            buildDeps.add("\"org.wisepersist:gwt-gradle-plugin:\\$gwtPluginVersion\"");
         }
         if (input.contains(Platform.IOS)) {
-            buildDependencies.add("\"com.mobidevelop.robovm:robovm-gradle-plugin:$robovmVersion\"");
+            buildDeps.add("\"com.mobidevelop.robovm:robovm-gradle-plugin:\\$robovmVersion\"");
         }
 
         replacements.put("buildDependencies",
-                joinDependencies(getBuildDependencies(), "classpath", "\t\t"));
+                joinDependencies(getBuildDeps(), "classpath", "\t\t"));
         replacements.put("android", input.contains(Platform.ANDROID)
                 ? " - project(':android')"
                 : "");
@@ -54,7 +54,7 @@ public class RootBuildGradleFile extends BuildGradleFile {
 
     @Override
     public String getContent() {
-        List<String> resPath = Arrays.asList("generator", "dynamic", "readme.txt");
+        List<String> resPath = Arrays.asList("generator", "dynamic", "root-build-gradle.txt");
         return FileUtils.replaceFileContent(resPath, replacements);
     }
 }

@@ -9,7 +9,7 @@ import lombok.Getter;
 public abstract class BuildGradleFile extends GeneratedFile {
 
     @Getter
-    protected final Set<String> buildDependencies = new HashSet<>();
+    protected final Set<String> buildDeps = new HashSet<>();
     @Getter
     protected final Set<String> dependencies = new HashSet<>();
 
