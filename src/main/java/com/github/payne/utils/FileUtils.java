@@ -56,6 +56,23 @@ public final class FileUtils {
     }
 
     /**
+     * Does not modify the file. Returns a new {@code String}.
+     * <p>
+     * If you have multiple keys to replace, use {@link #replaceFileContent(List, Map)} instead.
+     *
+     * @param srcPathFromRes example: {@code Arrays.asList("generator", "dynamic", "readme.txt")}
+     * @param key            should be present in the input {@code String} surrounded by "${}"
+     * @param replacement    the {@code key} will be replaced by this {@code String}
+     * @return the content of the file, with the keys replaced by the values of the provided map
+     * @see #keyPattern(String)
+     */
+    public static String replaceFileContent(final List<String> srcPathFromRes,
+            String key, String replacement) {
+        String initialFileContent = readResourceFileAsString(srcPathFromRes);
+        return replaceStringContent(initialFileContent, key, replacement);
+    }
+
+    /**
      * Does not modify the {@code String} input. Returns a new {@code String}.
      *
      * @param initial      the input

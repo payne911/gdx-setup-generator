@@ -1,11 +1,16 @@
 package com.github.payne.logic.files;
 
+import com.github.payne.generator.annotations.DynamicFile;
 import com.github.payne.generator.input.GeneratorConfigs;
 import com.github.payne.generator.input.model.enums.Language;
 import com.github.payne.generator.input.model.enums.Platform;
 import com.github.payne.logic.files.abstracts.GeneratedFile;
+import com.github.payne.utils.FileUtils;
 import com.github.payne.utils.StringUtils;
+import java.util.Arrays;
+import java.util.List;
 
+@DynamicFile("generator/dynamic/gradle-properties.txt")
 public class GradlePropertiesFile extends GeneratedFile {
 
     private final StringBuilder sb = new StringBuilder();
@@ -14,12 +19,6 @@ public class GradlePropertiesFile extends GeneratedFile {
 
     public GradlePropertiesFile(GeneratorConfigs input) {
         super("gradle.properties");
-
-        addProperty("org.gradle.daemon",
-                "false"); // was having very bad memory usage with daemon+Android
-        addProperty("org.gradle.jvmargs",
-                "-Xms512M -Xmx4G -XX:MaxPermSize=1G -XX:MaxMetaspaceSize=1G");
-        addProperty("org.gradle.configureondemand", "false");
 
         input.getLanguages().forEach(lang -> {
             if (lang.isSameLanguage(Language.JAVA)) {
@@ -47,15 +46,24 @@ public class GradlePropertiesFile extends GeneratedFile {
     }
 
     public String getContent() {
-        return sb.toString();
+        List<String> resPath = Arrays.asList("generator", "dynamic", "gradle-properties.txt");
+        return FileUtils.replaceFileContent(resPath, "versionVariables", sb.toString());
     }
 
-    private void addProperty(String name, String value) {
-        sb.append(name + "=" + value + "\n");
+    private void addProperty(String name, String suffix, String value) {
+        sb.append(name + suffix + "=" + value + "\n");
     }
 
+    /**
+     * Example: {@code addVersion("gdx", "1.9.11")}
+     * <p>
+     * Appends "{@code gdxVersion=1.9.11}" as a new line in the file.
+     *
+     * @param name  name of the property
+     * @param value value of the property
+     */
     private void addVersion(String name, String value) {
-        sb.append(name + "Version=" + value + "\n");
+        addProperty(name, "Version", value);
     }
 
     private String findGwtVersion(String gdxVersion) {
