@@ -1,6 +1,6 @@
 package com.github.payne.generator.output;
 
-import com.github.payne.generator.output.vfs.SavableVfs;
+import com.github.payne.generator.output.vfs.AppendableTree;
 import lombok.Data;
 
 /**
@@ -16,7 +16,7 @@ public class GeneratedProject {
      * A representation of the generated project as some kind of virtual File System. A parent node
      * is always a folder.
      */
-    private final SavableVfs virtualFileSystem;
+    private final AppendableTree virtualFileSystem;
     private String errorMessage = "";
 
     /**

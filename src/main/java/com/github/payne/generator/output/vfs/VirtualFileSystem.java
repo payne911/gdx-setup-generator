@@ -15,7 +15,7 @@ import lombok.Data;
  * {@link FileNode}.
  */
 @Data
-public class VirtualFileSystem implements SavableVfs {
+public class VirtualFileSystem implements AppendableTree {
 
     private final FileNode root;
 

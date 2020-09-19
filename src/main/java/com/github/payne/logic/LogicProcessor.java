@@ -6,8 +6,8 @@ import com.github.payne.generator.input.GeneratorConfigs;
 import com.github.payne.generator.input.model.enums.AddOn;
 import com.github.payne.generator.input.model.enums.Platform;
 import com.github.payne.generator.output.GeneratedProject;
+import com.github.payne.generator.output.vfs.AppendableTree;
 import com.github.payne.generator.output.vfs.FileNode;
-import com.github.payne.generator.output.vfs.SavableVfs;
 import com.github.payne.logic.files.GradlePropertiesFile;
 import com.github.payne.logic.files.ReadMeFile;
 import com.github.payne.logic.files.RootBuildGradleFile;
@@ -21,7 +21,7 @@ public class LogicProcessor {
 
     private final GeneratorConfigs input;
     private final GeneratedProject project; // used to inject Error Messages, if any
-    private final SavableVfs vfs;
+    private final AppendableTree vfs;
     private final FileNode root;
 
     public LogicProcessor(GeneratorConfigs input, GeneratedProject project) {

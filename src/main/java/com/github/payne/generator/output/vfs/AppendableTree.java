@@ -8,7 +8,7 @@ import java.util.List;
  * <p>
  * todo: support "../" in path strings ?
  */
-public interface SavableVfs {
+public interface AppendableTree {
 
     FileNode getRoot();
 
