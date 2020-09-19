@@ -20,6 +20,7 @@ import com.github.payne.generator.input.GeneratorConfigs;
 import com.github.payne.generator.input.model.VersionedLanguage;
 import com.github.payne.generator.input.model.enums.AddOn;
 import com.github.payne.generator.input.model.enums.Language;
+import com.github.payne.generator.input.model.enums.Platform;
 import com.github.payne.generator.output.GeneratedProject;
 import com.github.payne.generator.output.vfs.FileNode;
 import com.github.payne.ui.components.InputConfigsDisplay;
@@ -114,6 +115,7 @@ public class Visualizer extends Game {
     private void generate() {
         input = new GeneratorConfigs(); // todo: construct from the InputConfigsDisplay values!
         input.setProjectName("awesome-project");
+        input.getPlatforms().addAll(Arrays.asList(Platform.CORE, Platform.ANDROID));
         input.getAddOns()
                 .addAll(Arrays.asList(/*AddOn.GRADLE_WRAPPER, AddOn.GUI_ASSETS, */AddOn.README));
         input.getLanguages().addAll(Arrays.asList(new VersionedLanguage(Language.JAVA),

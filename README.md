@@ -26,7 +26,11 @@ After any major changes, you can quickly test if some fundamental parts of the g
 ## ``Visualizer``
 To help with quickly reviewing the content of the generated output according to different input, a GUI application has been set up in the ``test`` folder.
 
+Below is a sketch of the basic idea, followed by a gif of the alpha version of an implementation.
+
 ![VisualizerSketch](media/visualizer_sketch.png)
+
+![VisualizerGif](media/poc_demo.gif)
 
 # liftoff
 This is an effort to extract the logic from the [``liftoff``](https://github.com/tommyettinger/gdx-liftoff) project which couples the Model and the View together.
