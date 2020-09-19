@@ -1,7 +1,7 @@
 ![build](https://github.com/payne911/gdx-setup-generator/workflows/build/badge.svg)
 
 # API
-A user-facing application should only mostly interact with ``Generator#generateFileStructure``:
+A "consuming" application should only mostly interact with ``Generator#generateFileStructure``:
 * Input is ``GeneratorConfigs``.
 * Ouput is ``GeneratedProject``.
 * The ``VirtualFileSystem`` class is a custom tree (data structure) implementation. The root is obtained via ``#getRoot()``. All nodes of the tree are ``FileNode``, and navigation happens through those (via ``#getChildren()``).
