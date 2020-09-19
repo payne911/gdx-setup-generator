@@ -18,7 +18,7 @@ public class GeneratorConfigs {
     private String projectName = "MyGdxProjectName";
     private String corePackage = "com.gdx.game";
     private String mainClass = "MainClass";
-    private String assetsFolder = "assets";
+    private String assetsFolderName = "assets";
     private String androidSdkPath;
 
     private Template template = Template.APPLICATION_LISTENER;

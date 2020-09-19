@@ -9,6 +9,7 @@ import com.github.payne.generator.output.GeneratedProject;
 import com.github.payne.generator.output.vfs.FileNode;
 import com.github.payne.generator.output.vfs.SavableVfs;
 import com.github.payne.logic.files.GradlePropertiesFile;
+import com.github.payne.logic.files.ReadMeFile;
 import com.github.payne.logic.files.RootBuildGradleFile;
 import com.github.payne.logic.files.abstracts.GeneratedFile;
 import java.util.Arrays;
@@ -68,10 +69,10 @@ public class LogicProcessor {
     }
 
     public void addAssets() {
-        vfs.addToParent(root, new FileNode(input.getAssetsFolder()));
+        vfs.addToParent(root, new FileNode(input.getAssetsFolderName()));
         if (input.contains(AddOn.GUI_ASSETS)) {
             vfs.copyFolder(Arrays.asList("generator", "static", "assets"),
-                    Arrays.asList(input.getAssetsFolder()), false);
+                    Arrays.asList(input.getAssetsFolderName()), false);
         }
     }
 
@@ -93,7 +94,7 @@ public class LogicProcessor {
 
     public void addReadmeFile() {
         if (input.contains(AddOn.README)) {
-            GeneratedFile readme = new GradlePropertiesFile(input);
+            GeneratedFile readme = new ReadMeFile(input);
             vfs.addToParent(root, readme.createFile());
         }
     }

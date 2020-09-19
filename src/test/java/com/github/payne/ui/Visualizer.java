@@ -17,9 +17,13 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.github.payne.generator.Generator;
 import com.github.payne.generator.input.GeneratorConfigs;
+import com.github.payne.generator.input.model.VersionedLanguage;
+import com.github.payne.generator.input.model.enums.AddOn;
+import com.github.payne.generator.input.model.enums.Language;
 import com.github.payne.generator.output.GeneratedProject;
 import com.github.payne.generator.output.vfs.FileNode;
 import com.github.payne.ui.components.InputConfigsDisplay;
+import java.util.Arrays;
 
 public class Visualizer extends Game {
 
@@ -110,6 +114,11 @@ public class Visualizer extends Game {
     private void generate() {
         input = new GeneratorConfigs(); // todo: construct from the InputConfigsDisplay values!
         input.setProjectName("awesome-project");
+        input.getAddOns()
+                .addAll(Arrays.asList(/*AddOn.GRADLE_WRAPPER, AddOn.GUI_ASSETS, */AddOn.README));
+        input.getLanguages().addAll(Arrays.asList(new VersionedLanguage(Language.JAVA),
+                new VersionedLanguage(Language.KOTLIN), new VersionedLanguage(Language.GROOVY),
+                new VersionedLanguage(Language.SCALA)));
 
         output = generator.generateFileStructure(input);
         root = output.getVirtualFileSystem().getRoot();
