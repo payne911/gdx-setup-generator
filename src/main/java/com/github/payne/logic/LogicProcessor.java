@@ -11,6 +11,7 @@ import com.github.payne.generator.output.vfs.SavableVfs;
 import com.github.payne.logic.files.GradlePropertiesFile;
 import com.github.payne.logic.files.ReadMeFile;
 import com.github.payne.logic.files.RootBuildGradleFile;
+import com.github.payne.logic.files.SettingsGradleFile;
 import com.github.payne.logic.files.abstracts.GeneratedFile;
 import java.util.Arrays;
 
@@ -42,6 +43,7 @@ public class LogicProcessor {
         addRootBuildGradle();
         addReadmeFile();
         addGradleProperties();
+        addSettingsGradle();
     }
 
     public void addRootFolders() {
@@ -97,5 +99,10 @@ public class LogicProcessor {
             GeneratedFile readme = new ReadMeFile(input);
             vfs.addToParent(root, readme.createFile());
         }
+    }
+
+    private void addSettingsGradle() {
+        GeneratedFile modules = new SettingsGradleFile(input);
+        vfs.addToParent(root, modules.createFile());
     }
 }
