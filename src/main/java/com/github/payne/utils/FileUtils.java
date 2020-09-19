@@ -23,9 +23,7 @@ public final class FileUtils {
     }
 
     public static String joinPath(List<String> paths) {
-        return String.join(FileUtils.FILE_SEPARATOR, paths); // todo: maybe not GWT friendly?
-//        return Arrays.asList(paths).stream().collect(Collectors.joining(FileUtils.FILE_SEPARATOR));
-//        return Arrays.stream(paths).reduce((u, v) -> u + FileUtils.FILE_SEPARATOR + v).orElse("");
+        return String.join(FileUtils.FILE_SEPARATOR, paths);
     }
 
     public static boolean isEmptyPath(List<String> path) {
