@@ -61,7 +61,10 @@ public interface AppendableTree {
     FileNode copyFile(List<String> srcPathFromRes, List<String> destPathFromRoot, String rename);
 
     /**
-     * Copies the content of a folder recursively. May include of not the folder itself.
+     * Copies the content of a folder recursively. May include or not the folder itself.
+     * <p>
+     * Folders mentioned in the {@code destPathFromRoot} parameter which don't exist will be
+     * created.
      *
      * @param srcPathFromRes   For "{@code src/main/resources/some-folder/my-file.txt}", use {@code
      *                         Arrays.asList("some-folder")}.
