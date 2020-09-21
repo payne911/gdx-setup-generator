@@ -1,6 +1,5 @@
 package com.github.payne.utils;
 
-import com.github.payne.generator.annotations.NotTested;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -38,7 +37,6 @@ public final class FileUtils {
      * @param appendName element to be added at the end of the new list.
      * @return the newly-created list, with the extra element appended.
      */
-    @NotTested
     public static List<String> appendFilePath(List<String> source, String appendName) {
         String[] tmpPath = source.toArray(new String[source.size() + 1]);
         tmpPath[source.size()] = appendName;

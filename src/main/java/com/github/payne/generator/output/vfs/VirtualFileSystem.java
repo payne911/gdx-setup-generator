@@ -64,7 +64,6 @@ public class VirtualFileSystem implements AppendableTree {
     }
 
     @Override
-    @NotTested
     public FileNode copyFile(List<String> srcPathFromRes, List<String> destPathFromRoot,
             String rename) {
         FileNode copied = copyFile(srcPathFromRes, destPathFromRoot);
@@ -73,7 +72,6 @@ public class VirtualFileSystem implements AppendableTree {
     }
 
     @Override
-    @NotTested
     public boolean copyFolder(List<String> srcPathFromRes, List<String> destPathFromRoot,
             boolean include) {
         // todo: refactor this into something actually robust and portable
@@ -113,7 +111,6 @@ public class VirtualFileSystem implements AppendableTree {
     }
 
     @Override
-    @NotTested
     public boolean copyFolderToRoot(List<String> srcPathFromRes, boolean include) {
         return copyFolder(srcPathFromRes, Arrays.asList(), include);
     }

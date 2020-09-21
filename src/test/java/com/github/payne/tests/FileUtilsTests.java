@@ -34,6 +34,28 @@ public class FileUtilsTests {
     }
 
     @Test
+    public void appendFilePath() {
+        final String INIT = "init";
+        List<String> initial = Arrays.asList(INIT);
+
+        final String APPEND = "append";
+        List<String> output1 = FileUtils.appendFilePath(initial, APPEND + "1");
+        List<String> output2 = FileUtils.appendFilePath(output1, APPEND + "2");
+
+        assertEquals(2, output1.size());
+        assertEquals(INIT, output1.get(0));
+        assertEquals(APPEND + "1", output1.get(1));
+
+        assertEquals(3, output2.size());
+        assertEquals(INIT, output2.get(0));
+        assertEquals(APPEND + "1", output2.get(1));
+        assertEquals(APPEND + "2", output2.get(2));
+
+        assertEquals("Input list should not be modified", 1, initial.size());
+        assertEquals("Input list should not be modified", INIT, initial.get(0));
+    }
+
+    @Test
     public void readResourceFileAsString() {
         String actual = FileUtils
                 .readResourceFileAsString(Arrays.asList("copy-res-test", "test.txt"));

@@ -208,6 +208,82 @@ public class VirtualFileSystemTests {
     }
 
     @Test
+    public void copyFile_rename() {
+        VirtualFileSystem vfs = new VirtualFileSystem("root");
+
+        final String CORE = "core";
+        final String COPIED = "test.txt";
+        final String RENAMED = "renamed.txt";
+        final String RESOURCE_FOLDER = "copy-res-test";
+
+        FileNode folder = new FileNode("folder");
+        vfs.addFromRoot(Arrays.asList(CORE, "java"), folder);
+        FileNode file = new FileNode("file.txt", "Wow!".getBytes());
+        vfs.addFromRoot(Arrays.asList(CORE), file);
+
+        FileNode renamedNewFile =
+                vfs.copyFile(Arrays.asList(RESOURCE_FOLDER, COPIED), Arrays.asList(CORE), RENAMED);
+
+        /*
+            root
+            |__core
+               |__java
+                  |__folder
+               |__file.txt
+               |__renamed.txt
+         */
+
+        FileNode core = vfs.getRoot().getChild(CORE);
+        String strContent = new String(core.getChild(RENAMED).getContent());
+        assertEquals("PieMenu ${replaced}", strContent);
+        assertTrue(core.getChildren().contains(renamedNewFile));
+        assertTrue(core.getOptionalChild(COPIED).isEmpty());
+        assertEquals(RENAMED, core.getOptionalChild(RENAMED).get().getName());
+
+        assertEquals(1, vfs.getRoot().getChildren().size());
+        assertEquals(3, vfs.getRoot().getChild(CORE).getChildren().size());
+        assertTrue(core.getChild("java").isFolder());
+    }
+
+    @Test
+    public void copyFolder_notInclude() {
+        VirtualFileSystem vfs = new VirtualFileSystem("root");
+        final String DEST_FOLDER = "foo";
+        vfs.copyFolder(Arrays.asList("copy-res-test"), Arrays.asList(DEST_FOLDER), false);
+
+        FileNode root = vfs.getRoot();
+        FileNode destFolder = root.getChild(DEST_FOLDER);
+        FileNode subFolder = destFolder.getChild("sub-folder");
+        assertEquals("foo folder should have been created", 1, root.getChildren().size());
+        assertEquals(3, destFolder.getChildren().size());
+        assertEquals(2, subFolder.getChildren().size());
+        assertEquals(1, subFolder.getChild("dir1").getChild("dir2").getChildren().size());
+        assertEquals("raeleus", new String(subFolder.getChild("test3.txt").getContent()));
+    }
+
+    @Test
+    public void copyFolderToRoot_include() {
+        VirtualFileSystem vfs = new VirtualFileSystem("root");
+        final String FIRST_FOLDER = "dir1";
+        vfs.copyFolderToRoot(Arrays.asList("copy-res-test", "sub-folder", FIRST_FOLDER), true);
+
+        FileNode root = vfs.getRoot();
+        FileNode firstFolder = root.getChild(FIRST_FOLDER);
+        FileNode secondFolder = firstFolder.getChild("dir2");
+        FileNode file = secondFolder.getChildren().get(0);
+
+        assertEquals(1, root.getChildren().size());
+        assertEquals(1, firstFolder.getChildren().size());
+        assertEquals("dir2", secondFolder.getName());
+        assertEquals(1, secondFolder.getChildren().size());
+        assertEquals("gradle-wrapper.jar", file.getName());
+
+        assertTrue(firstFolder.isFolder());
+        assertTrue(secondFolder.isFolder());
+        assertFalse(file.isFolder());
+    }
+
+    @Test
     public void addToParent() {
         VirtualFileSystem vfs = new VirtualFileSystem("root");
         FileNode root = vfs.getRoot();
