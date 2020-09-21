@@ -55,13 +55,13 @@ public class ReadMeFile extends GeneratedFile {
         // todo: finish this list ("addGradleTaskDescription" in liftoff)
 
         return gradleTasks.entrySet().stream()
-                .map(entry -> "`" + entry.getKey() + "`: " + entry.getValue())
+                .map(entry -> "* `" + entry.getKey() + "`: " + entry.getValue())
                 .collect(Collectors.joining("\n"));
     }
 
     @Override
     public String getContent() {
-        List<String> resPath = Arrays.asList("generator", "dynamic", "readme.txt");
+        List<String> resPath = Arrays.asList("generator", "dynamic", "README.txt");
         return FileUtils.replaceFileContent(resPath, replacements);
     }
 }
