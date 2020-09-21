@@ -69,9 +69,9 @@ public interface AppendableTree {
      *                         Arrays.asList("folder")}}.
      * @param include          {@code true} if you want to copy the designated folder in {@code
      *                         srcPathFromRes}, {@code false} if you want only the content.
-     * @return the parent node of the copied content.
+     * @return {@code true} only if {@code srcPathFromRes} pointed to a valid folder.
      */
-    FileNode copyFolder(List<String> srcPathFromRes, List<String> destPathFromRoot,
+    boolean copyFolder(List<String> srcPathFromRes, List<String> destPathFromRoot,
             boolean include);
 
     /**
@@ -100,9 +100,9 @@ public interface AppendableTree {
      *                       Arrays.asList("some-folder")}.
      * @param include        {@code true} if you want to copy the designated folder in {@code
      *                       srcPathFromRes}, {@code false} if you want only the content.
-     * @return the parent node of the copied content.
+     * @return {@code true} only if {@code srcPathFromRes} pointed to a valid folder.
      */
-    FileNode copyFolderToRoot(List<String> srcPathFromRes, boolean include);
+    boolean copyFolderToRoot(List<String> srcPathFromRes, boolean include);
 
     /**
      * Places folders and then files in alphabetical order recursively through each folder, starting

@@ -1,6 +1,5 @@
 package com.github.payne.generator.output.vfs;
 
-import com.github.payne.generator.annotations.NotImplemented;
 import com.github.payne.generator.annotations.NotTested;
 import com.github.payne.utils.FileUtils;
 import java.util.Arrays;
@@ -75,29 +74,48 @@ public class VirtualFileSystem implements AppendableTree {
 
     @Override
     @NotTested
-    @NotImplemented
-    public FileNode copyFolder(List<String> srcPathFromRes, List<String> destPathFromRoot,
+    public boolean copyFolder(List<String> srcPathFromRes, List<String> destPathFromRoot,
             boolean include) {
-        // todo: content of folders is string of files and folders names, separated by "\n"...
-        return copyFile(srcPathFromRes, destPathFromRoot);
+        // todo: refactor this into something actually robust and portable
+        if (include) {
+            String folderName = srcPathFromRes.get(srcPathFromRes.size() - 1);
+            addFromRoot(destPathFromRoot, new FileNode(folderName));
+            destPathFromRoot = FileUtils.appendFilePath(destPathFromRoot, folderName);
+        }
+        String content = FileUtils.readResourceFileAsString(srcPathFromRes);
+        String[] fileCandidates = content.split("\n"); // folder's content = filesName.join("\n")
+        for (String fileName : fileCandidates) { // each "file" could actually be a folder
+            try {
+                List<String> appendedSrc = FileUtils.appendFilePath(srcPathFromRes, fileName);
+                List<String> appendedDest = FileUtils.appendFilePath(destPathFromRoot, fileName);
+                boolean isFolder = copyFolder(appendedSrc, appendedDest, false);
+                if (!isFolder) {
+                    copyFile(appendedSrc, destPathFromRoot);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override
     @NotTested
     public FileNode copyFileToRoot(List<String> srcPathFromRes) {
-        return copyFile(srcPathFromRes, Arrays.asList(""));
+        return copyFile(srcPathFromRes, Arrays.asList());
     }
 
     @Override
     @NotTested
     public FileNode copyFileToRoot(List<String> srcPathFromRes, String rename) {
-        return copyFile(srcPathFromRes, Arrays.asList(""), rename);
+        return copyFile(srcPathFromRes, Arrays.asList(), rename);
     }
 
     @Override
     @NotTested
-    public FileNode copyFolderToRoot(List<String> srcPathFromRes, boolean include) {
-        return copyFolder(srcPathFromRes, Arrays.asList(""), include);
+    public boolean copyFolderToRoot(List<String> srcPathFromRes, boolean include) {
+        return copyFolder(srcPathFromRes, Arrays.asList(), include);
     }
 
     @Override

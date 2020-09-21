@@ -1,5 +1,6 @@
 package com.github.payne.utils;
 
+import com.github.payne.generator.annotations.NotTested;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -30,7 +31,21 @@ public final class FileUtils {
         return path == null || path.isEmpty() || (path.size() == 1 && path.get(0).isBlank());
     }
 
-    @SneakyThrows // todo: don't forget to remove
+    /**
+     * Duplicates the entry list to obtain a new list which has the specified string appended.
+     *
+     * @param source     original list which will not be modified, but rather cloned.
+     * @param appendName element to be added at the end of the new list.
+     * @return the newly-created list, with the extra element appended.
+     */
+    @NotTested
+    public static List<String> appendFilePath(List<String> source, String appendName) {
+        String[] tmpPath = source.toArray(new String[source.size() + 1]);
+        tmpPath[source.size()] = appendName;
+        return Arrays.asList(tmpPath);
+    }
+
+    @SneakyThrows // todo: don't forget to remove (throws when filename leads to nothing)
     public static byte[] readResourceFile(final List<String> srcPathFromRes) {
         String srcPath = joinPath(srcPathFromRes);
         return Thread.currentThread().getContextClassLoader().getResourceAsStream(srcPath)

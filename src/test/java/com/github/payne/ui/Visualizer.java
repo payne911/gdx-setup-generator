@@ -117,7 +117,7 @@ public class Visualizer extends Game {
         input.setProjectName("awesome-project");
         input.getPlatforms().addAll(Arrays.asList(Platform.CORE, Platform.ANDROID));
         input.getAddOns()
-                .addAll(Arrays.asList(/*AddOn.GRADLE_WRAPPER, AddOn.GUI_ASSETS, */AddOn.README));
+                .addAll(Arrays.asList(AddOn.GRADLE_WRAPPER, AddOn.GUI_ASSETS, AddOn.README));
         input.getLanguages().addAll(Arrays.asList(new VersionedLanguage(Language.JAVA),
                 new VersionedLanguage(Language.KOTLIN), new VersionedLanguage(Language.GROOVY),
                 new VersionedLanguage(Language.SCALA)));
