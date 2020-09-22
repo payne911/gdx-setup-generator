@@ -1,10 +1,11 @@
 package com.github.payne.utils;
 
+import com.github.payne.generator.exceptions.ResourceFileReadException;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import lombok.SneakyThrows;
 
 /**
  * Trying to avoid using {@code File.separator} for the use-case of a client-side OS not being the
@@ -43,14 +44,38 @@ public final class FileUtils {
         return Arrays.asList(tmpPath);
     }
 
-    @SneakyThrows // todo: don't forget to remove (throws when filename leads to nothing)
-    public static byte[] readResourceFile(final List<String> srcPathFromRes) {
+    /**
+     * @param srcPathFromRes For a file "{@code src/main/resources/foo/bar.txt}", you want to use
+     *                       "{@code Arrays.asList("foo", "bar.txt")}"
+     * @return the raw byte content of the designated file
+     * @throws ResourceFileReadException generally thrown due to the file path being invalid
+     *                                   (pointing to a non-existing file)
+     */
+    public static byte[] readResourceFile(final List<String> srcPathFromRes)
+            throws ResourceFileReadException {
         String srcPath = joinPath(srcPathFromRes);
-        return Thread.currentThread().getContextClassLoader().getResourceAsStream(srcPath)
-                .readAllBytes();
+        try {
+            // todo: close the InputStream
+            return Thread.currentThread().getContextClassLoader().getResourceAsStream(srcPath)
+                    .readAllBytes();
+        } catch (NullPointerException npe) {
+            throw new ResourceFileReadException(
+                    "Input file name didn't lead to a resource file.", npe);
+        } catch (IOException | OutOfMemoryError ex) {
+            throw new ResourceFileReadException(
+                    "Something went wrong while trying to read the desired file.", ex);
+        }
     }
 
-    public static String readResourceFileAsString(final List<String> srcPathFromRes) {
+    /**
+     * @param srcPathFromRes For a file "{@code src/main/resources/foo/bar.txt}", you want to use
+     *                       "{@code Arrays.asList("foo", "bar.txt")}"
+     * @return the content of the designated file as a String
+     * @throws ResourceFileReadException generally thrown due to the file path being invalid
+     *                                   (pointing to a non-existing file)
+     */
+    public static String readResourceFileAsString(final List<String> srcPathFromRes)
+            throws ResourceFileReadException {
         return new String(readResourceFile(srcPathFromRes));
     }
 
@@ -60,10 +85,12 @@ public final class FileUtils {
      * @param srcPathFromRes example: {@code Arrays.asList("generator", "dynamic", "readme.txt")}
      * @param replacements   the keys should be present in the designated file, surrounded by "${}"
      * @return the content of the file, with the keys replaced by the values of the provided map
+     * @throws ResourceFileReadException generally thrown due to the file path being invalid
+     *                                   (pointing to a non-existing file)
      * @see #keyPattern(String)
      */
     public static String replaceFileContent(final List<String> srcPathFromRes,
-            Map<String, String> replacements) {
+            Map<String, String> replacements) throws ResourceFileReadException {
         String initialFileContent = readResourceFileAsString(srcPathFromRes);
         return replaceStringContent(initialFileContent, replacements);
     }
@@ -77,10 +104,12 @@ public final class FileUtils {
      * @param key            should be present in the input {@code String} surrounded by "${}"
      * @param replacement    the {@code key} will be replaced by this {@code String}
      * @return the content of the file, with the keys replaced by the values of the provided map
+     * @throws ResourceFileReadException generally thrown due to the file path being invalid
+     *                                   (pointing to a non-existing file)
      * @see #keyPattern(String)
      */
     public static String replaceFileContent(final List<String> srcPathFromRes,
-            String key, String replacement) {
+            String key, String replacement) throws ResourceFileReadException {
         String initialFileContent = readResourceFileAsString(srcPathFromRes);
         return replaceStringContent(initialFileContent, key, replacement);
     }
@@ -91,9 +120,12 @@ public final class FileUtils {
      * @param initial      the input
      * @param replacements the keys should be present in the designated file, surrounded by "${}"
      * @return the content of the input, with the keys replaced by the values of the provided map
+     * @throws ResourceFileReadException generally thrown due to the file path being invalid
+     *                                   (pointing to a non-existing file)
      * @see #keyPattern(String)
      */
-    public static String replaceStringContent(String initial, Map<String, String> replacements) {
+    public static String replaceStringContent(String initial, Map<String, String> replacements)
+            throws ResourceFileReadException {
         String result = initial;
         for (Entry<String, String> entry : replacements.entrySet()) {
             result = replaceStringContent(result, entry.getKey(), entry.getValue());
@@ -111,9 +143,12 @@ public final class FileUtils {
      * @param key         should be present in the input {@code String} surrounded by "${}"
      * @param replacement the {@code key} will be replaced by this {@code String}
      * @return the content of the input, with the keys replaced by the value provided
+     * @throws ResourceFileReadException generally thrown due to the file path being invalid
+     *                                   (pointing to a non-existing file)
      * @see #keyPattern(String)
      */
-    public static String replaceStringContent(String initial, String key, String replacement) {
+    public static String replaceStringContent(String initial, String key, String replacement)
+            throws ResourceFileReadException {
         return initial.replaceAll(keyPattern(key), replacement);
     }
 

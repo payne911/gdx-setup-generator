@@ -1,6 +1,7 @@
 package com.github.payne.generator.output.vfs;
 
 import com.github.payne.generator.annotations.NotTested;
+import com.github.payne.generator.exceptions.ResourceFileReadException;
 import com.github.payne.utils.FileUtils;
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -71,10 +72,30 @@ public class VirtualFileSystem implements AppendableTree {
         return copied;
     }
 
+    /**
+     * Copies the content of a folder recursively. May include or not the folder itself.
+     * <p>
+     * Folders specified in the {@code destPathFromRoot} parameter and which don't exist will be
+     * created.
+     * <p>
+     * This implementation reads the input folder's content, and expects to find its children listed
+     * separated by a new line ({@code "\n"}). Thus, recursively, to see if any of the children were
+     * actually folders themselves too, their content is also looked into to test if the file names
+     * exist as children. If a {@link NullPointerException} is thrown, then it's because it was not
+     * a folder.
+     *
+     * @param srcPathFromRes   For "{@code src/main/resources/some-folder/my-file.txt}", use {@code
+     *                         Arrays.asList("some-folder")}.
+     * @param destPathFromRoot For "{@code your-project-name-as-root/folder}", use {@code
+     *                         Arrays.asList("folder")}}.
+     * @param include          {@code true} if you want to copy the designated folder in {@code
+     *                         srcPathFromRes}, {@code false} if you want only the content.
+     * @return {@code true} only if {@code srcPathFromRes} pointed to a valid folder.
+     */
     @Override
     public boolean copyFolder(List<String> srcPathFromRes, List<String> destPathFromRoot,
             boolean include) {
-        // todo: refactor this into something actually robust and portable
+        // todo: refactor this (currently hacky version) into something actually robust and portable
         if (include) {
             String folderName = srcPathFromRes.get(srcPathFromRes.size() - 1);
             addFromRoot(destPathFromRoot, new FileNode(folderName));
@@ -90,8 +111,11 @@ public class VirtualFileSystem implements AppendableTree {
                 if (!isFolder) {
                     copyFile(appendedSrc, destPathFromRoot);
                 }
-            } catch (Exception e) {
-                e.printStackTrace();
+            } catch (ResourceFileReadException e) {
+                /* NPE is "expected" so we're avoiding pollution of logs by not printing those. */
+                if (!(e.getCause() instanceof NullPointerException)) {
+                    e.printStackTrace();
+                }
                 return false;
             }
         }

@@ -63,7 +63,7 @@ public interface AppendableTree {
     /**
      * Copies the content of a folder recursively. May include or not the folder itself.
      * <p>
-     * Folders mentioned in the {@code destPathFromRoot} parameter which don't exist will be
+     * Folders specified in the {@code destPathFromRoot} parameter and which don't exist will be
      * created.
      *
      * @param srcPathFromRes   For "{@code src/main/resources/some-folder/my-file.txt}", use {@code
