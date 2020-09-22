@@ -1,5 +1,7 @@
 package com.github.payne.generator.input.model.enums;
 
+import com.github.payne.logic.modules.GdxModule;
+import com.github.payne.logic.modules.core.CoreModule;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
@@ -8,15 +10,63 @@ import lombok.ToString;
 @ToString
 @RequiredArgsConstructor
 public enum Platform {
-    ANDROID("android"),
-    CORE("core"),
-    DESKTOP_LEGACY("desktop"),
-    HEADLESS("headless"),
-    HTML("html"),
-    IOS("ios"),
-    LWJGL_3("lwjgl3"),
-    SERVER("server"),
-    SHARED("shared");
+    // todo: ensure all Modules are linked to their appropriate platform! (remove placeholders)
+    ANDROID("android") {
+        @Override
+        public GdxModule getModuleGenerator() {
+            return new CoreModule(getValue());
+        }
+    },
+    CORE("core") {
+        @Override
+        public GdxModule getModuleGenerator() {
+            return new CoreModule(getValue());
+        }
+    },
+    DESKTOP_LEGACY("desktop") {
+        @Override
+        public GdxModule getModuleGenerator() {
+            return new CoreModule(getValue());
+        }
+    },
+    HEADLESS("headless") {
+        @Override
+        public GdxModule getModuleGenerator() {
+            return new CoreModule(getValue());
+        }
+    },
+    HTML("html") {
+        @Override
+        public GdxModule getModuleGenerator() {
+            return new CoreModule(getValue());
+        }
+    },
+    IOS("ios") {
+        @Override
+        public GdxModule getModuleGenerator() {
+            return new CoreModule(getValue());
+        }
+    },
+    LWJGL_3("lwjgl3") {
+        @Override
+        public GdxModule getModuleGenerator() {
+            return new CoreModule(getValue());
+        }
+    },
+    SERVER("server") {
+        @Override
+        public GdxModule getModuleGenerator() {
+            return new CoreModule(getValue());
+        }
+    },
+    SHARED("shared") {
+        @Override
+        public GdxModule getModuleGenerator() {
+            return new CoreModule(getValue());
+        }
+    };
 
     private final String value;
+
+    public abstract GdxModule getModuleGenerator();
 }

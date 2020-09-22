@@ -13,6 +13,7 @@ import com.github.payne.logic.files.ReadMeFile;
 import com.github.payne.logic.files.RootBuildGradleFile;
 import com.github.payne.logic.files.SettingsGradleFile;
 import com.github.payne.logic.files.abstracts.GeneratedFile;
+import com.github.payne.logic.modules.GdxModule;
 import java.util.Arrays;
 
 @NotTested
@@ -53,7 +54,10 @@ public class LogicProcessor {
     }
 
     public void addPlatforms() {
-        input.getPlatforms().forEach(this::addPlatform);
+        for (Platform platform : input.getPlatforms()) {
+            GdxModule module = platform.getModuleGenerator();
+            module.generate(input, vfs);
+        }
     }
 
     public void addGitIgnore() {
@@ -85,13 +89,7 @@ public class LogicProcessor {
     }
 
     public void applyTemplate() {
-    }
-
-    public void addPlatform(Platform platform) {
-        System.out.println("Applying " + platform);
-        System.out.println("=============================");
-
-        // todo: add each platform's individual build.gradle (affected by JVM Languages!)
+        // todo
     }
 
     public void addReadmeFile() {
