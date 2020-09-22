@@ -29,7 +29,7 @@ public abstract class BuildGradleFile extends GeneratedFile {
         if (dependencies.isEmpty()) {
             return "\n";
         } else {
-            String prefix = preType + type;
+            String prefix = preType + type + " ";
             String postfix = "\n";
             return StringUtils.join(dependencies, prefix, "\n" + prefix, postfix);
         }
