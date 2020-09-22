@@ -6,6 +6,7 @@ import com.github.payne.generator.input.model.VersionedLanguage;
 import com.github.payne.generator.input.model.enums.Language;
 import com.github.payne.generator.input.model.enums.Platform;
 import com.github.payne.generator.output.GeneratedProject;
+import com.github.payne.generator.output.vfs.AppendableTree;
 import com.github.payne.generator.output.vfs.VirtualFileSystem;
 import com.github.payne.logic.LogicProcessor;
 
@@ -64,7 +65,7 @@ public class Generator implements IGenerator {
     }
 
     private GeneratedProject init(GeneratorConfigs input) {
-        VirtualFileSystem vfs = new VirtualFileSystem(input.getProjectName());
+        AppendableTree vfs = new VirtualFileSystem(input.getProjectName());
         return new GeneratedProject(vfs);
     }
 
