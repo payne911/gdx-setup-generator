@@ -65,11 +65,21 @@ public class VirtualFileSystem implements AppendableTree {
     }
 
     @Override
+    public FileNode copyFile(String srcPathFromRes, List<String> destPathFromRoot) {
+        return copyFile(FileUtils.splitPath(srcPathFromRes), destPathFromRoot);
+    }
+
+    @Override
     public FileNode copyFile(List<String> srcPathFromRes, List<String> destPathFromRoot,
             String rename) {
         FileNode copied = copyFile(srcPathFromRes, destPathFromRoot);
         copied.setName(rename);
         return copied;
+    }
+
+    @Override
+    public FileNode copyFile(String srcPathFromRes, List<String> destPathFromRoot, String rename) {
+        return copyFile(FileUtils.splitPath(srcPathFromRes), destPathFromRoot, rename);
     }
 
     /**
@@ -123,9 +133,20 @@ public class VirtualFileSystem implements AppendableTree {
     }
 
     @Override
+    public boolean copyFolder(String srcPathFromRes, List<String> destPathFromRoot,
+            boolean include) {
+        return copyFolder(FileUtils.splitPath(srcPathFromRes), destPathFromRoot, include);
+    }
+
+    @Override
     @NotTested
     public FileNode copyFileToRoot(List<String> srcPathFromRes) {
         return copyFile(srcPathFromRes, Arrays.asList());
+    }
+
+    @Override
+    public FileNode copyFileToRoot(String srcPathFromRes) {
+        return copyFileToRoot(FileUtils.splitPath(srcPathFromRes));
     }
 
     @Override
@@ -135,8 +156,18 @@ public class VirtualFileSystem implements AppendableTree {
     }
 
     @Override
+    public FileNode copyFileToRoot(String srcPathFromRes, String rename) {
+        return copyFileToRoot(FileUtils.splitPath(srcPathFromRes), rename);
+    }
+
+    @Override
     public boolean copyFolderToRoot(List<String> srcPathFromRes, boolean include) {
         return copyFolder(srcPathFromRes, Arrays.asList(), include);
+    }
+
+    @Override
+    public boolean copyFolderToRoot(String srcPathFromRes, boolean include) {
+        return copyFolderToRoot(FileUtils.splitPath(srcPathFromRes), include);
     }
 
     @Override

@@ -61,7 +61,7 @@ public class LogicProcessor {
     }
 
     public void addGitIgnore() {
-        vfs.copyFileToRoot(Arrays.asList("generator", "static", "gitignore"), ".gitignore");
+        vfs.copyFileToRoot("generator/static/gitignore", ".gitignore");
     }
 
     public void addRootBuildGradle() {
@@ -75,16 +75,16 @@ public class LogicProcessor {
     }
 
     public void addAssets() {
-        vfs.addToParent(root, new FileNode(input.getAssetsFolderName()));
+        final String DEST_FOLDER = input.getAssetsFolderName();
+        vfs.addToParent(root, new FileNode(DEST_FOLDER));
         if (input.contains(AddOn.GUI_ASSETS)) {
-            vfs.copyFolder(Arrays.asList("generator", "static", "assets"),
-                    Arrays.asList(input.getAssetsFolderName()), false);
+            vfs.copyFolder("generator/static/assets", Arrays.asList(DEST_FOLDER), false);
         }
     }
 
     private void addGradleWrapper() {
         if (input.contains(AddOn.GRADLE_WRAPPER)) {
-            vfs.copyFolderToRoot(Arrays.asList("generator", "static", "gradle"), true);
+            vfs.copyFolderToRoot("generator/static/gradle", true);
         }
     }
 

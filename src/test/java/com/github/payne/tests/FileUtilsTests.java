@@ -23,6 +23,50 @@ public class FileUtilsTests {
     }
 
     @Test
+    public void splitPath_empty() {
+        final String INPUT = "";
+
+        List<String> result = FileUtils.splitPath(INPUT);
+        assertEquals("The operation should be reversible", INPUT, FileUtils.joinPath(result));
+        assertEquals(1, result.size());
+        assertEquals("", result.get(0));
+    }
+
+    @Test
+    public void splitPath_1word() {
+        final String INPUT = "just";
+
+        List<String> result = FileUtils.splitPath(INPUT);
+        assertEquals("The operation should be reversible", INPUT, FileUtils.joinPath(result));
+        assertEquals(1, result.size());
+        assertEquals("just", result.get(0));
+    }
+
+    @Test
+    public void splitPath_2words() {
+        final String INPUT = "just/testing";
+
+        List<String> result = FileUtils.splitPath(INPUT);
+        assertEquals("The operation should be reversible", INPUT, FileUtils.joinPath(result));
+        assertEquals(2, result.size());
+        assertEquals("just", result.get(0));
+        assertEquals("testing", result.get(1));
+    }
+
+    @Test
+    public void splitPath_4words() {
+        final String INPUT = "just/testing/something/trivial";
+
+        List<String> result = FileUtils.splitPath(INPUT);
+        assertEquals("The operation should be reversible", INPUT, FileUtils.joinPath(result));
+        assertEquals(4, result.size());
+        assertEquals("just", result.get(0));
+        assertEquals("testing", result.get(1));
+        assertEquals("something", result.get(2));
+        assertEquals("trivial", result.get(3));
+    }
+
+    @Test
     public void isEmptyPath() {
         assertTrue(FileUtils.isEmptyPath(Arrays.asList()));
         assertTrue(FileUtils.isEmptyPath(Arrays.asList("")));

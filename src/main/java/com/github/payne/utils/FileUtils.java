@@ -23,6 +23,10 @@ public final class FileUtils {
         return joinPath(Arrays.asList(paths));
     }
 
+    public static List<String> splitPath(String path) {
+        return Arrays.asList(path.split(FILE_SEPARATOR));
+    }
+
     public static String joinPath(List<String> paths) {
         return String.join(FileUtils.FILE_SEPARATOR, paths);
     }
