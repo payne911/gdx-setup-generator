@@ -116,7 +116,10 @@ public class Visualizer extends Game {
         input = new GeneratorConfigs(); // todo: construct from the InputConfigsDisplay values!
         input.setProjectName("MyGdxProjectName");
         input.setCorePackage("com.foo.bar");
-        input.getPlatforms().addAll(Arrays.asList(Platform.CORE, Platform.ANDROID));
+        input.getPlatforms().addAll(Arrays
+                .asList(Platform.CORE, Platform.ANDROID, Platform.HTML, Platform.SERVER,
+                        Platform.DESKTOP_LEGACY, Platform.HEADLESS, Platform.IOS,
+                        Platform.LWJGL_3, Platform.SHARED));
         input.getAddOns()
                 .addAll(Arrays.asList(AddOn.GRADLE_WRAPPER, AddOn.GUI_ASSETS, AddOn.README));
         input.getLanguages().addAll(Arrays.asList(new VersionedLanguage(Language.JAVA),

@@ -2,6 +2,7 @@ package com.github.payne.generator.input.model.enums;
 
 import com.github.payne.logic.modules.GdxModule;
 import com.github.payne.logic.modules.core.CoreModule;
+import com.github.payne.logic.modules.shared.SharedModule;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
@@ -62,7 +63,7 @@ public enum Platform {
     SHARED("shared") {
         @Override
         public GdxModule getModuleGenerator() {
-            return new CoreModule(getValue());
+            return new SharedModule(getValue());
         }
     };
 

@@ -11,10 +11,16 @@ public class CoreBuildGradleFile extends BuildGradleFile {
 
     @Override
     protected void assignKeys() {
-        addDependency("com.badlogicgames.gdx:gdx:\\$gdxVersion");
-        // todo: add JVM Languages
+        addSharedProjectDependency();
+        gdx();
+        addJvmLanguagesDependencies();
+
         // todo: add Third-Parties
 
         assignKey("dependencies", joinDependencies(dependencies, "api"));
+    }
+
+    private void gdx() {
+        addDependency("com.badlogicgames.gdx:gdx:\\$gdxVersion");
     }
 }

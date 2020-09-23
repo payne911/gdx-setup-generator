@@ -1,0 +1,4 @@
+eclipse.project.name = appName + '-shared'
+
+dependencies {
+${dependencies}}
