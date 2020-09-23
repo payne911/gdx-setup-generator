@@ -13,6 +13,8 @@ public class ServerBuildGradleFile extends BuildGradleFile {
     protected void assignKeys() {
         addSharedProjectDependency();
 
-        assignKey("dependencies", joinDependencies(dependencies, "api"));
+        assignKey("dependencies", joinDependencies(dependencies));
+        assignKey("rootPackage", input.getCorePackage());
+        assignKey("serverJavaVersion", input.getServerJavaVersion());
     }
 }

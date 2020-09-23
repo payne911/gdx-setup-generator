@@ -1,7 +1,7 @@
 apply plugin: 'application'
 
-sourceCompatibility = 8.0
-mainClassName = 'com.foo.bar.server.ServerLauncher'
+sourceCompatibility = ${serverJavaVersion}
+mainClassName = '${rootPackage}.server.ServerLauncher'
 eclipse.project.name = appName + '-server'
 
 dependencies {

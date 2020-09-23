@@ -2,6 +2,7 @@ package com.github.payne.generator.input.model.enums;
 
 import com.github.payne.logic.modules.GdxModule;
 import com.github.payne.logic.modules.core.CoreModule;
+import com.github.payne.logic.modules.server.ServerModule;
 import com.github.payne.logic.modules.shared.SharedModule;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -57,7 +58,7 @@ public enum Platform {
     SERVER("server") {
         @Override
         public GdxModule getModuleGenerator() {
-            return new CoreModule(getValue());
+            return new ServerModule(getValue());
         }
     },
     SHARED("shared") {
