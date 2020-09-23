@@ -53,11 +53,22 @@ public final class FileUtils {
      */
     public static byte[] readResourceFile(final List<String> srcPathFromRes)
             throws ResourceFileReadException {
-        String srcPath = joinPath(srcPathFromRes);
+        return readResourceFile(joinPath(srcPathFromRes));
+    }
+
+    /**
+     * @param srcPathFromRes For a file "{@code src/main/resources/foo/bar.txt}", you want to use
+     *                       "{@code foo/bar.txt}"
+     * @return the raw byte content of the designated file
+     * @throws ResourceFileReadException generally thrown due to the file path being invalid
+     *                                   (pointing to a non-existing file)
+     */
+    public static byte[] readResourceFile(final String srcPathFromRes)
+            throws ResourceFileReadException {
         try {
             // todo: close the InputStream
-            return Thread.currentThread().getContextClassLoader().getResourceAsStream(srcPath)
-                    .readAllBytes();
+            return Thread.currentThread().getContextClassLoader()
+                    .getResourceAsStream(srcPathFromRes).readAllBytes();
         } catch (NullPointerException npe) {
             throw new ResourceFileReadException(
                     "Input file name didn't lead to a resource file.", npe);
@@ -80,6 +91,18 @@ public final class FileUtils {
     }
 
     /**
+     * @param srcPathFromRes For a file "{@code src/main/resources/foo/bar.txt}", you want to use
+     *                       "{@code Arrays.asList("foo", "bar.txt")}"
+     * @return the content of the designated file as a String
+     * @throws ResourceFileReadException generally thrown due to the file path being invalid
+     *                                   (pointing to a non-existing file)
+     */
+    public static String readResourceFileAsString(final String srcPathFromRes)
+            throws ResourceFileReadException {
+        return new String(readResourceFile(srcPathFromRes));
+    }
+
+    /**
      * Does not modify the file. Returns a new {@code String}.
      *
      * @param srcPathFromRes example: {@code Arrays.asList("generator", "dynamic", "readme.txt")}
@@ -90,6 +113,22 @@ public final class FileUtils {
      * @see #keyPattern(String)
      */
     public static String replaceFileContent(final List<String> srcPathFromRes,
+            Map<String, String> replacements) throws ResourceFileReadException {
+        String initialFileContent = readResourceFileAsString(srcPathFromRes);
+        return replaceStringContent(initialFileContent, replacements);
+    }
+
+    /**
+     * Does not modify the file. Returns a new {@code String}.
+     *
+     * @param srcPathFromRes example: "{@code generator/dynamic/readme.txt}"
+     * @param replacements   the keys should be present in the designated file, surrounded by "${}"
+     * @return the content of the file, with the keys replaced by the values of the provided map
+     * @throws ResourceFileReadException generally thrown due to the file path being invalid
+     *                                   (pointing to a non-existing file)
+     * @see #keyPattern(String)
+     */
+    public static String replaceFileContent(final String srcPathFromRes,
             Map<String, String> replacements) throws ResourceFileReadException {
         String initialFileContent = readResourceFileAsString(srcPathFromRes);
         return replaceStringContent(initialFileContent, replacements);
@@ -109,6 +148,25 @@ public final class FileUtils {
      * @see #keyPattern(String)
      */
     public static String replaceFileContent(final List<String> srcPathFromRes,
+            String key, String replacement) throws ResourceFileReadException {
+        String initialFileContent = readResourceFileAsString(srcPathFromRes);
+        return replaceStringContent(initialFileContent, key, replacement);
+    }
+
+    /**
+     * Does not modify the file. Returns a new {@code String}.
+     * <p>
+     * If you have multiple keys to replace, use {@link #replaceFileContent(String, Map)} instead.
+     *
+     * @param srcPathFromRes example: {@code Arrays.asList("generator", "dynamic", "readme.txt")}
+     * @param key            should be present in the input {@code String} surrounded by "${}"
+     * @param replacement    the {@code key} will be replaced by this {@code String}
+     * @return the content of the file, with the keys replaced by the values of the provided map
+     * @throws ResourceFileReadException generally thrown due to the file path being invalid
+     *                                   (pointing to a non-existing file)
+     * @see #keyPattern(String)
+     */
+    public static String replaceFileContent(final String srcPathFromRes,
             String key, String replacement) throws ResourceFileReadException {
         String initialFileContent = readResourceFileAsString(srcPathFromRes);
         return replaceStringContent(initialFileContent, key, replacement);

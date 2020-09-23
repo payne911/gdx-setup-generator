@@ -1,20 +1,18 @@
 package com.github.payne.logic.files.abstracts;
 
+import com.github.payne.generator.input.GeneratorConfigs;
 import com.github.payne.utils.StringUtils;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
-import lombok.Getter;
 
-public abstract class BuildGradleFile extends GeneratedFile {
+public abstract class BuildGradleFile extends DynamicFile {
 
-    @Getter
     protected final Set<String> buildDeps = new HashSet<>();
-    @Getter
     protected final Set<String> dependencies = new HashSet<>();
 
-    public BuildGradleFile() {
-        super("build.gradle");
+    public BuildGradleFile(final String resourcePath, final GeneratorConfigs input) {
+        super("build.gradle", resourcePath, input);
     }
 
     public String joinDependencies(Collection<String> dependencies) {
@@ -35,10 +33,11 @@ public abstract class BuildGradleFile extends GeneratedFile {
         }
     }
 
-    /**
-     * @param dependency will be added as "implementation" dependency, quoted.
-     */
     public void addDependency(String dependency) {
         dependencies.add("\"" + dependency + "\"");
+    }
+
+    public void addBuildDependency(String dependency) {
+        buildDeps.add("\"" + dependency + "\"");
     }
 }

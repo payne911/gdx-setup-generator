@@ -12,7 +12,7 @@ import com.github.payne.logic.files.GradlePropertiesFile;
 import com.github.payne.logic.files.ReadMeFile;
 import com.github.payne.logic.files.RootBuildGradleFile;
 import com.github.payne.logic.files.SettingsGradleFile;
-import com.github.payne.logic.files.abstracts.GeneratedFile;
+import com.github.payne.logic.files.abstracts.DynamicFile;
 import com.github.payne.logic.modules.GdxModule;
 import java.util.Arrays;
 
@@ -65,12 +65,12 @@ public class LogicProcessor {
     }
 
     public void addRootBuildGradle() {
-        GeneratedFile rootBuildGradle = new RootBuildGradleFile(input);
+        DynamicFile rootBuildGradle = new RootBuildGradleFile(input);
         vfs.addToParent(root, rootBuildGradle.createFile());
     }
 
     public void addGradleProperties() {
-        GeneratedFile gradleProperties = new GradlePropertiesFile(input);
+        DynamicFile gradleProperties = new GradlePropertiesFile(input);
         vfs.addToParent(root, gradleProperties.createFile());
     }
 
@@ -94,13 +94,13 @@ public class LogicProcessor {
 
     public void addReadmeFile() {
         if (input.contains(AddOn.README)) {
-            GeneratedFile readme = new ReadMeFile(input);
+            DynamicFile readme = new ReadMeFile(input);
             vfs.addToParent(root, readme.createFile());
         }
     }
 
     private void addSettingsGradle() {
-        GeneratedFile modules = new SettingsGradleFile(input);
+        DynamicFile modules = new SettingsGradleFile(input);
         vfs.addToParent(root, modules.createFile());
     }
 }

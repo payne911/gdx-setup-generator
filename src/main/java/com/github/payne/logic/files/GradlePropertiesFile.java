@@ -1,25 +1,28 @@
 package com.github.payne.logic.files;
 
-import com.github.payne.generator.annotations.DynamicFile;
 import com.github.payne.generator.input.GeneratorConfigs;
 import com.github.payne.generator.input.model.enums.Language;
 import com.github.payne.generator.input.model.enums.Platform;
-import com.github.payne.logic.files.abstracts.GeneratedFile;
-import com.github.payne.utils.FileUtils;
+import com.github.payne.logic.files.abstracts.DynamicFile;
 import com.github.payne.utils.StringUtils;
-import java.util.Arrays;
-import java.util.List;
 
-@DynamicFile("generator/dynamic/gradle-properties.txt")
-public class GradlePropertiesFile extends GeneratedFile {
+public class GradlePropertiesFile extends DynamicFile {
 
     private final StringBuilder sb = new StringBuilder();
 
     public static final String GDX_VERSION = "gdx"; // gets "Version" appended
 
-    public GradlePropertiesFile(GeneratorConfigs input) {
-        super("gradle.properties");
+    public GradlePropertiesFile(final GeneratorConfigs input) {
+        super("gradle.properties", "generator/dynamic/gradle-properties.txt", input);
+    }
 
+    @Override
+    protected void assignKeys() {
+        addVersions(input);
+        assignKey("versionVariables", sb.toString());
+    }
+
+    private void addVersions(GeneratorConfigs input) {
         input.getLanguages().forEach(lang -> {
             if (lang.isSameLanguage(Language.JAVA)) {
                 return;
@@ -43,11 +46,6 @@ public class GradlePropertiesFile extends GeneratedFile {
             addVersion("robovm", input.getRoboVmVersion());
         }
         addVersion(GDX_VERSION, gdxVersion);
-    }
-
-    public String getContent() {
-        List<String> resPath = Arrays.asList("generator", "dynamic", "gradle-properties.txt");
-        return FileUtils.replaceFileContent(resPath, "versionVariables", sb.toString());
     }
 
     private void addProperty(String name, String suffix, String value) {

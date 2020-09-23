@@ -4,7 +4,6 @@ import com.github.payne.generator.annotations.NotImplemented;
 import com.github.payne.generator.input.GeneratorConfigs;
 import com.github.payne.generator.output.vfs.AppendableTree;
 import com.github.payne.generator.output.vfs.FileNode;
-import com.github.payne.logic.files.RootBuildGradleFile;
 import com.github.payne.logic.files.abstracts.BuildGradleFile;
 import com.github.payne.logic.modules.GdxModule;
 
@@ -17,7 +16,7 @@ public class CoreModule extends GdxModule {
 
     @Override
     protected BuildGradleFile getBuildGradleFile(GeneratorConfigs input) {
-        return new RootBuildGradleFile(input);
+        return new CoreBuildGradleFile(input);
     }
 
     @Override

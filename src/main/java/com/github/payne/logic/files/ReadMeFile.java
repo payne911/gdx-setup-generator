@@ -1,30 +1,24 @@
 package com.github.payne.logic.files;
 
-import com.github.payne.generator.annotations.DynamicFile;
 import com.github.payne.generator.input.GeneratorConfigs;
 import com.github.payne.generator.input.model.enums.AddOn;
-import com.github.payne.logic.files.abstracts.GeneratedFile;
-import com.github.payne.utils.FileUtils;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import com.github.payne.logic.files.abstracts.DynamicFile;
 import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
 
-@DynamicFile("generator/dynamic/README.txt")
-public class ReadMeFile extends GeneratedFile {
+public class ReadMeFile extends DynamicFile {
 
-    private final Map<String, String> replacements = new HashMap<>();
+    public ReadMeFile(final GeneratorConfigs input) {
+        super("README.md", "generator/dynamic/README.txt", input);
+    }
 
-    public ReadMeFile(GeneratorConfigs input) {
-        super("README.md");
-
-        replacements.put("projectName", input.getProjectName());
-        replacements.put("readmeDescription", ""); // todo: comes from Template!
-        replacements.put("addGradleWrapper", getGradleWrapperString(input));
-        replacements.put("gradleTaskDescriptions", getGradleTasksString());
+    @Override
+    protected void assignKeys() {
+        assignKey("projectName", input.getProjectName());
+        assignKey("readmeDescription", ""); // todo: comes from Template!
+        assignKey("addGradleWrapper", getGradleWrapperString(input));
+        assignKey("gradleTaskDescriptions", getGradleTasksString());
     }
 
     private String getGradleWrapperString(GeneratorConfigs input) {
@@ -57,11 +51,5 @@ public class ReadMeFile extends GeneratedFile {
         return gradleTasks.entrySet().stream()
                 .map(entry -> "* `" + entry.getKey() + "`: " + entry.getValue())
                 .collect(Collectors.joining("\n"));
-    }
-
-    @Override
-    public String getContent() {
-        List<String> resPath = Arrays.asList("generator", "dynamic", "README.txt");
-        return FileUtils.replaceFileContent(resPath, replacements);
     }
 }

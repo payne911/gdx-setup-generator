@@ -5,6 +5,12 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 
+/**
+ * Extensions are official third-party libraries supported by libGDX itself.
+ * <p>
+ * You can use "{@code gdx}" as the version and it will inject whatever version you have chosen as
+ * the libGDX version ({@link com.github.payne.generator.input.GeneratorConfigs#libGdxVersion}).
+ */
 @Getter
 @ToString
 @RequiredArgsConstructor

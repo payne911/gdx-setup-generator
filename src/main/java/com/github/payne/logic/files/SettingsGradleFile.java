@@ -1,28 +1,23 @@
 package com.github.payne.logic.files;
 
-import com.github.payne.generator.annotations.DynamicFile;
 import com.github.payne.generator.input.GeneratorConfigs;
-import com.github.payne.logic.files.abstracts.GeneratedFile;
-import com.github.payne.utils.FileUtils;
+import com.github.payne.logic.files.abstracts.DynamicFile;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 
-@DynamicFile("generator/dynamic/settings-gradle.txt")
-public class SettingsGradleFile extends GeneratedFile {
+public class SettingsGradleFile extends DynamicFile {
 
     private final List<String> modules = new ArrayList<>();
 
-    public SettingsGradleFile(GeneratorConfigs input) {
-        super("settings.gradle");
-
-        input.getPlatforms().forEach(platform -> modules.add(platform.getValue()));
-        modules.sort(Comparator.naturalOrder()); // sorting to help with predictable tests
+    public SettingsGradleFile(final GeneratorConfigs input) {
+        super("settings.gradle", "generator/dynamic/settings-gradle.txt", input);
     }
 
-    public String getContent() {
-        List<String> resPath = Arrays.asList("generator", "dynamic", "settings-gradle.txt");
-        return FileUtils.replaceFileContent(resPath, "modules", String.join(", ", modules));
+    @Override
+    protected void assignKeys() {
+        input.getPlatforms().forEach(platform -> modules.add(platform.getValue()));
+        modules.sort(Comparator.naturalOrder()); // sorting to help with predictable tests
+        assignKey("modules", String.join(", ", modules));
     }
 }

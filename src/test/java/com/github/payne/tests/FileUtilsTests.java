@@ -1,5 +1,6 @@
 package com.github.payne.tests;
 
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -26,7 +27,6 @@ public class FileUtilsTests {
         assertTrue(FileUtils.isEmptyPath(Arrays.asList()));
         assertTrue(FileUtils.isEmptyPath(Arrays.asList("")));
         assertTrue(FileUtils.isEmptyPath(Arrays.asList(" ")));
-        assertTrue(FileUtils.isEmptyPath(null));
 
         assertFalse(FileUtils.isEmptyPath(Arrays.asList("src")));
         assertFalse(FileUtils.isEmptyPath(Arrays.asList("src", "main")));
@@ -60,6 +60,17 @@ public class FileUtilsTests {
         String actual = FileUtils
                 .readResourceFileAsString(Arrays.asList("copy-res-test", "test.txt"));
         assertEquals("PieMenu ${replaced}", actual);
+    }
+
+    @Test
+    public void readResourceFile() {
+        byte[] bytes1 = FileUtils.readResourceFile("copy-res-test/test.txt");
+        byte[] bytes2 = FileUtils.readResourceFile("copy-res-test/test.txt/");
+        byte[] bytes3 = FileUtils.readResourceFile("copy-res-test//test.txt/");
+
+        assertArrayEquals("PieMenu ${replaced}".getBytes(), bytes1);
+        assertArrayEquals(bytes1, bytes2);
+        assertArrayEquals(bytes1, bytes3);
     }
 
     @Test

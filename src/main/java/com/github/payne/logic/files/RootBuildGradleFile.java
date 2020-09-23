@@ -1,44 +1,36 @@
 package com.github.payne.logic.files;
 
-import com.github.payne.generator.annotations.DynamicFile;
 import com.github.payne.generator.input.GeneratorConfigs;
 import com.github.payne.generator.input.model.enums.Language;
 import com.github.payne.generator.input.model.enums.Platform;
 import com.github.payne.logic.files.abstracts.BuildGradleFile;
-import com.github.payne.utils.FileUtils;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
-@DynamicFile("generator/dynamic/root-build-gradle.txt")
 public class RootBuildGradleFile extends BuildGradleFile {
 
-    private final Map<String, String> replacements = new HashMap<>();
+    public RootBuildGradleFile(final GeneratorConfigs input) {
+        super("generator/dynamic/root-build-gradle.txt", input);
+    }
 
-    public RootBuildGradleFile(GeneratorConfigs input) {
-        super();
+    @Override
+    protected void assignKeys() {
+        injectBuildDependencies(input);
+        injectPotentialAndroidProject(input);
+        injectPlugins(input);
 
-        if (input.contains(Language.KOTLIN)) {
-            buildDeps.add("\"org.jetbrains.kotlin:kotlin-gradle-plugin:\\$kotlinVersion\"");
-        }
-        if (input.contains(Platform.ANDROID)) {
-            buildDeps.add("\"com.android.tools.build:gradle:\\$androidPluginVersion\"");
-        }
-        if (input.contains(Platform.HTML)) {
-            buildDeps.add("\"org.wisepersist:gwt-gradle-plugin:\\$gwtPluginVersion\"");
-        }
-        if (input.contains(Platform.IOS)) {
-            buildDeps.add("\"com.mobidevelop.robovm:robovm-gradle-plugin:\\$robovmVersion\"");
-        }
+        assignKey("javaVersion", input.getJavaVersion());
+        assignKey("appVersion", input.getApplicationVersion());
+        assignKey("projectName", input.getProjectName());
+    }
 
-        replacements.put("buildDependencies",
-                joinDependencies(getBuildDeps(), "classpath", "\t\t"));
-        replacements.put("android", input.contains(Platform.ANDROID)
+    private void injectPotentialAndroidProject(GeneratorConfigs input) {
+        assignKey("android", input.contains(Platform.ANDROID)
                 ? " - project(':android')"
                 : "");
-        replacements.put("plugins", String.join("\n", input.getLanguages().stream()
+    }
+
+    private void injectPlugins(GeneratorConfigs input) {
+        assignKey("plugins", String.join("\n", input.getLanguages().stream()
                 .map(lang -> {
                     String pluginName = lang.getLanguage();
                     if (lang.isSameLanguage(Language.JAVA)) {
@@ -47,14 +39,21 @@ public class RootBuildGradleFile extends BuildGradleFile {
                     return "\tapply plugin: '" + pluginName + "'";
                 })
                 .collect(Collectors.toUnmodifiableList())));
-        replacements.put("javaVersion", input.getJavaVersion());
-        replacements.put("appVersion", input.getApplicationVersion());
-        replacements.put("projectName", input.getProjectName());
     }
 
-    @Override
-    public String getContent() {
-        List<String> resPath = Arrays.asList("generator", "dynamic", "root-build-gradle.txt");
-        return FileUtils.replaceFileContent(resPath, replacements);
+    private void injectBuildDependencies(GeneratorConfigs input) {
+        if (input.contains(Language.KOTLIN)) {
+            addBuildDependency("org.jetbrains.kotlin:kotlin-gradle-plugin:\\$kotlinVersion");
+        }
+        if (input.contains(Platform.ANDROID)) {
+            addBuildDependency("com.android.tools.build:gradle:\\$androidPluginVersion");
+        }
+        if (input.contains(Platform.HTML)) {
+            addBuildDependency("org.wisepersist:gwt-gradle-plugin:\\$gwtPluginVersion");
+        }
+        if (input.contains(Platform.IOS)) {
+            addBuildDependency("com.mobidevelop.robovm:robovm-gradle-plugin:\\$robovmVersion");
+        }
+        assignKey("buildDependencies", joinDependencies(buildDeps, "classpath", "\t\t"));
     }
 }
