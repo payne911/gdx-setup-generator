@@ -26,6 +26,10 @@ gwt {
 
 dependencies {
 	implementation project(':core')
+
+	implementation "com.badlogicgames.gdx:gdx:$gdxVersion:sources"
+	implementation "com.badlogicgames.gdx:gdx-backend-gwt:$gdxVersion"
+	implementation "com.badlogicgames.gdx:gdx-backend-gwt:$gdxVersion:sources"
 ${dependencies}}
 
 import org.akhikhl.gretty.AppBeforeIntegrationTestTask
