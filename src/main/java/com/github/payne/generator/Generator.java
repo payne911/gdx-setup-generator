@@ -60,6 +60,7 @@ public class Generator implements IGenerator {
                 * Java version [7,14] + LibGdxVersion utils conversion from input
                 * GWT with other JVM languages
                 * Android platform without AndroidSdk
+                * VisUi library + AddOn.Skin selected?
                 * etc
          */
         return true;
