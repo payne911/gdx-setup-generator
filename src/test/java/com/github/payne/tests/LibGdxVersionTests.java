@@ -9,7 +9,7 @@ import java.util.Arrays;
 import java.util.List;
 import org.junit.Test;
 
-public class LibGdxVersionTest {
+public class LibGdxVersionTests {
 
     private LibGdxVersion version(String input) {
         return new LibGdxVersion(input);
