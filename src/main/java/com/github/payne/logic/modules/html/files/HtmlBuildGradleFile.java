@@ -1,7 +1,7 @@
-package com.github.payne.logic.modules.html;
+package com.github.payne.logic.modules.html.files;
 
 import com.github.payne.generator.input.GeneratorConfigs;
-import com.github.payne.logic.files.abstracts.BuildGradleFile;
+import com.github.payne.logic.root.BuildGradleFile;
 
 public class HtmlBuildGradleFile extends BuildGradleFile {
 
@@ -10,11 +10,8 @@ public class HtmlBuildGradleFile extends BuildGradleFile {
     }
 
     @Override
-    protected void assignKeys() {
-        addSharedProjectDependency();
-
+    protected void assignOtherKeys() {
         // todo: add Third-Parties
-
-        assignKey("dependencies", joinDependencies(dependencies, "api"));
+//        assignKey("dependencies", joinDependencies(dependencies, "api"));
     }
 }

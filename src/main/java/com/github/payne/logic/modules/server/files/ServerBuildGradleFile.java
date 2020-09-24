@@ -1,7 +1,7 @@
-package com.github.payne.logic.modules.server;
+package com.github.payne.logic.modules.server.files;
 
 import com.github.payne.generator.input.GeneratorConfigs;
-import com.github.payne.logic.files.abstracts.BuildGradleFile;
+import com.github.payne.logic.root.BuildGradleFile;
 
 public class ServerBuildGradleFile extends BuildGradleFile {
 
@@ -10,11 +10,9 @@ public class ServerBuildGradleFile extends BuildGradleFile {
     }
 
     @Override
-    protected void assignKeys() {
-        addSharedProjectDependency();
+    protected void assignOtherKeys() {
+        addSharedProjectDependency("implementation");
 
         assignKey("dependencies", joinDependencies(dependencies));
-        assignKey("rootPackage", input.getCorePackage());
-        assignKey("serverJavaVersion", input.getServerJavaVersion());
     }
 }

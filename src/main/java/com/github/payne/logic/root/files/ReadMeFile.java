@@ -1,9 +1,9 @@
-package com.github.payne.logic.files;
+package com.github.payne.logic.root.files;
 
 import com.github.payne.generator.input.GeneratorConfigs;
 import com.github.payne.generator.input.model.enums.AddOn;
 import com.github.payne.generator.input.model.enums.Platform;
-import com.github.payne.logic.files.abstracts.DynamicFile;
+import com.github.payne.logic.root.DynamicFile;
 import com.github.payne.utils.FileUtils;
 import java.util.SortedMap;
 import java.util.TreeMap;
@@ -18,7 +18,7 @@ public class ReadMeFile extends DynamicFile {
     }
 
     @Override
-    protected void assignKeys() {
+    protected void assignOtherKeys() {
         assignKey("projectName", input.getProjectName());
         assignKey("readmeDescription", ""); // todo: comes from Template!
         assignKey("addGradleWrapper", getGradleWrapperString(input));
@@ -57,19 +57,19 @@ public class ReadMeFile extends DynamicFile {
     }
 
     private void platformSpecificTasks() {
-        addTask(Platform.SERVER, "run", "runs the ${name} application.");
-        addTask(Platform.HEADLESS, "run",
+        conditionalTask(Platform.SERVER, "run", "runs the ${name} application.");
+        conditionalTask(Platform.HEADLESS, "run",
                 "starts the ${name} application. Note: if ${name} sources were not modified - and the application still creates `ApplicationListener` from `core` project - this task might fail due to no graphics support.");
-        addTask(Platform.ANDROID, "lint", "performs Android project validation.");
-        addTask(Platform.DESKTOP_LEGACY, "run", "starts the application.");
-        addTask(Platform.DESKTOP_LEGACY, "jar",
+        conditionalTask(Platform.ANDROID, "lint", "performs Android project validation.");
+        conditionalTask(Platform.DESKTOP_LEGACY, "run", "starts the application.");
+        conditionalTask(Platform.DESKTOP_LEGACY, "jar",
                 "builds application's runnable jar, which can be found at `${name}/build/libs`.");
-        addTask(Platform.LWJGL_3, "run", "starts the application.");
-        addTask(Platform.LWJGL_3, "jar",
+        conditionalTask(Platform.LWJGL_3, "run", "starts the application.");
+        conditionalTask(Platform.LWJGL_3, "jar",
                 "builds application's runnable jar, which can be found at `${name}/build/libs`.");
-        addTask(Platform.HTML, "superDev",
+        conditionalTask(Platform.HTML, "superDev",
                 "compiles GWT sources and runs the application in SuperDev mode. It will be available at [localhost:8080/${name}](http://localhost:8080/${name}). Use only during development.");
-        addTask(Platform.HTML, "dist",
+        conditionalTask(Platform.HTML, "dist",
                 "compiles GWT sources. The compiled application can be found at `${name}/build/dist`: you can use any HTTP server to deploy it.");
     }
 
@@ -89,7 +89,7 @@ public class ReadMeFile extends DynamicFile {
      * @param command     the gradle task command
      * @param description description which may or not contain an {@code name} key for replacement
      */
-    private void addTask(Platform platform, String command, String description) {
+    private void conditionalTask(Platform platform, String command, String description) {
         if (!input.contains(platform)) {
             return;
         }

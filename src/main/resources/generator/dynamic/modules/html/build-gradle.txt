@@ -1,4 +1,3 @@
-
 buildscript {
 	repositories {
 		jcenter()
@@ -17,8 +16,8 @@ gwt {
 	minHeapSize = '1G'
 
 	src = files(file('src/main/java')) // Needs to be in front of "modules" below.
-	modules 'com.foo.bar.GdxDefinition'
-	devModules 'com.foo.bar.GdxDefinitionSuperdev'
+	modules '${corePackage}.GdxDefinition'
+	devModules '${corePackage}.GdxDefinitionSuperdev'
 	project.webAppDirName = 'webapp'
 
 	compiler.strict = true
@@ -26,8 +25,8 @@ gwt {
 }
 
 dependencies {
+	implementation project(':core')
 ${dependencies}}
-
 
 import org.akhikhl.gretty.AppBeforeIntegrationTestTask
 import org.wisepersist.gradle.plugins.gwt.GwtSuperDev
@@ -87,7 +86,7 @@ task dist(dependsOn: [clean, compileGwt]) {
 task addSource {
 	doLast {
 		sourceSets.main.compileClasspath += files(project(':core').sourceSets.main.allJava.srcDirs)
-		sourceSets.main.compileClasspath += files(project(':shared').sourceSets.main.allJava.srcDirs)
+		${sharedSourceSets}
 	}
 }
 

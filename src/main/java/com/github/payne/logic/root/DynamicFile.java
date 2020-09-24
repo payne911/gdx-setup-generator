@@ -1,7 +1,8 @@
-package com.github.payne.logic.files.abstracts;
+package com.github.payne.logic.root;
 
 import com.github.payne.generator.input.GeneratorConfigs;
 import com.github.payne.generator.output.vfs.FileNode;
+import com.github.payne.logic.modules.html.HtmlModule;
 import com.github.payne.utils.FileUtils;
 import java.util.HashMap;
 import java.util.Map;
@@ -33,12 +34,24 @@ public abstract class DynamicFile {
     protected final GeneratorConfigs input;
 
     /**
-     * This is meant to be used to {@link #assignKey(String, String) assign keys}.
+     * Use this to define all the keys except the ones which can be extracted directly from {@link
+     * GeneratorConfigs}.
      * <p>
-     * If you are not assigning at least one key in here, then you most probably shouldn't be using
-     * a {@link DynamicFile} for what you're doing.
+     * Currently automatically extracted: {@code ${gwtVersion}}, {@code ${corePackage}}, {@code
+     * ${assetsFolderName}}.
      */
-    protected abstract void assignKeys();
+    protected abstract void assignOtherKeys();
+
+    private void assignKeys() {
+        assignKey("gwtVersion", HtmlModule.deduceGwtVersion(input.getLibGdxVersion()));
+        assignKey("corePackage", input.getCorePackage());
+        assignKey("assetsFolderName", input.getAssetsFolderName());
+        assignKey("targetAndroidApi", input.getTargetAndroidApi().toString());
+        assignKey("serverJavaVersion", input.getServerJavaVersion());
+        assignKey("androidSdkPath", input.getAndroidSdkPath());
+
+        assignOtherKeys();
+    }
 
     /**
      * All of the keys (denoted by "{@code ${}}") contained in the file linked via {@link

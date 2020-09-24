@@ -1,9 +1,9 @@
-package com.github.payne.logic.files;
+package com.github.payne.logic.root.files;
 
 import com.github.payne.generator.input.GeneratorConfigs;
 import com.github.payne.generator.input.model.enums.Language;
 import com.github.payne.generator.input.model.enums.Platform;
-import com.github.payne.logic.files.abstracts.BuildGradleFile;
+import com.github.payne.logic.root.BuildGradleFile;
 import java.util.stream.Collectors;
 
 public class RootBuildGradleFile extends BuildGradleFile {
@@ -13,7 +13,7 @@ public class RootBuildGradleFile extends BuildGradleFile {
     }
 
     @Override
-    protected void assignKeys() {
+    protected void assignOtherKeys() {
         injectBuildDependencies(input);
         injectPotentialAndroidProject(input);
         injectPlugins(input);

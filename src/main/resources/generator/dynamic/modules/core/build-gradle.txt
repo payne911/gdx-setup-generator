@@ -2,4 +2,5 @@
 eclipse.project.name = appName + '-core'
 
 dependencies {
+${shared}
 ${dependencies}}

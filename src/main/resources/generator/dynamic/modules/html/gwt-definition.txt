@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE module PUBLIC "-//Google Inc.//DTD Google Web Toolkit ${gwtVersion}//EN" "http://gwtproject.org/doctype/${gwtVersion}/gwt-module.dtd">
+<module rename-to="html">
+	<source path="" />
+${sortedInherits}
+  <entry-point class="${corePackage}.gwt.GwtLauncher" />
+  <!-- These two following lines reduce the work GWT has to do during compilation and also shrink output size. -->
+  <set-configuration-property name="gdx.assetpath" value="../${assetsFolderName}" />
+  <set-configuration-property name="xsiframe.failIfScriptTag" value="FALSE"/>
+  <!-- Remove the "user.agent" lines below if you encounter issues with Safari or other Gecko browsers. -->
+  <set-property name="user.agent" value="gecko1_8, safari"/>
+  <collapse-property name="user.agent" values="*" />
+</module>

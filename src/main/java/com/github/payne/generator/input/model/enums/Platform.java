@@ -1,7 +1,9 @@
 package com.github.payne.generator.input.model.enums;
 
 import com.github.payne.logic.modules.GdxModule;
+import com.github.payne.logic.modules.android.AndroidModule;
 import com.github.payne.logic.modules.core.CoreModule;
+import com.github.payne.logic.modules.html.HtmlModule;
 import com.github.payne.logic.modules.server.ServerModule;
 import com.github.payne.logic.modules.shared.SharedModule;
 import lombok.Getter;
@@ -16,7 +18,7 @@ public enum Platform {
     ANDROID("android") {
         @Override
         public GdxModule getModuleGenerator() {
-            return new CoreModule(getValue());
+            return new AndroidModule(getValue());
         }
     },
     CORE("core") {
@@ -40,7 +42,7 @@ public enum Platform {
     HTML("html") {
         @Override
         public GdxModule getModuleGenerator() {
-            return new CoreModule(getValue());
+            return new HtmlModule(getValue());
         }
     },
     IOS("ios") {

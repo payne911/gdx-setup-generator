@@ -1,9 +1,10 @@
-package com.github.payne.logic.files;
+package com.github.payne.logic.root.files;
 
 import com.github.payne.generator.input.GeneratorConfigs;
 import com.github.payne.generator.input.model.enums.Language;
 import com.github.payne.generator.input.model.enums.Platform;
-import com.github.payne.logic.files.abstracts.DynamicFile;
+import com.github.payne.logic.modules.html.HtmlModule;
+import com.github.payne.logic.root.DynamicFile;
 import com.github.payne.utils.StringUtils;
 
 public class GradlePropertiesFile extends DynamicFile {
@@ -17,7 +18,7 @@ public class GradlePropertiesFile extends DynamicFile {
     }
 
     @Override
-    protected void assignKeys() {
+    protected void assignOtherKeys() {
         addVersions(input);
         assignKey("versionVariables", sb.toString());
     }
@@ -36,8 +37,8 @@ public class GradlePropertiesFile extends DynamicFile {
 
         String gdxVersion = input.getLibGdxVersion();
         if (input.contains(Platform.HTML)) {
-            addVersion("gwtFramework", input.getGwtPluginVersion());
-            addVersion("gwtPlugin", findGwtVersion(gdxVersion));
+            addVersion("gwtFramework", HtmlModule.deduceGwtVersion(gdxVersion));
+            addVersion("gwtPlugin", input.getGwtPluginVersion());
         }
         if (input.contains(Platform.ANDROID)) {
             addVersion("androidPlugin", input.getAndroidPluginVersion());
@@ -62,19 +63,5 @@ public class GradlePropertiesFile extends DynamicFile {
      */
     private void addVersion(String name, String value) {
         addProperty(name, "Version", value);
-    }
-
-    private String findGwtVersion(String gdxVersion) {
-        String gwtVersion;
-        if (gdxVersion.length() == 5 && gdxVersion.charAt(4) != '9') {
-            if (gdxVersion.charAt(4) < '5') {
-                gwtVersion = "2.6.1";
-            } else {
-                gwtVersion = "2.8.0";
-            }
-        } else {
-            gwtVersion = "2.8.2";
-        }
-        return gwtVersion;
     }
 }

@@ -4,15 +4,29 @@ import com.github.payne.generator.input.GeneratorConfigs;
 import com.github.payne.generator.input.model.VersionedLanguage;
 import com.github.payne.generator.output.vfs.AppendableTree;
 import com.github.payne.generator.output.vfs.FileNode;
-import com.github.payne.logic.files.abstracts.BuildGradleFile;
+import com.github.payne.logic.root.BuildGradleFile;
 import lombok.Data;
 
 @Data
 public abstract class GdxModule {
 
     protected final String folderName;
+
+    /**
+     * Points at the root of the module.
+     */
     protected FileNode moduleRoot;
+
+    /**
+     * Points at the "{@code main}" folder of the module (from "{@code module/src/main}").
+     */
     protected FileNode mainFolder;
+
+    /**
+     * Points at the last folder designated by {@link GeneratorConfigs#getCorePackage()}. For
+     * example, if {@code corePackage = "com.foo.bar"}, then this attribute points to the {@code
+     * bar} folder.
+     */
     protected FileNode inputPackage;
 
     /**

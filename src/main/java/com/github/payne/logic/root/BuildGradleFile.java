@@ -1,4 +1,4 @@
-package com.github.payne.logic.files.abstracts;
+package com.github.payne.logic.root;
 
 import com.github.payne.generator.input.GeneratorConfigs;
 import com.github.payne.generator.input.model.enums.Language;
@@ -69,9 +69,10 @@ public abstract class BuildGradleFile extends DynamicFile {
         }
     }
 
-    protected void addSharedProjectDependency() {
-        if (input.contains(Platform.SHARED)) {
-            addDependency("project(':" + Platform.SHARED.getValue() + "')");
-        }
+    protected void addSharedProjectDependency(String type) {
+        final String replacement = input.contains(Platform.SHARED)
+                ? "\t" + type + " project(':" + Platform.SHARED.getValue() + "')"
+                : "";
+        assignKey("shared", replacement);
     }
 }

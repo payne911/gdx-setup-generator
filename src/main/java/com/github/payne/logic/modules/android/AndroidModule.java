@@ -1,25 +1,26 @@
-package com.github.payne.logic.modules.server;
+package com.github.payne.logic.modules.android;
 
 import com.github.payne.generator.annotations.NotImplemented;
 import com.github.payne.generator.input.GeneratorConfigs;
 import com.github.payne.generator.output.vfs.AppendableTree;
 import com.github.payne.logic.modules.GdxModule;
-import com.github.payne.logic.modules.server.files.ServerBuildGradleFile;
+import com.github.payne.logic.modules.android.files.AndroidBuildGradleFile;
 import com.github.payne.logic.root.BuildGradleFile;
 
 @NotImplemented
-public class ServerModule extends GdxModule {
+public class AndroidModule extends GdxModule {
 
-    public ServerModule(String folderName) {
+    public AndroidModule(String folderName) {
         super(folderName);
     }
 
     @Override
     protected BuildGradleFile getBuildGradleFile(GeneratorConfigs input) {
-        return new ServerBuildGradleFile(input);
+        return new AndroidBuildGradleFile(input);
     }
 
     @Override
     protected void customize(GeneratorConfigs input, AppendableTree vfs) {
+        // todo
     }
 }

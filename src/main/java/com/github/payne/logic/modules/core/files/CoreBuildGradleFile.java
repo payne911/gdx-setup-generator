@@ -1,7 +1,7 @@
-package com.github.payne.logic.modules.core;
+package com.github.payne.logic.modules.core.files;
 
 import com.github.payne.generator.input.GeneratorConfigs;
-import com.github.payne.logic.files.abstracts.BuildGradleFile;
+import com.github.payne.logic.root.BuildGradleFile;
 
 public class CoreBuildGradleFile extends BuildGradleFile {
 
@@ -10,8 +10,8 @@ public class CoreBuildGradleFile extends BuildGradleFile {
     }
 
     @Override
-    protected void assignKeys() {
-        addSharedProjectDependency();
+    protected void assignOtherKeys() {
+        addSharedProjectDependency("api");
         gdx();
         addJvmLanguagesDependencies();
 

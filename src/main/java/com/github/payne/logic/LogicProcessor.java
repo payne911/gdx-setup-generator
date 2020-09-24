@@ -8,12 +8,13 @@ import com.github.payne.generator.input.model.enums.Platform;
 import com.github.payne.generator.output.GeneratedProject;
 import com.github.payne.generator.output.vfs.AppendableTree;
 import com.github.payne.generator.output.vfs.FileNode;
-import com.github.payne.logic.files.GradlePropertiesFile;
-import com.github.payne.logic.files.ReadMeFile;
-import com.github.payne.logic.files.RootBuildGradleFile;
-import com.github.payne.logic.files.SettingsGradleFile;
-import com.github.payne.logic.files.abstracts.DynamicFile;
 import com.github.payne.logic.modules.GdxModule;
+import com.github.payne.logic.root.DynamicFile;
+import com.github.payne.logic.root.files.GradlePropertiesFile;
+import com.github.payne.logic.root.files.LocalPropertiesFile;
+import com.github.payne.logic.root.files.ReadMeFile;
+import com.github.payne.logic.root.files.RootBuildGradleFile;
+import com.github.payne.logic.root.files.SettingsGradleFile;
 import java.util.Arrays;
 
 @NotTested
@@ -44,6 +45,7 @@ public class LogicProcessor {
         addRootBuildGradle();
         addReadmeFile();
         addGradleProperties();
+        addLocalProperties();
         addSettingsGradle();
     }
 
@@ -72,6 +74,13 @@ public class LogicProcessor {
     public void addGradleProperties() {
         DynamicFile gradleProperties = new GradlePropertiesFile(input);
         vfs.addToParent(root, gradleProperties.createFile());
+    }
+
+    public void addLocalProperties() {
+        if (input.contains(Platform.ANDROID)) {
+            DynamicFile localProperties = new LocalPropertiesFile(input);
+            vfs.addToParent(root, localProperties.createFile());
+        }
     }
 
     public void addAssets() {
