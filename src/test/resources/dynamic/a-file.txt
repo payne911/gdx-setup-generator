@@ -1,0 +1,27 @@
+Automatically injected:
++ ${gwtVersion};
++ ${corePackage};
++ ${assetsFolderName};
++ ${targetAndroidApi};
++ ${javaVersion};
++ ${desktopJavaVersion};
++ ${serverJavaVersion};
++ ${androidSdkPath};
++ ${appVersion};
++ ${projectName};
++ duplicated ${gwtVersion};
+
+Shouldn't be injected:
+- ${project};
+- ${Name};
+- ${app.Version};
+- ${gwt Version};
+- ${corePackage };
+- ${ corePackage};
+- ${core Package};
+- ${javaVersionjavaVersion};
+- ${java}${version};
+
+Manually:
+- ${something-something};
+- ${something-something};
