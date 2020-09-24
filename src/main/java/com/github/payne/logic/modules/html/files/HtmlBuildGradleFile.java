@@ -21,8 +21,7 @@ public class HtmlBuildGradleFile extends BuildGradleFile {
     private void sharedSourceSets() {
         final String replacement = input.contains(Platform.SHARED)
                 ? "sourceSets.main.compileClasspath += files(project(':" + Platform.SHARED
-                .getValue()
-                + "').sourceSets.main.allJava.srcDirs)"
+                .getValue() + "').sourceSets.main.allJava.srcDirs)"
                 : "";
         assignKey("sharedSourceSets", replacement);
     }
