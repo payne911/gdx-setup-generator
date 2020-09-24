@@ -17,10 +17,6 @@ public class RootBuildGradleFile extends BuildGradleFile {
         injectBuildDependencies(input);
         injectPotentialAndroidProject(input);
         injectPlugins(input);
-
-        assignKey("javaVersion", input.getJavaVersion());
-        assignKey("appVersion", input.getApplicationVersion());
-        assignKey("projectName", input.getProjectName());
     }
 
     private void injectPotentialAndroidProject(GeneratorConfigs input) {

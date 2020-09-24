@@ -1,8 +1,6 @@
 package com.github.payne.logic.modules.html;
 
-import com.github.payne.generator.annotations.NotImplemented;
 import com.github.payne.generator.input.GeneratorConfigs;
-import com.github.payne.generator.input.model.enums.Platform;
 import com.github.payne.generator.output.vfs.AppendableTree;
 import com.github.payne.logic.modules.GdxModule;
 import com.github.payne.logic.modules.html.files.HtmlBuildGradleFile;
@@ -15,7 +13,6 @@ import com.github.payne.utils.LibGdxVersion;
 import java.util.Arrays;
 import java.util.List;
 
-@NotImplemented
 public class HtmlModule extends GdxModule {
 
     public HtmlModule(String folderName) {
@@ -41,7 +38,7 @@ public class HtmlModule extends GdxModule {
     }
 
     private void webappFolder(GeneratorConfigs input, AppendableTree vfs) {
-        List<String> htmlModuleDestPath = Arrays.asList(Platform.HTML.getValue());
+        List<String> htmlModuleDestPath = Arrays.asList(folderName);
         List<String> webAppDestPath = FileUtils.appendFilePath(htmlModuleDestPath, "webapp");
 
         vfs.copyFolder("generator/static/html/webapp", htmlModuleDestPath, true);
@@ -57,24 +54,5 @@ public class HtmlModule extends GdxModule {
         } catch (Exception e) {
             return "generator/static/html/alternates/soundmanager2-jsmin.js";
         }
-    }
-
-
-    /**
-     * @param gdxVersion should be the content of {@link GeneratorConfigs#getLibGdxVersion()}
-     * @return the gwt version
-     */
-    public static String deduceGwtVersion(String gdxVersion) {
-        String gwtVersion;
-        if (gdxVersion.length() == 5 && gdxVersion.charAt(4) != '9') {
-            if (gdxVersion.charAt(4) < '5') {
-                gwtVersion = "2.6.1";
-            } else {
-                gwtVersion = "2.8.0";
-            }
-        } else {
-            gwtVersion = "2.8.2";
-        }
-        return gwtVersion;
     }
 }

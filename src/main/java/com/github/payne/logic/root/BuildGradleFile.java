@@ -71,7 +71,7 @@ public abstract class BuildGradleFile extends DynamicFile {
 
     protected void addSharedProjectDependency(String type) {
         final String replacement = input.contains(Platform.SHARED)
-                ? "\t" + type + " project(':" + Platform.SHARED.getValue() + "')"
+                ? "\t" + type + " project(':shared')"
                 : "";
         assignKey("shared", replacement);
     }

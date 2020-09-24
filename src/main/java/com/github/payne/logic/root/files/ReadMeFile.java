@@ -19,7 +19,6 @@ public class ReadMeFile extends DynamicFile {
 
     @Override
     protected void assignOtherKeys() {
-        assignKey("projectName", input.getProjectName());
         assignKey("readmeDescription", ""); // todo: comes from Template!
         assignKey("addGradleWrapper", getGradleWrapperString(input));
         assignKey("gradleTaskDescriptions", getGradleTasksString());

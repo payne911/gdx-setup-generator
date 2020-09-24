@@ -1,24 +1,25 @@
-package com.github.payne.logic.modules.android;
+package com.github.payne.logic.modules.desktop;
 
 import com.github.payne.generator.input.GeneratorConfigs;
 import com.github.payne.generator.output.vfs.AppendableTree;
 import com.github.payne.logic.modules.GdxModule;
-import com.github.payne.logic.modules.android.files.AndroidBuildGradleFile;
+import com.github.payne.logic.modules.desktop.files.DesktopBuildGradleFile;
 import com.github.payne.logic.root.BuildGradleFile;
 
-public class AndroidModule extends GdxModule {
+public class DesktopModule extends GdxModule {
 
-    public AndroidModule(String folderName) {
+    public DesktopModule(String folderName) {
         super(folderName);
     }
 
     @Override
     protected BuildGradleFile getBuildGradleFile(GeneratorConfigs input) {
-        return new AndroidBuildGradleFile(input);
+        return new DesktopBuildGradleFile(input);
     }
 
     @Override
     protected void customize(GeneratorConfigs input, AppendableTree vfs) {
-        // todo
+        // todo: TEMPLATE
+        copyIcons(vfs);
     }
 }

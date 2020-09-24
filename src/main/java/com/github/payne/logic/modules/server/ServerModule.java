@@ -1,13 +1,11 @@
 package com.github.payne.logic.modules.server;
 
-import com.github.payne.generator.annotations.NotImplemented;
 import com.github.payne.generator.input.GeneratorConfigs;
 import com.github.payne.generator.output.vfs.AppendableTree;
 import com.github.payne.logic.modules.GdxModule;
 import com.github.payne.logic.modules.server.files.ServerBuildGradleFile;
 import com.github.payne.logic.root.BuildGradleFile;
 
-@NotImplemented
 public class ServerModule extends GdxModule {
 
     public ServerModule(String folderName) {
@@ -21,5 +19,6 @@ public class ServerModule extends GdxModule {
 
     @Override
     protected void customize(GeneratorConfigs input, AppendableTree vfs) {
+        // Nothing to do
     }
 }

@@ -15,6 +15,8 @@ import lombok.Data;
 //@Builder
 public class GeneratorConfigs {
 
+    // todo: Annotation for "REQUIRED" fields (minimal working setup)
+
     private String projectName = "MyGdxProjectName";
     private String corePackage = "com.gdx.game";
     private String mainClass = "MainClass";
@@ -41,6 +43,23 @@ public class GeneratorConfigs {
     private String postGenerationTask;
     private Integer targetAndroidApi = 29;
 
+
+    public String getJavaVersion() {
+        return javaVersionPrefix(javaVersion);
+    }
+
+    public String getServerJavaVersion() {
+        return javaVersionPrefix(serverJavaVersion);
+    }
+
+    public String getDesktopJavaVersion() {
+        return javaVersionPrefix(desktopJavaVersion);
+    }
+
+    private String javaVersionPrefix(String javaVersion) {
+        final String PREFIX = javaVersion.length() == 1 ? "1." : "";
+        return PREFIX + javaVersion;
+    }
 
     public boolean contains(AddOn addOn) {
         return addOns.contains(addOn);

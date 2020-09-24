@@ -36,6 +36,7 @@ public class LogicProcessor {
     public void applyInputs() {
         addRootFiles();
         addRootFolders();
+        addGradleWrapper();
 
         applyTemplate();
     }
@@ -51,7 +52,6 @@ public class LogicProcessor {
 
     public void addRootFolders() {
         addAssets();
-        addGradleWrapper();
         addPlatforms();
     }
 
@@ -94,6 +94,7 @@ public class LogicProcessor {
     private void addGradleWrapper() {
         if (input.contains(AddOn.GRADLE_WRAPPER)) {
             vfs.copyFolderToRoot("generator/static/gradle", true);
+            vfs.copyFolderToRoot("generator/static/gradlew", false);
         }
     }
 

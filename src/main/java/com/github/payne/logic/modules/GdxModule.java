@@ -5,6 +5,8 @@ import com.github.payne.generator.input.model.VersionedLanguage;
 import com.github.payne.generator.output.vfs.AppendableTree;
 import com.github.payne.generator.output.vfs.FileNode;
 import com.github.payne.logic.root.BuildGradleFile;
+import java.util.Arrays;
+import java.util.List;
 import lombok.Data;
 
 @Data
@@ -77,6 +79,14 @@ public abstract class GdxModule {
         for (String aPackage : packages) {
             inputPackage = inputPackage.getOrCreateChild(aPackage);
         }
+    }
+
+    // todo: util method for DynamicFiles
+    // todo: why DynamicFiles aren't created from Module? (Html and Ios, at least)
+
+    protected void copyIcons(AppendableTree vfs) {
+        final List<String> DEST_PATH = Arrays.asList(folderName, "src", "main", "resources");
+        vfs.copyFolder("generator/static/icons", DEST_PATH, false);
     }
 
     /**

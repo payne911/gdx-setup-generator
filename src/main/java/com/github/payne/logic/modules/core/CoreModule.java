@@ -1,6 +1,5 @@
 package com.github.payne.logic.modules.core;
 
-import com.github.payne.generator.annotations.NotImplemented;
 import com.github.payne.generator.input.GeneratorConfigs;
 import com.github.payne.generator.input.model.enums.Platform;
 import com.github.payne.generator.output.vfs.AppendableTree;
@@ -11,7 +10,6 @@ import com.github.payne.logic.modules.core.files.CoreGwtXmlFile;
 import com.github.payne.logic.root.BuildGradleFile;
 import com.github.payne.logic.root.DynamicFile;
 
-@NotImplemented
 public class CoreModule extends GdxModule {
 
     public CoreModule(String folderName) {

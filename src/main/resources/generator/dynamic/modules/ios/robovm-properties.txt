@@ -1,0 +1,6 @@
+app.version=${appVersion}
+app.id=${corePackage}
+app.mainclass=${corePackage}.ios.IOSLauncher
+app.executable=IOSLauncher
+app.build=1
+app.name=${projectName}
