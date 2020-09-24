@@ -6,7 +6,8 @@ import com.github.payne.logic.root.DynamicFile;
 public class HtmlSuperDevDefinitionGwtXmlFile extends DynamicFile {
 
     public HtmlSuperDevDefinitionGwtXmlFile(GeneratorConfigs input) {
-        super("Shared.gwt.xml", "generator/dynamic/modules/html/gwt-definition-superDev.txt",
+        super("GdxDefinitionSuperdev.gwt.xml",
+                "generator/dynamic/modules/html/gwt-definition-superDev.txt",
                 input);
     }
 

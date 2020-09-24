@@ -57,9 +57,9 @@ public class Generator implements IGenerator {
             Examples:
                 * GWT version
                 * Android Target API [9,30]
-                * Java version [7,14]
+                * Java version [7,14] + LibGdxVersion utils conversion from input
                 * GWT with other JVM languages
-                * LibGdxVersion utils conversion from input
+                * Android platform without AndroidSdk
                 * etc
          */
         return true;
