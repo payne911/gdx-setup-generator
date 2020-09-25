@@ -2,8 +2,8 @@ package com.github.payne.tests;
 
 import com.github.payne.generator.input.GeneratorConfigs;
 import com.github.payne.generator.input.model.enums.Platform;
-import com.github.payne.logic.files.root.DynamicFile;
-import com.github.payne.logic.files.root.files.SettingsGradleFile;
+import com.github.payne.logic.root.DynamicFile;
+import com.github.payne.logic.root.files.SettingsGradleFile;
 import org.junit.Test;
 
 public class LogicProcessorTests {

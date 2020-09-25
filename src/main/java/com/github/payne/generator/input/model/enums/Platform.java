@@ -1,15 +1,15 @@
 package com.github.payne.generator.input.model.enums;
 
-import com.github.payne.logic.files.modules.GdxModule;
-import com.github.payne.logic.files.modules.android.AndroidModule;
-import com.github.payne.logic.files.modules.core.CoreModule;
-import com.github.payne.logic.files.modules.desktop.DesktopModule;
-import com.github.payne.logic.files.modules.headless.HeadlessModule;
-import com.github.payne.logic.files.modules.html.HtmlModule;
-import com.github.payne.logic.files.modules.ios.IosModule;
-import com.github.payne.logic.files.modules.lwjgl3.Lwjgl3Module;
-import com.github.payne.logic.files.modules.server.ServerModule;
-import com.github.payne.logic.files.modules.shared.SharedModule;
+import com.github.payne.logic.modules.GdxModule;
+import com.github.payne.logic.modules.android.AndroidModule;
+import com.github.payne.logic.modules.core.CoreModule;
+import com.github.payne.logic.modules.desktop.DesktopModule;
+import com.github.payne.logic.modules.headless.HeadlessModule;
+import com.github.payne.logic.modules.html.HtmlModule;
+import com.github.payne.logic.modules.ios.IosModule;
+import com.github.payne.logic.modules.lwjgl3.Lwjgl3Module;
+import com.github.payne.logic.modules.server.ServerModule;
+import com.github.payne.logic.modules.shared.SharedModule;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;

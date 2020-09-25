@@ -8,13 +8,13 @@ import com.github.payne.generator.input.model.enums.Platform;
 import com.github.payne.generator.output.GeneratedProject;
 import com.github.payne.generator.output.vfs.AppendableTree;
 import com.github.payne.generator.output.vfs.FileNode;
-import com.github.payne.logic.files.modules.GdxModule;
-import com.github.payne.logic.files.root.DynamicFile;
-import com.github.payne.logic.files.root.files.GradlePropertiesFile;
-import com.github.payne.logic.files.root.files.LocalPropertiesFile;
-import com.github.payne.logic.files.root.files.ReadMeFile;
-import com.github.payne.logic.files.root.files.RootBuildGradleFile;
-import com.github.payne.logic.files.root.files.SettingsGradleFile;
+import com.github.payne.logic.modules.GdxModule;
+import com.github.payne.logic.root.DynamicFile;
+import com.github.payne.logic.root.files.GradlePropertiesFile;
+import com.github.payne.logic.root.files.LocalPropertiesFile;
+import com.github.payne.logic.root.files.ReadMeFile;
+import com.github.payne.logic.root.files.RootBuildGradleFile;
+import com.github.payne.logic.root.files.SettingsGradleFile;
 import java.util.Arrays;
 
 @NotTested
