@@ -1,6 +1,6 @@
 package com.github.payne.generator.input.model.enums;
 
-import com.github.payne.logic.root.files.GradlePropertiesFile;
+import com.github.payne.logic.files.root.files.GradlePropertiesFile;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;

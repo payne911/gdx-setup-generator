@@ -3,7 +3,7 @@ package com.github.payne.tests;
 import static org.junit.Assert.assertEquals;
 
 import com.github.payne.generator.input.GeneratorConfigs;
-import com.github.payne.logic.root.DynamicFile;
+import com.github.payne.logic.files.root.DynamicFile;
 import org.junit.Test;
 
 public class DynamicFileTests {
