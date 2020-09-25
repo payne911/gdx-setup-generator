@@ -71,14 +71,18 @@ public class LibGdxVersion implements Comparable<LibGdxVersion> {
         Integer[] ints = new Integer[MAGIC_NUMBER];
         for (int i = 0; i < MAGIC_NUMBER; i++) {
             final String VERSION_STRING = input[i];
-            boolean digit = VERSION_STRING.matches("\\d");
+            boolean digit = VERSION_STRING.matches("\\d+");
             if (!digit) {
-                throw new IllegalArgumentException(
-                        "One of the numbers in the libGDX version is not a digit.");
+                throw new IllegalArgumentException("Only numbers are allowed.");
             }
             ints[i] = Integer.valueOf(VERSION_STRING);
         }
 
         return ints;
+    }
+
+    @Override
+    public String toString() {
+        return major + "." + minor + "." + revision;
     }
 }

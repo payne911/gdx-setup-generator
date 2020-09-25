@@ -15,15 +15,13 @@ import lombok.Data;
 //@Builder
 public class GeneratorConfigs {
 
-    // todo: Annotation for "REQUIRED" fields (minimal working setup)
-
     private String projectName = "MyGdxProjectName";
     private String corePackage = "com.gdx.game";
     private String mainClass = "MainClass";
     private String assetsFolderName = "assets";
     private String androidSdkPath;
 
-    private Template template = Template.APPLICATION_LISTENER;
+    private Template template = Template.CLASSIC;
 
     private Set<AddOn> addOns = new HashSet<>();
     private Set<Platform> platforms = new HashSet<>();
@@ -70,7 +68,7 @@ public class GeneratorConfigs {
     }
 
     public boolean contains(Language language) {
-        for (VersionedLanguage lang : getLanguages()) {
+        for (VersionedLanguage lang : languages) {
             if (lang.isSameLanguage(language)) {
                 return true;
             }

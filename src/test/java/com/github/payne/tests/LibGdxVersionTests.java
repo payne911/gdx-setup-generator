@@ -26,7 +26,7 @@ public class LibGdxVersionTests {
     @Test
     public void isOlderThan_minor() {
         final String FIRST = "1.9.3";
-        final String SECOND = "1.6.9";
+        final String SECOND = "1.6.11";
         assertFalse(version(FIRST).isOlderThan(SECOND));
         assertTrue(version(SECOND).isOlderThan(FIRST));
     }
