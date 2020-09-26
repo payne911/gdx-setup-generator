@@ -1,6 +1,7 @@
 Automatically injected:
 + ${gwtVersion};
 + ${corePackage};
++ ${mainClass};
 + ${assetsFolderName};
 + ${targetAndroidApi};
 + ${javaVersion};

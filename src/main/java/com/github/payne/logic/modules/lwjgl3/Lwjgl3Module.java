@@ -5,6 +5,7 @@ import com.github.payne.generator.output.vfs.AppendableTree;
 import com.github.payne.logic.modules.GdxModule;
 import com.github.payne.logic.modules.lwjgl3.files.Lwjgl3BuildGradleFile;
 import com.github.payne.logic.root.BuildGradleFile;
+import com.github.payne.logic.templates.GdxTemplate;
 
 public class Lwjgl3Module extends GdxModule {
 
@@ -19,7 +20,11 @@ public class Lwjgl3Module extends GdxModule {
 
     @Override
     protected void customize(GeneratorConfigs input, AppendableTree vfs) {
-        // todo: TEMPLATE
         copyIcons(vfs);
+    }
+
+    @Override
+    protected void applyTemplate(GeneratorConfigs input, AppendableTree vfs, GdxTemplate template) {
+        template.addLwjgl3Launcher(input, vfs, corePackage, folderName);
     }
 }

@@ -5,10 +5,13 @@ import com.github.payne.generator.input.model.VersionedLanguage;
 import com.github.payne.generator.output.vfs.AppendableTree;
 import com.github.payne.generator.output.vfs.FileNode;
 import com.github.payne.logic.root.BuildGradleFile;
+import com.github.payne.logic.templates.GdxTemplate;
+import com.github.payne.utils.EnumMapper;
 import java.util.Arrays;
 import java.util.List;
 import lombok.Data;
 
+// todo: util method for DynamicFiles to have less code in implementations?
 @Data
 public abstract class GdxModule {
 
@@ -17,19 +20,19 @@ public abstract class GdxModule {
     /**
      * Points at the root of the module.
      */
-    protected FileNode moduleRoot;
+    protected FileNode modulePackage;
 
     /**
      * Points at the "{@code main}" folder of the module (from "{@code module/src/main}").
      */
-    protected FileNode mainFolder;
+    protected FileNode mainPackage;
 
     /**
      * Points at the last folder designated by {@link GeneratorConfigs#getCorePackage()}. For
      * example, if {@code corePackage = "com.foo.bar"}, then this attribute points to the {@code
      * bar} folder.
      */
-    protected FileNode inputPackage;
+    protected FileNode corePackage;
 
     /**
      * Template Method Design Pattern: the invariable {@link #init(GeneratorConfigs,
@@ -39,13 +42,11 @@ public abstract class GdxModule {
      * The {@code init} phase creates the "{@code moduleName/src/main}" structure and then adds each
      * JVM language's folder individually. It also takes care of automatically adding the module's
      * {@code build.gradle} file.
-     *
-     * @param input
-     * @param vfs
      */
-    public void generate(GeneratorConfigs input, AppendableTree vfs) {
+    public final void generate(GeneratorConfigs input, AppendableTree vfs) {
         init(input, vfs);
         customize(input, vfs);
+        applyTemplate(input, vfs, EnumMapper.getTemplate(input.getTemplate()));
     }
 
     private void init(GeneratorConfigs input, AppendableTree vfs) {
@@ -56,18 +57,18 @@ public abstract class GdxModule {
     }
 
     private void createModuleRoot(AppendableTree vfs) {
-        moduleRoot = vfs.addToRoot(new FileNode(folderName));
-        mainFolder = moduleRoot.getOrCreateChild("src").getOrCreateChild("main");
+        modulePackage = vfs.addToRoot(new FileNode(folderName));
+        mainPackage = modulePackage.getOrCreateChild("src").getOrCreateChild("main");
     }
 
     private void createJvmLanguageFolders(GeneratorConfigs input) {
         for (VersionedLanguage language : input.getLanguages()) {
-            mainFolder.addChild(new FileNode(language.getLanguage()));
+            mainPackage.addChild(new FileNode(language.getLanguage()));
         }
     }
 
     private void createBuildGradleFile(GeneratorConfigs input, AppendableTree vfs) {
-        vfs.addToParent(moduleRoot, getBuildGradleFile(input).createFile());
+        vfs.addToParent(modulePackage, getBuildGradleFile(input).createFile());
     }
 
     /**
@@ -75,16 +76,13 @@ public abstract class GdxModule {
      */
     private void createCorePackages(GeneratorConfigs input) {
         var packages = input.getCorePackage().split("\\.");
-        inputPackage = mainFolder.getOrCreateChild("java");
+        corePackage = mainPackage.getOrCreateChild("java");
         for (String aPackage : packages) {
-            inputPackage = inputPackage.getOrCreateChild(aPackage);
+            corePackage = corePackage.getOrCreateChild(aPackage);
         }
     }
 
-    // todo: util method for DynamicFiles
-    // todo: why DynamicFiles aren't created from Module? (Html and Ios, at least)
-
-    protected void copyIcons(AppendableTree vfs) {
+    protected final void copyIcons(AppendableTree vfs) {
         final List<String> DEST_PATH = Arrays.asList(folderName, "src", "main", "resources");
         vfs.copyFolder("generator/static/icons", DEST_PATH, false);
     }
@@ -99,4 +97,13 @@ public abstract class GdxModule {
      * things such as the creation of files specific to a particular module.
      */
     protected abstract void customize(GeneratorConfigs input, AppendableTree vfs);
+
+    /**
+     * Use the provided {@link GdxTemplate} to call the appropriate method associated with the
+     * module's implementation.
+     *
+     * @param template the template associated with the user's input.
+     */
+    protected abstract void applyTemplate(GeneratorConfigs input, AppendableTree vfs,
+            GdxTemplate template);
 }

@@ -3,7 +3,8 @@ package com.github.payne.logic.root.files;
 import com.github.payne.generator.input.GeneratorConfigs;
 import com.github.payne.generator.input.model.enums.AddOn;
 import com.github.payne.generator.input.model.enums.Platform;
-import com.github.payne.logic.root.DynamicFile;
+import com.github.payne.logic.DynamicFile;
+import com.github.payne.utils.EnumMapper;
 import com.github.payne.utils.FileUtils;
 import java.util.SortedMap;
 import java.util.TreeMap;
@@ -19,7 +20,8 @@ public class ReadMeFile extends DynamicFile {
 
     @Override
     protected void assignOtherKeys() {
-        assignKey("readmeDescription", ""); // todo: comes from Template!
+        assignKey("readmeDescription",
+                EnumMapper.getTemplate(input.getTemplate()).getReadmeDescription());
         assignKey("addGradleWrapper", getGradleWrapperString(input));
         assignKey("gradleTaskDescriptions", getGradleTasksString());
     }

@@ -4,11 +4,12 @@ import com.github.payne.generator.annotations.NotImplemented;
 import com.github.payne.generator.input.GeneratorConfigs;
 import com.github.payne.generator.input.model.enums.Platform;
 import com.github.payne.generator.output.vfs.AppendableTree;
+import com.github.payne.logic.DynamicFile;
 import com.github.payne.logic.modules.GdxModule;
 import com.github.payne.logic.modules.shared.files.SharedBuildGradleFile;
 import com.github.payne.logic.modules.shared.files.SharedGwtXmlFile;
 import com.github.payne.logic.root.BuildGradleFile;
-import com.github.payne.logic.root.DynamicFile;
+import com.github.payne.logic.templates.GdxTemplate;
 
 @NotImplemented
 public class SharedModule extends GdxModule {
@@ -26,7 +27,12 @@ public class SharedModule extends GdxModule {
     protected void customize(GeneratorConfigs input, AppendableTree vfs) {
         if (input.contains(Platform.HTML)) {
             DynamicFile gwtXmlFile = new SharedGwtXmlFile(input);
-            inputPackage.addChild(gwtXmlFile.createFile());
+            corePackage.addChild(gwtXmlFile.createFile());
         }
+    }
+
+    @Override
+    protected void applyTemplate(GeneratorConfigs input, AppendableTree vfs, GdxTemplate template) {
+        // no templates
     }
 }

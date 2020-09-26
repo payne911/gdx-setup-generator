@@ -1,7 +1,7 @@
 package com.github.payne.logic.root.files;
 
 import com.github.payne.generator.input.GeneratorConfigs;
-import com.github.payne.logic.root.DynamicFile;
+import com.github.payne.logic.DynamicFile;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;

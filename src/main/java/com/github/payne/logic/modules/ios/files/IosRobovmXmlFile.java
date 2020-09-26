@@ -1,7 +1,7 @@
 package com.github.payne.logic.modules.ios.files;
 
 import com.github.payne.generator.input.GeneratorConfigs;
-import com.github.payne.logic.root.DynamicFile;
+import com.github.payne.logic.DynamicFile;
 
 public class IosRobovmXmlFile extends DynamicFile {
 

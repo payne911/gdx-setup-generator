@@ -3,7 +3,7 @@ package com.github.payne.tests;
 import static org.junit.Assert.assertEquals;
 
 import com.github.payne.generator.input.GeneratorConfigs;
-import com.github.payne.logic.root.DynamicFile;
+import com.github.payne.logic.DynamicFile;
 import org.junit.Test;
 
 public class DynamicFileTests {
@@ -42,6 +42,9 @@ public class DynamicFileTests {
         final String corePackage = "foo.bar";
         configs.setCorePackage(corePackage);
 
+        final String mainClass = "MainClass";
+        configs.setMainClass(mainClass);
+
         final String androidSdkPath = "D:/ick";
         configs.setAndroidSdkPath(androidSdkPath);
 
@@ -68,6 +71,7 @@ public class DynamicFileTests {
         final String EXPECTED = "Automatically injected:\r\n"
                 + String.format("+ %s;\r\n", gwtVersion) // not testing the VersionUtils method
                 + String.format("+ %s;\r\n", corePackage)
+                + String.format("+ %s;\r\n", mainClass)
                 + String.format("+ %s;\r\n", assetsFolderName)
                 + String.format("+ %s;\r\n", targetAndroidApi)
                 + String.format("+ %s;\r\n", javaVersion)

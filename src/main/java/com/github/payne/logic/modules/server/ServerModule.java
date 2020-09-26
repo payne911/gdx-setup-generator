@@ -5,6 +5,7 @@ import com.github.payne.generator.output.vfs.AppendableTree;
 import com.github.payne.logic.modules.GdxModule;
 import com.github.payne.logic.modules.server.files.ServerBuildGradleFile;
 import com.github.payne.logic.root.BuildGradleFile;
+import com.github.payne.logic.templates.GdxTemplate;
 
 public class ServerModule extends GdxModule {
 
@@ -20,5 +21,10 @@ public class ServerModule extends GdxModule {
     @Override
     protected void customize(GeneratorConfigs input, AppendableTree vfs) {
         // Nothing to do
+    }
+
+    @Override
+    protected void applyTemplate(GeneratorConfigs input, AppendableTree vfs, GdxTemplate template) {
+        template.addServerLauncher(input, vfs, corePackage, folderName);
     }
 }

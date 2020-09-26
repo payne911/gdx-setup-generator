@@ -2,12 +2,13 @@ package com.github.payne.logic.modules.html;
 
 import com.github.payne.generator.input.GeneratorConfigs;
 import com.github.payne.generator.output.vfs.AppendableTree;
+import com.github.payne.logic.DynamicFile;
 import com.github.payne.logic.modules.GdxModule;
 import com.github.payne.logic.modules.html.files.HtmlBuildGradleFile;
 import com.github.payne.logic.modules.html.files.HtmlDefinitionGwtXmlFile;
 import com.github.payne.logic.modules.html.files.HtmlSuperDevDefinitionGwtXmlFile;
 import com.github.payne.logic.root.BuildGradleFile;
-import com.github.payne.logic.root.DynamicFile;
+import com.github.payne.logic.templates.GdxTemplate;
 import com.github.payne.utils.FileUtils;
 import com.github.payne.utils.LibGdxVersion;
 import java.util.Arrays;
@@ -27,14 +28,17 @@ public class HtmlModule extends GdxModule {
     @Override
     protected void customize(GeneratorConfigs input, AppendableTree vfs) {
         DynamicFile defGwtXmlFile = new HtmlDefinitionGwtXmlFile(input);
-        inputPackage.addChild(defGwtXmlFile.createFile());
+        corePackage.addChild(defGwtXmlFile.createFile());
 
         DynamicFile superDevGwtXmlFile = new HtmlSuperDevDefinitionGwtXmlFile(input);
-        inputPackage.addChild(superDevGwtXmlFile.createFile());
-
-        // todo: Template stuff!
+        corePackage.addChild(superDevGwtXmlFile.createFile());
 
         webappFolder(input, vfs);
+    }
+
+    @Override
+    protected void applyTemplate(GeneratorConfigs input, AppendableTree vfs, GdxTemplate template) {
+        template.addGwtLauncher(input, vfs, corePackage, folderName);
     }
 
     private void webappFolder(GeneratorConfigs input, AppendableTree vfs) {

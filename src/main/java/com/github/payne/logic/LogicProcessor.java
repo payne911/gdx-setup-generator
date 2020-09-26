@@ -9,12 +9,12 @@ import com.github.payne.generator.output.GeneratedProject;
 import com.github.payne.generator.output.vfs.AppendableTree;
 import com.github.payne.generator.output.vfs.FileNode;
 import com.github.payne.logic.modules.GdxModule;
-import com.github.payne.logic.root.DynamicFile;
 import com.github.payne.logic.root.files.GradlePropertiesFile;
 import com.github.payne.logic.root.files.LocalPropertiesFile;
 import com.github.payne.logic.root.files.ReadMeFile;
 import com.github.payne.logic.root.files.RootBuildGradleFile;
 import com.github.payne.logic.root.files.SettingsGradleFile;
+import com.github.payne.utils.EnumMapper;
 import java.util.Arrays;
 
 @NotTested
@@ -57,7 +57,7 @@ public class LogicProcessor {
 
     public void addPlatforms() {
         for (Platform platform : input.getPlatforms()) {
-            GdxModule module = platform.getModuleGenerator();
+            GdxModule module = EnumMapper.getModule(platform);
             module.generate(input, vfs);
         }
     }

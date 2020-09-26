@@ -21,6 +21,7 @@ import com.github.payne.generator.input.model.VersionedLanguage;
 import com.github.payne.generator.input.model.enums.AddOn;
 import com.github.payne.generator.input.model.enums.Language;
 import com.github.payne.generator.input.model.enums.Platform;
+import com.github.payne.generator.input.model.enums.Template;
 import com.github.payne.generator.output.GeneratedProject;
 import com.github.payne.generator.output.vfs.FileNode;
 import com.github.payne.ui.components.InputConfigsDisplay;
@@ -117,6 +118,7 @@ public class Visualizer extends Game {
         input.setProjectName("MyGdxProjectName");
         input.setCorePackage("com.foo");
         input.setAndroidSdkPath("C:/BobSdk");
+        input.setTemplate(Template.CLASSIC);
         input.getPlatforms().addAll(Arrays
                 .asList(Platform.CORE, Platform.ANDROID, Platform.HTML, Platform.SERVER,
                         Platform.DESKTOP_LEGACY, Platform.HEADLESS, Platform.IOS,

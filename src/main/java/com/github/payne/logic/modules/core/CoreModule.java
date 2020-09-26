@@ -3,12 +3,12 @@ package com.github.payne.logic.modules.core;
 import com.github.payne.generator.input.GeneratorConfigs;
 import com.github.payne.generator.input.model.enums.Platform;
 import com.github.payne.generator.output.vfs.AppendableTree;
-import com.github.payne.generator.output.vfs.FileNode;
+import com.github.payne.logic.DynamicFile;
 import com.github.payne.logic.modules.GdxModule;
 import com.github.payne.logic.modules.core.files.CoreBuildGradleFile;
 import com.github.payne.logic.modules.core.files.CoreGwtXmlFile;
 import com.github.payne.logic.root.BuildGradleFile;
-import com.github.payne.logic.root.DynamicFile;
+import com.github.payne.logic.templates.GdxTemplate;
 
 public class CoreModule extends GdxModule {
 
@@ -25,9 +25,12 @@ public class CoreModule extends GdxModule {
     protected void customize(GeneratorConfigs input, AppendableTree vfs) {
         if (input.contains(Platform.HTML)) {
             DynamicFile gwtXmlFile = new CoreGwtXmlFile(input);
-            inputPackage.addChild(gwtXmlFile.createFile());
+            corePackage.addChild(gwtXmlFile.createFile());
         }
-        // todo: replace below File with Template stuff!
-        inputPackage.addChild(new FileNode(input.getMainClass(), "class foo{ psvm() }".getBytes()));
+    }
+
+    @Override
+    protected void applyTemplate(GeneratorConfigs input, AppendableTree vfs, GdxTemplate template) {
+        template.addApplicationListener(input, vfs, corePackage);
     }
 }

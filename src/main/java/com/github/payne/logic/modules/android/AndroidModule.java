@@ -5,6 +5,7 @@ import com.github.payne.generator.output.vfs.AppendableTree;
 import com.github.payne.logic.modules.GdxModule;
 import com.github.payne.logic.modules.android.files.AndroidBuildGradleFile;
 import com.github.payne.logic.root.BuildGradleFile;
+import com.github.payne.logic.templates.GdxTemplate;
 
 public class AndroidModule extends GdxModule {
 
@@ -20,5 +21,10 @@ public class AndroidModule extends GdxModule {
     @Override
     protected void customize(GeneratorConfigs input, AppendableTree vfs) {
         // todo
+    }
+
+    @Override
+    protected void applyTemplate(GeneratorConfigs input, AppendableTree vfs, GdxTemplate template) {
+        template.addAndroidLauncher(input, vfs, corePackage, folderName);
     }
 }

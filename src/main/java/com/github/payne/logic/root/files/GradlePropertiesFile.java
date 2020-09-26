@@ -3,7 +3,7 @@ package com.github.payne.logic.root.files;
 import com.github.payne.generator.input.GeneratorConfigs;
 import com.github.payne.generator.input.model.enums.Language;
 import com.github.payne.generator.input.model.enums.Platform;
-import com.github.payne.logic.root.DynamicFile;
+import com.github.payne.logic.DynamicFile;
 import com.github.payne.utils.StringUtils;
 import com.github.payne.utils.VersionUtils;
 

@@ -1,8 +1,10 @@
 package com.github.payne.tests;
 
+import static org.junit.Assert.assertEquals;
+
 import com.github.payne.generator.input.GeneratorConfigs;
 import com.github.payne.generator.input.model.enums.Platform;
-import com.github.payne.logic.root.DynamicFile;
+import com.github.payne.logic.DynamicFile;
 import com.github.payne.logic.root.files.SettingsGradleFile;
 import org.junit.Test;
 

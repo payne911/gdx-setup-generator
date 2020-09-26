@@ -1,4 +1,4 @@
-package com.github.payne.logic.root;
+package com.github.payne.logic;
 
 import com.github.payne.generator.input.GeneratorConfigs;
 import com.github.payne.generator.output.vfs.FileNode;
@@ -34,13 +34,14 @@ public abstract class DynamicFile {
     protected final GeneratorConfigs input;
 
     /**
-     * Use this to define all the keys except the ones which can be extracted directly from {@link
-     * GeneratorConfigs}.
+     * Use this to define all the keys except the ones listed below (since they can be extracted
+     * directly from {@link GeneratorConfigs}).
      * <p>
      * Currently automatically extracted:
      * <ul>
      *      <li>{@code ${gwtVersion}}</li>
      *      <li>{@code ${corePackage}}</li>
+     *      <li>{@code ${mainClass}}</li>
      *      <li>{@code ${assetsFolderName}}</li>
      *      <li>{@code ${targetAndroidApi}}</li>
      *      <li>{@code ${serverJavaVersion}}</li>
@@ -56,6 +57,7 @@ public abstract class DynamicFile {
     private void assignKeys() {
         assignKey("gwtVersion", VersionUtils.deduceGwtVersion(input.getLibGdxVersion()));
         assignKey("corePackage", input.getCorePackage());
+        assignKey("mainClass", input.getMainClass());
         assignKey("assetsFolderName", input.getAssetsFolderName());
         assignKey("targetAndroidApi", input.getTargetAndroidApi().toString());
         assignKey("serverJavaVersion", input.getServerJavaVersion());
