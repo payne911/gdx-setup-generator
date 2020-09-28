@@ -1,8 +1,10 @@
 package com.github.payne.utils;
 
 import com.github.payne.generator.exceptions.ResourceFileReadException;
+import com.github.payne.generator.input.GeneratorConfigs;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -12,6 +14,8 @@ import java.util.Map.Entry;
  * same as the server to which it might be sending a request.
  */
 public final class FileUtils {
+
+    private static final Map<String, String> REPLACEMENTS = new HashMap<>();
 
     private FileUtils() {
     }
@@ -212,6 +216,53 @@ public final class FileUtils {
     public static String replaceStringContent(String initial, String key, String replacement)
             throws ResourceFileReadException {
         return initial.replaceAll(keyPattern(key), replacement);
+    }
+
+    /**
+     * Assigns the "common keys" which can be extracted automatically from the {@link
+     * GeneratorConfigs}.
+     * <p>
+     * Currently automatically injected:
+     * <ul>
+     *      <li>{@code ${gwtVersion}}</li>
+     *      <li>{@code ${corePackage}}</li>
+     *      <li>{@code ${mainClass}}</li>
+     *      <li>{@code ${assetsFolderName}}</li>
+     *      <li>{@code ${targetAndroidApi}}</li>
+     *      <li>{@code ${serverJavaVersion}}</li>
+     *      <li>{@code ${desktopJavaVersion}}</li>
+     *      <li>{@code ${androidSdkPath}}</li>
+     *      <li>{@code ${javaVersion}}</li>
+     *      <li>{@code ${appVersion}}</li>
+     *      <li>{@code ${projectName}}</li>
+     * </ul>
+     *
+     * @param initialText a String containing keys to be replaced.
+     * @return the text with all the pre-defined keys replaced.
+     */
+    public static String injectConfigs(String initialText, GeneratorConfigs input) {
+        if (REPLACEMENTS.isEmpty()) {
+            assignKey("gwtVersion", VersionUtils.deduceGwtVersion(input.getLibGdxVersion()));
+            assignKey("corePackage", input.getCorePackage());
+            assignKey("mainClass", input.getMainClass());
+            assignKey("assetsFolderName", input.getAssetsFolderName());
+            assignKey("targetAndroidApi", input.getTargetAndroidApi().toString());
+            assignKey("serverJavaVersion", input.getServerJavaVersion());
+            assignKey("desktopJavaVersion", input.getDesktopJavaVersion());
+            assignKey("androidSdkPath", input.getAndroidSdkPath());
+            assignKey("javaVersion", input.getJavaVersion());
+            assignKey("appVersion", input.getApplicationVersion());
+            assignKey("projectName", input.getProjectName());
+        }
+
+        return replaceStringContent(initialText, REPLACEMENTS);
+    }
+
+    /**
+     * Just a cleaner way to assign a key and a replacement value.
+     */
+    private static void assignKey(String key, String replacement) {
+        REPLACEMENTS.put(key, replacement);
     }
 
     private static String keyPattern(String key) {

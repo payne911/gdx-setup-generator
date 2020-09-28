@@ -10,7 +10,7 @@ public class IosRobovmPropertiesFile extends DynamicFile {
     }
 
     @Override
-    protected void assignOtherKeys() {
+    protected void assignKeys() {
         // Nothing to do
     }
 }

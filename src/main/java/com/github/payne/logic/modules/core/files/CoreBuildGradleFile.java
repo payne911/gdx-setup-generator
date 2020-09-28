@@ -10,7 +10,7 @@ public class CoreBuildGradleFile extends BuildGradleFile {
     }
 
     @Override
-    protected void assignOtherKeys() {
+    protected void assignKeys() {
         addSharedProjectDependency("api");
         gdx();
         addJvmLanguagesDependencies();

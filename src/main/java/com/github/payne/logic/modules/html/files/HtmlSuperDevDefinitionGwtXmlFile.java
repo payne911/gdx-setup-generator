@@ -12,7 +12,7 @@ public class HtmlSuperDevDefinitionGwtXmlFile extends DynamicFile {
     }
 
     @Override
-    protected void assignOtherKeys() {
+    protected void assignKeys() {
         // nothing to do
     }
 }

@@ -10,7 +10,7 @@ public class SharedGwtXmlFile extends DynamicFile {
     }
 
     @Override
-    protected void assignOtherKeys() {
+    protected void assignKeys() {
         // nothing to do here
     }
 }

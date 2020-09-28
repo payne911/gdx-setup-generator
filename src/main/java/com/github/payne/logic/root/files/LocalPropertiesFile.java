@@ -10,7 +10,7 @@ public class LocalPropertiesFile extends DynamicFile {
     }
 
     @Override
-    protected void assignOtherKeys() {
+    protected void assignKeys() {
         // nothing to do
     }
 }

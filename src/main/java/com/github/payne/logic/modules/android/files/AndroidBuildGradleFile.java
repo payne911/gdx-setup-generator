@@ -16,7 +16,7 @@ public class AndroidBuildGradleFile extends BuildGradleFile {
     }
 
     @Override
-    protected void assignOtherKeys() {
+    protected void assignKeys() {
         srcFolders();
         kotlinPlugin();
 

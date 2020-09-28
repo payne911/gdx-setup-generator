@@ -10,7 +10,7 @@ public class IosBuildGradleFile extends BuildGradleFile {
     }
 
     @Override
-    protected void assignOtherKeys() {
+    protected void assignKeys() {
         // todo: "dependencies"
 //        assignKey("dependencies", joinDependencies(dependencies, "api"));
     }

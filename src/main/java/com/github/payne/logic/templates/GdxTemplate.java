@@ -32,7 +32,7 @@ public abstract class GdxTemplate {
     public void addAndroidLauncher(GeneratorConfigs input, AppendableTree vfs,
             FileNode corePackage, String moduleName) {
         appendLauncher(corePackage, moduleName, "AndroidLauncher.java",
-                getAndroidLauncherContent());
+                getAndroidLauncherContent(), input);
     }
 
     protected String getDesktopLauncherContent() {
@@ -43,7 +43,7 @@ public abstract class GdxTemplate {
     public void addDesktopLauncher(GeneratorConfigs input, AppendableTree vfs,
             FileNode corePackage, String moduleName) {
         appendLauncher(corePackage, moduleName, "DesktopLauncher.java",
-                getDesktopLauncherContent());
+                getDesktopLauncherContent(), input);
     }
 
     protected String getLwjgl3LauncherContent() {
@@ -53,7 +53,8 @@ public abstract class GdxTemplate {
 
     public void addLwjgl3Launcher(GeneratorConfigs input, AppendableTree vfs,
             FileNode corePackage, String moduleName) {
-        appendLauncher(corePackage, moduleName, "Lwjgl3Launcher.java", getLwjgl3LauncherContent());
+        appendLauncher(corePackage, moduleName, "Lwjgl3Launcher.java",
+                getLwjgl3LauncherContent(), input);
     }
 
     protected String getGwtLauncherContent() {
@@ -63,7 +64,8 @@ public abstract class GdxTemplate {
 
     public void addGwtLauncher(GeneratorConfigs input, AppendableTree vfs,
             FileNode corePackage, String moduleName) {
-        appendLauncher(corePackage, moduleName, "GwtLauncher.java", getGwtLauncherContent());
+        appendLauncher(corePackage, moduleName, "GwtLauncher.java",
+                getGwtLauncherContent(), input);
     }
 
     protected String getHeadlessLauncherContent() {
@@ -74,7 +76,7 @@ public abstract class GdxTemplate {
     public void addHeadlessLauncher(GeneratorConfigs input, AppendableTree vfs,
             FileNode corePackage, String moduleName) {
         appendLauncher(corePackage, moduleName, "HeadlessLauncher.java",
-                getHeadlessLauncherContent());
+                getHeadlessLauncherContent(), input);
     }
 
     protected String getIosLauncherContent() {
@@ -84,7 +86,8 @@ public abstract class GdxTemplate {
 
     public void addIosLauncher(GeneratorConfigs input, AppendableTree vfs,
             FileNode corePackage, String moduleName) {
-        appendLauncher(corePackage, moduleName, "IOSLauncher.java", getIosLauncherContent());
+        appendLauncher(corePackage, moduleName, "IOSLauncher.java",
+                getIosLauncherContent(), input);
     }
 
     protected String getServerLauncherContent() {
@@ -94,13 +97,16 @@ public abstract class GdxTemplate {
 
     public void addServerLauncher(GeneratorConfigs input, AppendableTree vfs,
             FileNode corePackage, String moduleName) {
-        appendLauncher(corePackage, moduleName, "ServerLauncher.java", getServerLauncherContent());
+        appendLauncher(corePackage, moduleName, "ServerLauncher.java",
+                getServerLauncherContent(), input);
     }
 
     protected final void appendLauncher(FileNode corePackage, String folderName,
-            String launcherName, String launcherContent) {
-        FileNode appendedFolder = new FileNode(folderName);
+            String launcherName, String launcherContent, GeneratorConfigs input) {
+        FileNode appendedFolder = new FileNode(folderName); // appending the module-name folder
         corePackage.addChild(appendedFolder);
+
+        launcherContent = FileUtils.injectConfigs(launcherContent, input); // replacing all keys
         FileNode file = new FileNode(launcherName, launcherContent.getBytes());
         appendedFolder.addChild(file);
     }

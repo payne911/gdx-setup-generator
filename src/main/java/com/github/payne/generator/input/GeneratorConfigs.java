@@ -11,6 +11,10 @@ import java.util.HashSet;
 import java.util.Set;
 import lombok.Data;
 
+/**
+ * The class containing all the selected options by a user. Once it is passed to the {@link
+ * com.github.payne.logic.LogicProcessor}, it should be considered immutable.
+ */
 @Data
 //@Builder
 public class GeneratorConfigs {

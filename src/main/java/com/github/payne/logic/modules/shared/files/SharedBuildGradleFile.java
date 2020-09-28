@@ -10,7 +10,7 @@ public class SharedBuildGradleFile extends BuildGradleFile {
     }
 
     @Override
-    protected void assignOtherKeys() {
+    protected void assignKeys() {
         addJvmLanguagesDependencies();
 
         assignKey("dependencies", joinDependencies(dependencies));

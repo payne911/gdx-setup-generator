@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import lombok.Data;
-import lombok.ToString;
 
 /**
  * The representation of a File or a Folder in the {@link VirtualFileSystem}.
@@ -16,13 +15,8 @@ import lombok.ToString;
 public class FileNode {
 
     private String name;
-
-    @ToString.Exclude
     private byte[] content;
-
     private FileNode parent; // todo: maybe prevent the Setter from being generated ?
-
-    @ToString.Exclude // to prevent StackOverflow
     private List<FileNode> children = new LinkedList<>();
 
     /**
@@ -65,7 +59,7 @@ public class FileNode {
      * Recursively joins the name of the Nodes all the way to the root folder.
      *
      * @param current node currently being observed
-     * @return
+     * @return the full-path of the node, relative to the root.
      */
     private String getFullPath(FileNode current) {
         return current.isRoot()
@@ -131,5 +125,10 @@ public class FileNode {
         return children.stream()
                 .filter(node -> node.getName().equals(name))
                 .findFirst();
+    }
+
+    @Override
+    public String toString() {
+        return getFullPath();
     }
 }

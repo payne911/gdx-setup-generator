@@ -13,7 +13,7 @@ public class RootBuildGradleFile extends BuildGradleFile {
     }
 
     @Override
-    protected void assignOtherKeys() {
+    protected void assignKeys() {
         injectBuildDependencies(input);
         injectPotentialAndroidProject(input);
         injectPlugins(input);

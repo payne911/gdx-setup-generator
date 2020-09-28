@@ -10,7 +10,7 @@ public class ServerBuildGradleFile extends BuildGradleFile {
     }
 
     @Override
-    protected void assignOtherKeys() {
+    protected void assignKeys() {
         addSharedProjectDependency("implementation");
 
         assignKey("dependencies", joinDependencies(dependencies));

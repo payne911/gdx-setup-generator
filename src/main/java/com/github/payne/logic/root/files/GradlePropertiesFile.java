@@ -18,7 +18,7 @@ public class GradlePropertiesFile extends DynamicFile {
     }
 
     @Override
-    protected void assignOtherKeys() {
+    protected void assignKeys() {
         addVersions(input);
         assignKey("versionVariables", sb.toString());
     }

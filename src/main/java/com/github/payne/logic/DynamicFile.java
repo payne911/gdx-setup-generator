@@ -3,7 +3,6 @@ package com.github.payne.logic;
 import com.github.payne.generator.input.GeneratorConfigs;
 import com.github.payne.generator.output.vfs.FileNode;
 import com.github.payne.utils.FileUtils;
-import com.github.payne.utils.VersionUtils;
 import java.util.HashMap;
 import java.util.Map;
 import lombok.AccessLevel;
@@ -37,38 +36,12 @@ public abstract class DynamicFile {
      * Use this to define all the keys except the ones listed below (since they can be extracted
      * directly from {@link GeneratorConfigs}).
      * <p>
-     * Currently automatically extracted:
-     * <ul>
-     *      <li>{@code ${gwtVersion}}</li>
-     *      <li>{@code ${corePackage}}</li>
-     *      <li>{@code ${mainClass}}</li>
-     *      <li>{@code ${assetsFolderName}}</li>
-     *      <li>{@code ${targetAndroidApi}}</li>
-     *      <li>{@code ${serverJavaVersion}}</li>
-     *      <li>{@code ${desktopJavaVersion}}</li>
-     *      <li>{@code ${androidSdkPath}}</li>
-     *      <li>{@code ${javaVersion}}</li>
-     *      <li>{@code ${appVersion}}</li>
-     *      <li>{@code ${projectName}}</li>
-     * </ul>
+     * See {@link FileUtils#injectConfigs(String, GeneratorConfigs)} for the list of keys which are
+     * automatically replaced.
+     * <p>
+     * This current function gets called <i>before</i> the automatic injector is called.
      */
-    protected abstract void assignOtherKeys();
-
-    private void assignKeys() {
-        assignKey("gwtVersion", VersionUtils.deduceGwtVersion(input.getLibGdxVersion()));
-        assignKey("corePackage", input.getCorePackage());
-        assignKey("mainClass", input.getMainClass());
-        assignKey("assetsFolderName", input.getAssetsFolderName());
-        assignKey("targetAndroidApi", input.getTargetAndroidApi().toString());
-        assignKey("serverJavaVersion", input.getServerJavaVersion());
-        assignKey("desktopJavaVersion", input.getDesktopJavaVersion());
-        assignKey("androidSdkPath", input.getAndroidSdkPath());
-        assignKey("javaVersion", input.getJavaVersion());
-        assignKey("appVersion", input.getApplicationVersion());
-        assignKey("projectName", input.getProjectName());
-
-        assignOtherKeys();
-    }
+    protected abstract void assignKeys();
 
     /**
      * All of the keys (denoted by "{@code ${}}") contained in the file linked via {@link
@@ -83,7 +56,8 @@ public abstract class DynamicFile {
 
     public String getContent() {
         assignKeys();
-        return FileUtils.replaceFileContent(resourcePath, replacements);
+        String tmpResult = FileUtils.replaceFileContent(resourcePath, replacements);
+        return FileUtils.injectConfigs(tmpResult, input);
     }
 
     public FileNode createFile() {

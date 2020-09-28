@@ -18,7 +18,7 @@ public class DynamicFileTests {
         }
 
         @Override
-        protected void assignOtherKeys() {
+        protected void assignKeys() {
             assignKey("something-something", replacement);
         }
     }

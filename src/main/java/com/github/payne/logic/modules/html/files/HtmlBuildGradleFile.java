@@ -11,7 +11,7 @@ public class HtmlBuildGradleFile extends BuildGradleFile {
     }
 
     @Override
-    protected void assignOtherKeys() {
+    protected void assignKeys() {
         sharedSourceSets();
 
         // todo: add Third-Parties

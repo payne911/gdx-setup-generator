@@ -10,7 +10,7 @@ public class CoreGwtXmlFile extends DynamicFile {
     }
 
     @Override
-    protected void assignOtherKeys() {
+    protected void assignKeys() {
         // todo: "reflectedClasses" key
     }
 }

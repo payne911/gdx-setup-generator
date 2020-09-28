@@ -19,7 +19,7 @@ public class ReadMeFile extends DynamicFile {
     }
 
     @Override
-    protected void assignOtherKeys() {
+    protected void assignKeys() {
         assignKey("readmeDescription",
                 EnumMapper.getTemplate(input.getTemplate()).getReadmeDescription());
         assignKey("addGradleWrapper", getGradleWrapperString(input));
