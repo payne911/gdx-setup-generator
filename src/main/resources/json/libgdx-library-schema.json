@@ -1,0 +1,98 @@
+{
+  "$comment": "See 'JSON Schema Mappings' in IntelliJ to apply schema as a validator.",
+  "$comment": "Use  { http://www.jsonschema2pojo.org/ }  to generate POJOs from this schema.",
+  "$schema": "http://json-schema.org/draft-04/schema#",
+
+  "type": "object",
+  "required": [
+    "formatVersion",
+    "name",
+    "authors",
+    "description",
+    "projectUrl",
+    "states"
+  ],
+  "properties": {
+    "formatVersion": {
+      "type": "integer"
+    },
+    "name": {
+      "type": "string"
+    },
+    "authors": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1
+    },
+    "description": {
+      "type": "string"
+    },
+    "projectUrl": {
+      "type": "string"
+    },
+    "states": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#state"
+      }
+    }
+  },
+  "definitions": {
+    "state": {
+      "$id": "#state",
+      "type": "object",
+      "properties": {
+        "libraryVersion": {
+          "type": "string"
+        },
+        "coreDependencies": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "desktopDependencies": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "gwtDependencies": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "androidDependencies": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "iOSDependencies": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "gwtInherits": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "androidPermissions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "libraryVersion"
+      ]
+    }
+  }
+}
