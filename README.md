@@ -65,3 +65,7 @@ The replacement algorithm used for generating content dynamically from static fi
 It needs to check if the input text doesn't contain a key to avoid a "recursive" call which would explode the memory.
 
 The fix is easy to integrate, but for now this project is a MVP (Minimal Viable Product).
+
+# Documentation
+
+// todo... see: https://discordapp.com/channels/348229412858101762/522048465736433664/760021122217148466
