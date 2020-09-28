@@ -8,7 +8,7 @@ import com.github.payne.logic.folders.modules.html.files.HtmlBuildGradleFile;
 import com.github.payne.logic.folders.modules.html.files.HtmlDefinitionGwtXmlFile;
 import com.github.payne.logic.folders.modules.html.files.HtmlSuperDevDefinitionGwtXmlFile;
 import com.github.payne.logic.folders.root.BuildGradleFile;
-import com.github.payne.logic.templates.GdxTemplate;
+import com.github.payne.logic.templates.base.GdxTemplate;
 import com.github.payne.utils.FileUtils;
 import com.github.payne.utils.LibGdxVersion;
 import java.util.Arrays;

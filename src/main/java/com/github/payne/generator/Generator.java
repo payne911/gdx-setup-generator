@@ -3,8 +3,10 @@ package com.github.payne.generator;
 import com.github.payne.generator.annotations.NotTested;
 import com.github.payne.generator.input.GeneratorConfigs;
 import com.github.payne.generator.input.model.VersionedLanguage;
+import com.github.payne.generator.input.model.enums.AddOn;
 import com.github.payne.generator.input.model.enums.Language;
 import com.github.payne.generator.input.model.enums.Platform;
+import com.github.payne.generator.input.model.enums.Template;
 import com.github.payne.generator.output.GeneratedProject;
 import com.github.payne.generator.output.vfs.AppendableTree;
 import com.github.payne.generator.output.vfs.VirtualFileSystem;
@@ -63,6 +65,11 @@ public class Generator implements IGenerator {
                 * VisUi library + AddOn.Skin selected?
                 * etc
          */
+
+        if (input.getTemplate().equals(Template.SCENE_2D)) {
+            input.getAddOns().add(AddOn.GUI_ASSETS);
+        }
+
         return true;
     }
 

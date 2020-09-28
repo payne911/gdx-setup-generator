@@ -9,7 +9,12 @@ import static com.github.payne.generator.input.model.enums.Platform.IOS;
 import static com.github.payne.generator.input.model.enums.Platform.LWJGL_3;
 import static com.github.payne.generator.input.model.enums.Platform.SERVER;
 import static com.github.payne.generator.input.model.enums.Platform.SHARED;
+import static com.github.payne.generator.input.model.enums.Template.APPLICATION_ADAPTER;
+import static com.github.payne.generator.input.model.enums.Template.APPLICATION_LISTENER;
 import static com.github.payne.generator.input.model.enums.Template.CLASSIC;
+import static com.github.payne.generator.input.model.enums.Template.GAME;
+import static com.github.payne.generator.input.model.enums.Template.INPUT_PROCESSOR;
+import static com.github.payne.generator.input.model.enums.Template.SCENE_2D;
 
 import com.github.payne.generator.input.model.enums.Platform;
 import com.github.payne.generator.input.model.enums.Template;
@@ -24,8 +29,12 @@ import com.github.payne.logic.folders.modules.ios.IosModule;
 import com.github.payne.logic.folders.modules.lwjgl3.Lwjgl3Module;
 import com.github.payne.logic.folders.modules.server.ServerModule;
 import com.github.payne.logic.folders.modules.shared.SharedModule;
+import com.github.payne.logic.templates.ApplicationAdapterTemplate;
 import com.github.payne.logic.templates.ClassicTemplate;
-import com.github.payne.logic.templates.GdxTemplate;
+import com.github.payne.logic.templates.GameTemplate;
+import com.github.payne.logic.templates.InputProcessorTemplate;
+import com.github.payne.logic.templates.Scene2dTemplate;
+import com.github.payne.logic.templates.base.GdxTemplate;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -58,8 +67,12 @@ public final class EnumMapper {
     }
 
     private static void initTemplates() {
+        TEMPLATE_MAPPINGS.put(APPLICATION_ADAPTER, new ApplicationAdapterTemplate());
+        TEMPLATE_MAPPINGS.put(APPLICATION_LISTENER, new ApplicationAdapterTemplate());
         TEMPLATE_MAPPINGS.put(CLASSIC, new ClassicTemplate());
-        // todo: finish the mappings
+        TEMPLATE_MAPPINGS.put(GAME, new GameTemplate());
+        TEMPLATE_MAPPINGS.put(INPUT_PROCESSOR, new InputProcessorTemplate());
+        TEMPLATE_MAPPINGS.put(SCENE_2D, new Scene2dTemplate());
     }
 
     public static GdxModule getModule(Platform platform) {

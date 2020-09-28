@@ -1,5 +1,6 @@
 package com.github.payne.utils;
 
+import com.github.payne.generator.annotations.NotTested;
 import com.github.payne.generator.exceptions.ResourceFileReadException;
 import com.github.payne.generator.input.GeneratorConfigs;
 import java.io.IOException;
@@ -240,6 +241,7 @@ public final class FileUtils {
      * @param initialText a String containing keys to be replaced.
      * @return the text with all the pre-defined keys replaced.
      */
+    @NotTested
     public static String injectConfigs(String initialText, GeneratorConfigs input) {
         if (REPLACEMENTS.isEmpty()) {
             assignKey("gwtVersion", VersionUtils.deduceGwtVersion(input.getLibGdxVersion()));

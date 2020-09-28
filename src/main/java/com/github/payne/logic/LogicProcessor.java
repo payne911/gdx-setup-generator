@@ -1,6 +1,5 @@
 package com.github.payne.logic;
 
-import com.github.payne.generator.annotations.NotImplemented;
 import com.github.payne.generator.annotations.NotTested;
 import com.github.payne.generator.input.GeneratorConfigs;
 import com.github.payne.generator.input.model.enums.AddOn;
@@ -19,7 +18,6 @@ import com.github.payne.utils.EnumMapper;
 import java.util.Arrays;
 
 @NotTested
-@NotImplemented
 public class LogicProcessor {
 
     private final GeneratorConfigs input;
@@ -38,8 +36,6 @@ public class LogicProcessor {
         addRootFiles();
         addRootFolders();
         addGradleWrapper();
-
-        applyTemplate();
     }
 
     public void addRootFiles() {
@@ -97,10 +93,6 @@ public class LogicProcessor {
             vfs.copyFolderToRoot("generator/static/gradle", true);
             vfs.copyFolderToRoot("generator/static/gradlew", false);
         }
-    }
-
-    public void applyTemplate() {
-        // todo
     }
 
     public void addReadmeFile() {

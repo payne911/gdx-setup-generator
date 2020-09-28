@@ -1,6 +1,5 @@
 package com.github.payne.logic.folders.modules.shared;
 
-import com.github.payne.generator.annotations.NotImplemented;
 import com.github.payne.generator.input.GeneratorConfigs;
 import com.github.payne.generator.input.model.enums.Platform;
 import com.github.payne.generator.output.vfs.AppendableTree;
@@ -9,9 +8,8 @@ import com.github.payne.logic.folders.modules.GdxModule;
 import com.github.payne.logic.folders.modules.shared.files.SharedBuildGradleFile;
 import com.github.payne.logic.folders.modules.shared.files.SharedGwtXmlFile;
 import com.github.payne.logic.folders.root.BuildGradleFile;
-import com.github.payne.logic.templates.GdxTemplate;
+import com.github.payne.logic.templates.base.GdxTemplate;
 
-@NotImplemented
 public class SharedModule extends GdxModule {
 
     public SharedModule(String folderName) {

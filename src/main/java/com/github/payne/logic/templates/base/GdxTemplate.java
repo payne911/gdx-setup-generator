@@ -1,4 +1,4 @@
-package com.github.payne.logic.templates;
+package com.github.payne.logic.templates.base;
 
 import com.github.payne.generator.input.GeneratorConfigs;
 import com.github.payne.generator.output.vfs.AppendableTree;
@@ -13,6 +13,10 @@ import lombok.Getter;
  * <p>
  * For flexibility purposes, some parameters are provided in the methods even if they aren't used.
  * That allows for overriding the general behavior.
+ * <p>
+ * For example, if you wanted to add a certain file after the ApplicationListener is created, you
+ * can simply override {@link #addApplicationListener(GeneratorConfigs, AppendableTree, FileNode)}
+ * and then do your stuff right after a call to {@code super}.
  */
 @Data
 public abstract class GdxTemplate {
@@ -27,7 +31,7 @@ public abstract class GdxTemplate {
 
     protected String getAndroidLauncherContent() {
         return FileUtils.readResourceFileAsString(
-                "generator/dynamic/templates/launchers/android-launcher.txt");
+                "generator/dynamic/templates/launchers/android.txt");
     }
 
     public void addAndroidLauncher(GeneratorConfigs input, AppendableTree vfs,
@@ -38,7 +42,7 @@ public abstract class GdxTemplate {
 
     protected String getDesktopLauncherContent() {
         return FileUtils.readResourceFileAsString(
-                "generator/dynamic/templates/launchers/desktop-launcher.txt");
+                "generator/dynamic/templates/launchers/desktop.txt");
     }
 
     public void addDesktopLauncher(GeneratorConfigs input, AppendableTree vfs,
@@ -49,7 +53,7 @@ public abstract class GdxTemplate {
 
     protected String getLwjgl3LauncherContent() {
         return FileUtils.readResourceFileAsString(
-                "generator/dynamic/templates/launchers/lwjgl3-launcher.txt");
+                "generator/dynamic/templates/launchers/lwjgl3.txt");
     }
 
     public void addLwjgl3Launcher(GeneratorConfigs input, AppendableTree vfs,
@@ -60,7 +64,7 @@ public abstract class GdxTemplate {
 
     protected String getGwtLauncherContent() {
         return FileUtils
-                .readResourceFileAsString("generator/dynamic/templates/launchers/gwt-launcher.txt");
+                .readResourceFileAsString("generator/dynamic/templates/launchers/gwt.txt");
     }
 
     public void addGwtLauncher(GeneratorConfigs input, AppendableTree vfs,
@@ -71,7 +75,7 @@ public abstract class GdxTemplate {
 
     protected String getHeadlessLauncherContent() {
         return FileUtils.readResourceFileAsString(
-                "generator/dynamic/templates/launchers/headless-launcher.txt");
+                "generator/dynamic/templates/launchers/headless.txt");
     }
 
     public void addHeadlessLauncher(GeneratorConfigs input, AppendableTree vfs,
@@ -82,7 +86,7 @@ public abstract class GdxTemplate {
 
     protected String getIosLauncherContent() {
         return FileUtils
-                .readResourceFileAsString("generator/dynamic/templates/launchers/ios-launcher.txt");
+                .readResourceFileAsString("generator/dynamic/templates/launchers/ios.txt");
     }
 
     public void addIosLauncher(GeneratorConfigs input, AppendableTree vfs,
@@ -93,7 +97,7 @@ public abstract class GdxTemplate {
 
     protected String getServerLauncherContent() {
         return FileUtils.readResourceFileAsString(
-                "generator/dynamic/templates/launchers/server-launcher.txt");
+                "generator/dynamic/templates/launchers/server.txt");
     }
 
     public void addServerLauncher(GeneratorConfigs input, AppendableTree vfs,
@@ -116,6 +120,9 @@ public abstract class GdxTemplate {
      * <b>Do not</b> create a file here: this is just to get the content of the file.
      * <p>
      * The created file's name will be based off the value of {@link GeneratorConfigs#getMainClass()}.
+     * <p>
+     * The content of this file can contain keys. The keys listed in {@link
+     * FileUtils#injectConfigs(String, GeneratorConfigs)} will be automatically replaced.
      *
      * @return content of Java class implementing {@code ApplicationListener}.
      */
@@ -124,7 +131,9 @@ public abstract class GdxTemplate {
 
     public void addApplicationListener(GeneratorConfigs input, AppendableTree vfs,
             FileNode corePackage) {
-        final byte[] content = getApplicationListenerContent(input, vfs).getBytes();
+        String tmpContent = getApplicationListenerContent(input, vfs);
+        tmpContent = FileUtils.injectConfigs(tmpContent, input);
+        final byte[] content = tmpContent.getBytes();
         FileNode file = new FileNode(input.getMainClass() + ".java", content);
         corePackage.addChild(file);
     }

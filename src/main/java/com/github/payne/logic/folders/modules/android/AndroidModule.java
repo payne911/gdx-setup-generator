@@ -5,7 +5,7 @@ import com.github.payne.generator.output.vfs.AppendableTree;
 import com.github.payne.logic.folders.modules.GdxModule;
 import com.github.payne.logic.folders.modules.android.files.AndroidBuildGradleFile;
 import com.github.payne.logic.folders.root.BuildGradleFile;
-import com.github.payne.logic.templates.GdxTemplate;
+import com.github.payne.logic.templates.base.GdxTemplate;
 
 public class AndroidModule extends GdxModule {
 

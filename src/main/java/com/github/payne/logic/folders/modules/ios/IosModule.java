@@ -8,7 +8,7 @@ import com.github.payne.logic.folders.modules.ios.files.IosBuildGradleFile;
 import com.github.payne.logic.folders.modules.ios.files.IosRobovmPropertiesFile;
 import com.github.payne.logic.folders.modules.ios.files.IosRobovmXmlFile;
 import com.github.payne.logic.folders.root.BuildGradleFile;
-import com.github.payne.logic.templates.GdxTemplate;
+import com.github.payne.logic.templates.base.GdxTemplate;
 import java.util.Arrays;
 
 public class IosModule extends GdxModule {

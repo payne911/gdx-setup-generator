@@ -8,7 +8,7 @@ import com.github.payne.logic.folders.modules.GdxModule;
 import com.github.payne.logic.folders.modules.core.files.CoreBuildGradleFile;
 import com.github.payne.logic.folders.modules.core.files.CoreGwtXmlFile;
 import com.github.payne.logic.folders.root.BuildGradleFile;
-import com.github.payne.logic.templates.GdxTemplate;
+import com.github.payne.logic.templates.base.GdxTemplate;
 
 public class CoreModule extends GdxModule {
 
