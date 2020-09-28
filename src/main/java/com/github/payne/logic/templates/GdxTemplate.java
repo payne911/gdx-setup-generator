@@ -9,6 +9,8 @@ import lombok.Data;
 import lombok.Getter;
 
 /**
+ * Represents an ensemble of Launcher classes.
+ * <p>
  * For flexibility purposes, some parameters are provided in the methods even if they aren't used.
  * That allows for overriding the general behavior.
  */

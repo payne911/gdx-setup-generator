@@ -18,8 +18,8 @@ public class DesktopLauncher {
 	private static LwjglApplicationConfiguration getDefaultConfiguration() {
 		LwjglApplicationConfiguration configuration = new LwjglApplicationConfiguration();
 		configuration.title = "${projectName}";
-		configuration.width = ${width};
-		configuration.height = ${height};
+		configuration.width = 640;
+		configuration.height = 480;
 		configuration.forceExit = false; // prevents confusing error on normal exit of application
 
 		for (int size : new int[] { 128, 64, 32, 16 }) {
