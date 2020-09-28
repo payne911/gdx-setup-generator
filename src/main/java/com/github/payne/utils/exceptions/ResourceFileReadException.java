@@ -1,4 +1,4 @@
-package com.github.payne.generator.exceptions;
+package com.github.payne.utils.exceptions;
 
 import java.util.List;
 

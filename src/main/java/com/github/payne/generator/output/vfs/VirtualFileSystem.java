@@ -1,8 +1,8 @@
 package com.github.payne.generator.output.vfs;
 
-import com.github.payne.generator.annotations.NotTested;
-import com.github.payne.generator.exceptions.ResourceFileReadException;
 import com.github.payne.utils.FileUtils;
+import com.github.payne.utils.annotations.NotTested;
+import com.github.payne.utils.exceptions.ResourceFileReadException;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;

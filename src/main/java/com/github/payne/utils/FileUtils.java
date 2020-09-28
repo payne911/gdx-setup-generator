@@ -1,8 +1,8 @@
 package com.github.payne.utils;
 
-import com.github.payne.generator.annotations.NotTested;
-import com.github.payne.generator.exceptions.ResourceFileReadException;
 import com.github.payne.generator.input.GeneratorConfigs;
+import com.github.payne.utils.annotations.NotTested;
+import com.github.payne.utils.exceptions.ResourceFileReadException;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;

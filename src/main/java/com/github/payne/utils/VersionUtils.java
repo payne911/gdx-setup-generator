@@ -1,7 +1,7 @@
 package com.github.payne.utils;
 
-import com.github.payne.generator.annotations.NotTested;
 import com.github.payne.generator.input.GeneratorConfigs;
+import com.github.payne.utils.annotations.NotTested;
 
 @NotTested
 public final class VersionUtils {

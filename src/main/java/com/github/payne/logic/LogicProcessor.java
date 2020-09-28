@@ -1,6 +1,5 @@
 package com.github.payne.logic;
 
-import com.github.payne.generator.annotations.NotTested;
 import com.github.payne.generator.input.GeneratorConfigs;
 import com.github.payne.generator.input.model.enums.AddOn;
 import com.github.payne.generator.input.model.enums.Platform;
@@ -15,6 +14,7 @@ import com.github.payne.logic.folders.root.files.ReadMeFile;
 import com.github.payne.logic.folders.root.files.RootBuildGradleFile;
 import com.github.payne.logic.folders.root.files.SettingsGradleFile;
 import com.github.payne.utils.EnumMapper;
+import com.github.payne.utils.annotations.NotTested;
 import java.util.Arrays;
 
 @NotTested

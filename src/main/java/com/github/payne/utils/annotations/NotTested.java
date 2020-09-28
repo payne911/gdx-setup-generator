@@ -1,4 +1,4 @@
-package com.github.payne.generator.annotations;
+package com.github.payne.utils.annotations;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

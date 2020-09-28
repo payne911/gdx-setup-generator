@@ -1,7 +1,7 @@
 package com.github.payne.generator.output.vfs;
 
-import com.github.payne.generator.annotations.NotTested;
 import com.github.payne.utils.FileUtils;
+import com.github.payne.utils.annotations.NotTested;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.NoSuchElementException;

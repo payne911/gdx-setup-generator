@@ -1,6 +1,5 @@
 package com.github.payne.generator;
 
-import com.github.payne.generator.annotations.NotTested;
 import com.github.payne.generator.input.GeneratorConfigs;
 import com.github.payne.generator.input.model.VersionedLanguage;
 import com.github.payne.generator.input.model.enums.AddOn;
@@ -11,6 +10,7 @@ import com.github.payne.generator.output.GeneratedProject;
 import com.github.payne.generator.output.vfs.AppendableTree;
 import com.github.payne.generator.output.vfs.VirtualFileSystem;
 import com.github.payne.logic.LogicProcessor;
+import com.github.payne.utils.annotations.NotTested;
 
 @NotTested
 public class Generator implements IGenerator {
