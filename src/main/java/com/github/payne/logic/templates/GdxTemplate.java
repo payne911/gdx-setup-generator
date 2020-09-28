@@ -17,7 +17,7 @@ import lombok.Getter;
 @Data
 public abstract class GdxTemplate {
 
-    private final String readmeDescription = "The chosen setup template has no description.";
+    private final String readmeDescription;
 
     /* Sizes are kept as strings so you can set the sizes to static values, for example: MainClass.WIDTH. */
     @Getter(AccessLevel.PROTECTED)
@@ -25,10 +25,9 @@ public abstract class GdxTemplate {
     @Getter(AccessLevel.PROTECTED)
     private final String height = "480";
 
-
     protected String getAndroidLauncherContent() {
         return FileUtils.readResourceFileAsString(
-                "generator/dynamic/templates/defaults/android-launcher.txt");
+                "generator/dynamic/templates/launchers/android-launcher.txt");
     }
 
     public void addAndroidLauncher(GeneratorConfigs input, AppendableTree vfs,
@@ -39,7 +38,7 @@ public abstract class GdxTemplate {
 
     protected String getDesktopLauncherContent() {
         return FileUtils.readResourceFileAsString(
-                "generator/dynamic/templates/defaults/desktop-launcher.txt");
+                "generator/dynamic/templates/launchers/desktop-launcher.txt");
     }
 
     public void addDesktopLauncher(GeneratorConfigs input, AppendableTree vfs,
@@ -50,7 +49,7 @@ public abstract class GdxTemplate {
 
     protected String getLwjgl3LauncherContent() {
         return FileUtils.readResourceFileAsString(
-                "generator/dynamic/templates/defaults/lwjgl3-launcher.txt");
+                "generator/dynamic/templates/launchers/lwjgl3-launcher.txt");
     }
 
     public void addLwjgl3Launcher(GeneratorConfigs input, AppendableTree vfs,
@@ -61,7 +60,7 @@ public abstract class GdxTemplate {
 
     protected String getGwtLauncherContent() {
         return FileUtils
-                .readResourceFileAsString("generator/dynamic/templates/defaults/gwt-launcher.txt");
+                .readResourceFileAsString("generator/dynamic/templates/launchers/gwt-launcher.txt");
     }
 
     public void addGwtLauncher(GeneratorConfigs input, AppendableTree vfs,
@@ -72,7 +71,7 @@ public abstract class GdxTemplate {
 
     protected String getHeadlessLauncherContent() {
         return FileUtils.readResourceFileAsString(
-                "generator/dynamic/templates/defaults/headless-launcher.txt");
+                "generator/dynamic/templates/launchers/headless-launcher.txt");
     }
 
     public void addHeadlessLauncher(GeneratorConfigs input, AppendableTree vfs,
@@ -83,7 +82,7 @@ public abstract class GdxTemplate {
 
     protected String getIosLauncherContent() {
         return FileUtils
-                .readResourceFileAsString("generator/dynamic/templates/defaults/ios-launcher.txt");
+                .readResourceFileAsString("generator/dynamic/templates/launchers/ios-launcher.txt");
     }
 
     public void addIosLauncher(GeneratorConfigs input, AppendableTree vfs,
@@ -94,7 +93,7 @@ public abstract class GdxTemplate {
 
     protected String getServerLauncherContent() {
         return FileUtils.readResourceFileAsString(
-                "generator/dynamic/templates/defaults/server-launcher.txt");
+                "generator/dynamic/templates/launchers/server-launcher.txt");
     }
 
     public void addServerLauncher(GeneratorConfigs input, AppendableTree vfs,
