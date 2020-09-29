@@ -1,9 +1,16 @@
-package com.github.payne.utils;
+package com.github.payne.generator.input.model;
 
+import com.github.payne.generator.input.GeneratorConfigs;
 import lombok.Data;
 
 @Data
 public class LibGdxVersion implements Comparable<LibGdxVersion> {
+
+    /**
+     * Use this when you want a library to have exactly the same version string as the selected
+     * libGDX version (which comes from {@link GeneratorConfigs#getLibGdxVersion()}.
+     */
+    public static final String GRADLE_PROPERTIES_PREFIX = "gdx";
 
     private int major;
     private int minor;

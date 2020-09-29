@@ -1,6 +1,7 @@
 package com.github.payne.logic.folders.modules.html.files;
 
 import com.github.payne.generator.input.GeneratorConfigs;
+import com.github.payne.generator.input.model.GdxThirdParty.State;
 import com.github.payne.generator.input.model.enums.Platform;
 import com.github.payne.logic.folders.root.BuildGradleFile;
 
@@ -14,8 +15,9 @@ public class HtmlBuildGradleFile extends BuildGradleFile {
     protected void assignKeys() {
         sharedSourceSets();
 
-        // todo: add Third-Parties
-//        assignKey("dependencies", joinDependencies(dependencies, "api"));
+        addThirdPartiesToModule(dependencies, State::getGwtDependencies,
+                "dependencies", "implementation");
+        // todo: gwt inherits?
     }
 
     private void sharedSourceSets() {

@@ -1,7 +1,7 @@
 package com.github.payne.logic.folders.root.files;
 
 import com.github.payne.generator.input.GeneratorConfigs;
-import com.github.payne.generator.input.model.enums.Extension;
+import com.github.payne.generator.input.model.LibGdxVersion;
 import com.github.payne.generator.input.model.enums.Language;
 import com.github.payne.generator.input.model.enums.Platform;
 import com.github.payne.logic.folders.DynamicFile;
@@ -30,10 +30,16 @@ public class GradlePropertiesFile extends DynamicFile {
             }
             addVersion(lang.getLanguage(), lang.getDefaultVersion());
         });
+
+        input.getJsonLibraries().forEach(
+                libraryJson -> addVersion(StringUtils.keepAlphaNumerics(libraryJson.getName()),
+                        libraryJson.getState(input.getLibGdxVersionObject()).getLibraryVersion()));
+        // todo: get rid of deprecated or implement adapter to use JsonLibrary way
         input.getLibraries().forEach(lib ->
-                addVersion(StringUtils.keepLetters(lib.getLibrary()), lib.getDefaultVersion()));
-        input.getExtensions().forEach(ext ->
-                addVersion(StringUtils.keepLetters(ext.getId()), ext.getPropertyVersion()));
+                addVersion(StringUtils.keepAlphaNumerics(lib.getLibrary()),
+                        lib.getDefaultVersion()));
+        input.getLegacyExtensions().forEach(ext ->
+                addVersion(StringUtils.keepAlphaNumerics(ext.getId()), ext.getPropertyVersion()));
 
         String gdxVersion = input.getLibGdxVersion();
         if (input.contains(Platform.HTML)) {
@@ -46,7 +52,7 @@ public class GradlePropertiesFile extends DynamicFile {
         if (input.contains(Platform.IOS)) {
             addVersion("robovm", input.getRoboVmVersion());
         }
-        addVersion(Extension.LibraryVersion.GDX_VERSION, gdxVersion);
+        addVersion(LibGdxVersion.GRADLE_PROPERTIES_PREFIX, gdxVersion);
     }
 
     private void addProperty(String name, String suffix, String value) {

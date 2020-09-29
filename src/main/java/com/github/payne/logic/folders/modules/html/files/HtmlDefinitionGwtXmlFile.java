@@ -11,6 +11,6 @@ public class HtmlDefinitionGwtXmlFile extends DynamicFile {
 
     @Override
     protected void assignKeys() {
-        // todo: "sortedInherits" key
+        // todo: "${sortedInherits}"
     }
 }

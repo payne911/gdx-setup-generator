@@ -25,7 +25,7 @@ public final class StringUtils {
         return current;
     }
 
-    public static String keepLetters(String input) {
-        return input.replaceAll("[^A-Za-z]+", "");
+    public static String keepAlphaNumerics(String input) {
+        return input.replaceAll("[^A-Za-z0-9]+", "");
     }
 }

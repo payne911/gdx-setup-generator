@@ -2,6 +2,7 @@ package com.github.payne.generator.input.model;
 
 import com.github.payne.utils.Pair;
 
+@Deprecated
 public class VersionedLibrary {
 
     private Pair<String, String> library;

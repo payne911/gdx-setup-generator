@@ -1,6 +1,7 @@
 package com.github.payne.logic.folders.modules.lwjgl3.files;
 
 import com.github.payne.generator.input.GeneratorConfigs;
+import com.github.payne.generator.input.model.GdxThirdParty.State;
 import com.github.payne.logic.folders.root.BuildGradleFile;
 
 public class Lwjgl3BuildGradleFile extends BuildGradleFile {
@@ -11,7 +12,7 @@ public class Lwjgl3BuildGradleFile extends BuildGradleFile {
 
     @Override
     protected void assignKeys() {
-        // todo: "dependencies"
-//        assignKey("dependencies", joinDependencies(dependencies, "api"));
+        addThirdPartiesToModule(dependencies, State::getDesktopDependencies,
+                "dependencies", "implementation");
     }
 }

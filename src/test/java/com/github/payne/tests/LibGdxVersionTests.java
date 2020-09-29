@@ -4,7 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import com.github.payne.utils.LibGdxVersion;
+import com.github.payne.generator.input.model.LibGdxVersion;
 import java.util.Arrays;
 import java.util.List;
 import org.junit.Test;

@@ -50,7 +50,7 @@ public class Generator implements IGenerator {
     }
 
     /**
-     * @return {@code false} only if the {@link GeneratorConfigs} provided has something wrong.
+     * @return {@code false} only if the provided {@link GeneratorConfigs} has something wrong.
      */
     private boolean validate(GeneratorConfigs input) {
         // todo: validation on inputs ?
@@ -68,6 +68,13 @@ public class Generator implements IGenerator {
 
         if (input.getTemplate().equals(Template.SCENE_2D)) {
             input.getAddOns().add(AddOn.GUI_ASSETS);
+        }
+
+        try {
+            input.getLibGdxVersionObject(); // checking if String is a valid gdx version
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+            return false;
         }
 
         return true;

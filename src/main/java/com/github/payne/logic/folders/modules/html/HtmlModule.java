@@ -1,6 +1,7 @@
 package com.github.payne.logic.folders.modules.html;
 
 import com.github.payne.generator.input.GeneratorConfigs;
+import com.github.payne.generator.input.model.LibGdxVersion;
 import com.github.payne.generator.output.vfs.AppendableTree;
 import com.github.payne.logic.folders.DynamicFile;
 import com.github.payne.logic.folders.modules.GdxModule;
@@ -10,7 +11,6 @@ import com.github.payne.logic.folders.modules.html.files.HtmlSuperDevDefinitionG
 import com.github.payne.logic.folders.root.BuildGradleFile;
 import com.github.payne.logic.templates.base.GdxTemplate;
 import com.github.payne.utils.FileUtils;
-import com.github.payne.utils.LibGdxVersion;
 import java.util.Arrays;
 import java.util.List;
 

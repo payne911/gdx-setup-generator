@@ -1,6 +1,7 @@
 package com.github.payne.logic.folders.modules.android.files;
 
 import com.github.payne.generator.input.GeneratorConfigs;
+import com.github.payne.generator.input.model.GdxThirdParty.State;
 import com.github.payne.generator.input.model.VersionedLanguage;
 import com.github.payne.generator.input.model.enums.Language;
 import com.github.payne.logic.folders.root.BuildGradleFile;
@@ -9,6 +10,7 @@ import java.util.Set;
 
 public class AndroidBuildGradleFile extends BuildGradleFile {
 
+    protected final Set<String> nativeDependencies = new LinkedHashSet<>();
     private final Set<String> srcFolders = new LinkedHashSet<>();
 
     public AndroidBuildGradleFile(final GeneratorConfigs input) {
@@ -20,8 +22,10 @@ public class AndroidBuildGradleFile extends BuildGradleFile {
         srcFolders();
         kotlinPlugin();
 
-        // todo: "dependencies", "nativeDependencies"
-//        assignKey("dependencies", joinDependencies(dependencies, "api"));
+        addThirdPartiesToModule(dependencies, State::getAndroidDependencies,
+                "dependencies", "implementation");
+        addThirdPartiesToModule(nativeDependencies, State::getAndroidNativeDependencies,
+                "nativeDependencies", "natives");
     }
 
     private void srcFolders() {

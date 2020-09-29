@@ -1,6 +1,7 @@
 package com.github.payne.logic.folders.modules.core.files;
 
 import com.github.payne.generator.input.GeneratorConfigs;
+import com.github.payne.generator.input.model.GdxThirdParty.State;
 import com.github.payne.logic.folders.root.BuildGradleFile;
 
 public class CoreBuildGradleFile extends BuildGradleFile {
@@ -14,10 +15,9 @@ public class CoreBuildGradleFile extends BuildGradleFile {
         addSharedProjectDependency("api");
         gdx();
         addJvmLanguagesDependencies();
-
-        // todo: add Third-Parties
-
-        assignKey("dependencies", joinDependencies(dependencies, "api"));
+        addThirdPartiesToModule(dependencies, State::getCoreDependencies,
+                "dependencies", "api");
+        // todo: "${reflectedClasses}"
     }
 
     private void gdx() {

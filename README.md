@@ -53,8 +53,9 @@ For GWT-compatibility, this needs to be changed:
 
 * ``FileUtils#readResourceFile`` uses a ClassLoader
 * ``FileUtils#replaceResourceFileContent`` uses a Regex
-* ``StringUtils#keepLetters`` uses a Regex
+* ``StringUtils#keepAlphaNumerics`` uses a Regex
 * ``LibGdxVersion#transform`` uses a Regex
+* ``BuildGradleFile#getDependencyString`` uses a Regex
 
 Once the project is GWT-compatible, it should be possible to generate a file structure directly from a frontend.
 
