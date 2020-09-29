@@ -8,7 +8,6 @@ import com.badlogic.gdx.utils.Align;
 import com.github.payne.generator.input.GeneratorConfigs;
 import java.lang.reflect.Field;
 import lombok.Data;
-import lombok.SneakyThrows;
 
 @Data
 public class InputConfigsDisplay {
@@ -16,7 +15,6 @@ public class InputConfigsDisplay {
     private final Skin skin;
     private final Table table;
 
-    @SneakyThrows
     public void init() {
         table.clearChildren();
         table.align(Align.topLeft);
@@ -30,9 +28,15 @@ public class InputConfigsDisplay {
             field.setAccessible(true);
             var label = new Label(field.getName() + ": ", skin);
             boolean isString = field.getType().getSimpleName().equals("String");
-            boolean nonNull = field.get(defaults) != null;
-            var input = new TextField(isString && nonNull ? field.get(defaults).toString() : "",
-                    skin);
+            TextField input;
+            try {
+                boolean nonNull = field.get(defaults) != null;
+                input = new TextField(isString && nonNull ? field.get(defaults).toString() : "",
+                        skin);
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+                input = new TextField("SOME ERROR HAPPENED", skin);
+            }
 
             table.add(label).align(Align.left);
             table.add(input).growX();
