@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.function.BiConsumer;
 import java.util.stream.Collectors;
 import lombok.Data;
 
@@ -171,11 +172,29 @@ public class VirtualFileSystem implements AppendableTree {
     }
 
     @Override
-    public void sortByNames() {
-        bfsSort(root);
+    public void depthFirstTraversal(BiConsumer<FileNode, Integer> consumer) {
+        depthFirstNavigation(consumer, root, 0);
     }
 
-    private void bfsSort(FileNode node) {
+    private void depthFirstNavigation(BiConsumer<FileNode, Integer> consumer,
+            FileNode current, int depth) {
+        System.out.println("depth: " + depth + " | node: " + current);
+
+        consumer.accept(current, depth); // apply the user's desired Consumer
+
+        // recursive call through the sorted tree
+        depth++;
+        for (FileNode n : current.getChildren()) {
+            depthFirstNavigation(consumer, n, depth);
+        }
+    }
+
+    @Override
+    public void sortByNames() {
+        recursiveSort(root);
+    }
+
+    private void recursiveSort(FileNode node) {
         Map<Boolean, List<FileNode>> split = node.getChildren().stream()
                 .collect(Collectors.partitioningBy(FileNode::isFolder));
         List<FileNode> folders = split.get(true);
@@ -185,11 +204,11 @@ public class VirtualFileSystem implements AppendableTree {
         sortByName(files);
 
         List<FileNode> sortedList = new LinkedList<>();
-        sortedList.addAll(folders); // folders first
+        sortedList.addAll(folders); // folders listed first
         sortedList.addAll(files);
         node.setChildren(sortedList); // replacing older list
 
-        folders.forEach(this::bfsSort); // recursively going through all sub-folders
+        folders.forEach(this::recursiveSort); // recursively going through all sub-folders
     }
 
     private void sortByName(List<FileNode> nodes) {

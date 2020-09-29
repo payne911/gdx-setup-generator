@@ -1,6 +1,7 @@
 package com.github.payne.generator.output.vfs;
 
 import java.util.List;
+import java.util.function.BiConsumer;
 
 /**
  * Basic CREATE operations for a Virtual File System. For the methods requiring a path as a {@code
@@ -169,6 +170,19 @@ public interface AppendableTree {
      * @return {@code true} only if {@code srcPathFromRes} pointed to a valid folder.
      */
     boolean copyFolderToRoot(String srcPathFromRes, boolean include);
+
+    /**
+     * Traverses the whole tree structure in a depth-first-search way.
+     * <p>
+     * The {@code BiConsumer} will be applied on nodes as it traverses. <b>The first argument is the
+     * node currently being traversed, and the second argument is the depth of that node</b>.
+     * <p>
+     * The traversal starts at the root (the project's folder), with a depth of 0. Thus, for
+     * example, the {@code assets} folder would have a depth of 1 in the Consumer.
+     *
+     * @param consumer an action to be applied on every node of the tree.
+     */
+    void depthFirstTraversal(BiConsumer<FileNode, Integer> consumer);
 
     /**
      * Places folders and then files in alphabetical order recursively through each folder, starting

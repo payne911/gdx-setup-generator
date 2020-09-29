@@ -38,7 +38,6 @@ public class Visualizer extends Game {
     public Generator generator = new Generator();
     public GeneratorConfigs input;
     public GeneratedProject output;
-    public FileNode root;
 
     Label fileContent;
     Label fileFullPath;
@@ -130,29 +129,18 @@ public class Visualizer extends Game {
                 new VersionedLanguage(Language.SCALA)));
 
         output = generator.generateFileStructure(input);
-        root = output.getVirtualFileSystem().getRoot();
-        navigate(root, 0);
-    }
-
-    private void navigate(FileNode node, int depth) {
-        System.out.println("depth: " + depth + " | node: " + node);
-
-        var fileBtn = new TextButton(prefix(node) + node.getName(), skin);
-        filesList.add(fileBtn).padLeft(depth * 20).growX().row();
-        fileBtn.getLabel().setAlignment(Align.left);
-        fileBtn.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                fileFullPath.setText(node.getFullPath());
-                fileContent.setText(node.isFolder() ? "" : new String(node.getContent()));
-            }
+        output.getVirtualFileSystem().depthFirstTraversal((node, depth) -> {
+            var fileBtn = new TextButton(prefix(node) + node.getName(), skin);
+            filesList.add(fileBtn).padLeft(depth * 20).growX().row();
+            fileBtn.getLabel().setAlignment(Align.left);
+            fileBtn.addListener(new ClickListener() {
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    fileFullPath.setText(node.getFullPath());
+                    fileContent.setText(node.isFolder() ? "" : new String(node.getContent()));
+                }
+            });
         });
-
-        // recursive call through the sorted tree
-        depth++;
-        for (FileNode n : node.getChildren()) {
-            navigate(n, depth);
-        }
     }
 
     private String prefix(FileNode node) {
