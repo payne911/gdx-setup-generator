@@ -12,6 +12,7 @@
     "projectUrl",
     "states"
   ],
+  "additionalProperties": false,
   "properties": {
     "formatVersion": {
       "type": "integer"
@@ -88,8 +89,21 @@
           "items": {
             "type": "string"
           }
+        },
+        "androidNativeDependencies": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "incompatiblePlatforms": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
         }
       },
+      "additionalProperties": false,
       "required": [
         "libraryVersion"
       ]

@@ -1,0 +1,24 @@
+{
+  "formatVersion": 1,
+  "name": "gdx-ai",
+  "authors": [
+    "libGDX-official-extension",
+    "Tom-Ski"
+  ],
+  "description": "Artificial Intelligence framework for games based on libGDX or not. Features: Steering Behaviors, Formation Motion, Pathfinding, Behavior Trees and Finite State Machines.",
+  "projectUrl": "https://github.com/libgdx/gdx-ai",
+  "states": {
+    "1.9.11": {
+      "libraryVersion": "1.8.2",
+      "coreDependencies": [
+        "com.badlogicgames.gdx:gdx-ai"
+      ],
+      "gwtDependencies": [
+        "com.badlogicgames.gdx:gdx-ai:sources"
+      ],
+      "gwtInherits": [
+        "com.badlogic.gdx.ai"
+      ]
+    }
+  }
+}

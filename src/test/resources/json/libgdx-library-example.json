@@ -8,7 +8,7 @@
   "projectUrl": "https://github.com/crykn/libgdx-screenmanager",
   "states": {
     "1.9.11": {
-      "version": "0.6.2",
+      "libraryVersion": "0.6.2",
       "coreDependencies": [
         "com.github.crykn:libgdx-screenmanager"
       ],
@@ -27,10 +27,14 @@
       ],
       "androidPermissions": [
         "I_DONT_KNOW"
+      ],
+      "androidNativeDependencies": [
+        "com.badlogicgames.gdx:gdx-box2d-platform:natives-armeabi",
+        "com.badlogicgames.gdx:gdx-box2d-platform:natives-armeabi-v7a"
       ]
     },
     "1.9.10": {
-      "version": "0.5.1",
+      "libraryVersion": "0.5.1",
       "coreDependencies": [
         "com.github.crykn:libgdx-screenmanager"
       ],
