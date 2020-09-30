@@ -5,8 +5,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
-import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.SplitPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -44,8 +42,10 @@ public class Visualizer extends Game {
     public GeneratorConfigs input;
     public GeneratedProject output;
 
-    FileContentDisplay fileContentDisplay;
-    FilesListDisplay filesListDisplay;
+    FileContentDisplay contentDisplay;
+    FilesListDisplay listDisplay;
+    InputConfigsDisplay configsDisplay;
+
     SplitPane bottomSplit;
 
     @Override
@@ -61,19 +61,17 @@ public class Visualizer extends Game {
     }
 
     private void setUp() {
-        fileContentDisplay = new FileContentDisplay(skin);
-        filesListDisplay = new FilesListDisplay(skin);
+        contentDisplay = new FileContentDisplay(skin);
+        listDisplay = new FilesListDisplay(skin);
+        configsDisplay = new InputConfigsDisplay(skin);
 
-        SplitPane topSplit = new SplitPane(filesListDisplay.getTable(),
-                fileContentDisplay.getTable(), false, skin);
+        SplitPane topSplit = new SplitPane(listDisplay.getScrollPane(),
+                contentDisplay.getTable(), false, skin);
         Table bottomTable = new Table(skin);
         bottomSplit = new SplitPane(topSplit, bottomTable, true, skin);
 
-        Table inputTable = new Table(skin);
-        ScrollPane inputPane = new ScrollPane(inputTable);
-        Button generateBtn = new TextButton("GO", skin);
-        bottomTable.add(inputPane).grow();
-        bottomTable.add(generateBtn).width(160).growY();
+        bottomTable.add(configsDisplay.getScrollPane()).grow();
+        bottomTable.add(configsDisplay.getGenerateBtn()).width(160).growY();
         bottomTable.defaults().pad(10);
 
         topSplit.setMinSplitAmount(.2f);
@@ -85,24 +83,15 @@ public class Visualizer extends Game {
 
         main.add(bottomSplit).grow();
 
-        displayConfigs(inputTable);
-
-        generateBtn.addListener(new ClickListener() {
+        configsDisplay.getGenerateBtn().addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                filesListDisplay.clear();
-                fileContentDisplay.getFileContent().setText("");
-                fileContentDisplay.getFileFullPath().setText("");
+                listDisplay.clear();
+                contentDisplay.clear();
                 bottomSplit.setSplitAmount(.9f);
                 generate();
-                fileContentDisplay.getScrollPane().setScrollBarPositions(false, false);
             }
         });
-    }
-
-    private void displayConfigs(Table table) {
-        InputConfigsDisplay inputs = new InputConfigsDisplay(skin, table);
-        inputs.init();
     }
 
     private void generate() {
@@ -125,13 +114,14 @@ public class Visualizer extends Game {
         output = generator.generateFileStructure(input);
         output.getVirtualFileSystem().depthFirstTraversal((node, depth) -> {
             var fileBtn = new TextButton(prefix(node) + node.getName(), skin);
-            filesListDisplay.add(fileBtn).padLeft(depth * 20).growX().row();
+            listDisplay.add(fileBtn).padLeft(depth * 20).growX().row();
             fileBtn.getLabel().setAlignment(Align.left);
             fileBtn.addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
-                    fileContentDisplay.getFileFullPath().setText(node.getFullPath());
-                    fileContentDisplay.getFileContent()
+                    contentDisplay.resetScroll();
+                    contentDisplay.getFullPath().setText(node.getFullPath());
+                    contentDisplay.getContent()
                             .setText(node.isFolder() ? "" : new String(node.getContent()));
                 }
             });

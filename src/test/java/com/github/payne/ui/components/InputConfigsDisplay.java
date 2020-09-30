@@ -1,8 +1,11 @@
 package com.github.payne.ui.components;
 
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.utils.Align;
 import com.github.payne.generator.input.GeneratorConfigs;
@@ -14,8 +17,19 @@ public class InputConfigsDisplay {
 
     private final Skin skin;
     private final Table table;
+    private final ScrollPane scrollPane;
+    private final Button generateBtn;
 
-    public void init() {
+    public InputConfigsDisplay(Skin skin) {
+        this.skin = skin;
+        table = new Table(skin);
+        scrollPane = new ScrollPane(table);
+        generateBtn = new TextButton("GO", skin);
+
+        init();
+    }
+
+    private void init() {
         table.clearChildren();
         table.align(Align.topLeft);
         table.defaults().pad(4);

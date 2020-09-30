@@ -17,21 +17,32 @@ public class FileContentDisplay {
     private final Table table;
     private final ScrollPane scrollPane;
 
-    private Label fileFullPath;
-    private Label fileContent;
+    private Label fullPath;
+    private Label content;
 
     public FileContentDisplay(Skin skin) {
         this.skin = skin;
         table = new Table(skin);
 
-        fileContent = new Label("Click on a file (on the left) to see its content", skin);
-        fileContent.setAlignment(Align.topLeft);
+        content = new Label("Click on a file (on the left) to see its content", skin);
+        content.setAlignment(Align.topLeft);
 
-        scrollPane = new ScrollPane(fileContent);
-        fileFullPath = new Label("Full path of the selected file", skin);
+        scrollPane = new ScrollPane(content);
+        fullPath = new Label("Full path of the selected file", skin);
 
-        table.add(fileFullPath).padBottom(25).growX().row();
+        table.add(fullPath).padBottom(25).growX().row();
         table.add(scrollPane).grow();
         table.defaults().pad(10);
+    }
+
+    public void clear() {
+        content.setText("");
+        fullPath.setText("");
+        resetScroll();
+    }
+
+    public void resetScroll() {
+        scrollPane.setScrollX(0);
+        scrollPane.setScrollY(0);
     }
 }

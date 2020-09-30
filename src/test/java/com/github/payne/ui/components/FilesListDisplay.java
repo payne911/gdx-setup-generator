@@ -14,23 +14,28 @@ public class FilesListDisplay {
 
     private final Skin skin;
     private final Table table;
-
-    private ScrollPane filesListScrollPane;
+    private final ScrollPane scrollPane;
 
     public FilesListDisplay(Skin skin) {
         this.skin = skin;
         table = new Table(skin);
 
-        filesListScrollPane = new ScrollPane(table);
+        scrollPane = new ScrollPane(table);
         table.add(new Label("Files will appear here", skin)).grow();
         table.align(Align.topLeft).defaults().pad(2.5f);
     }
 
     public void clear() {
         table.clearChildren();
+        resetScroll();
     }
 
     public Cell<Button> add(Button btn) {
         return table.add(btn);
+    }
+
+    public void resetScroll() {
+        scrollPane.setScrollX(0);
+        scrollPane.setScrollY(0);
     }
 }
