@@ -62,15 +62,17 @@ public abstract class GdxTemplate {
                 getLwjgl3LauncherContent(), input);
     }
 
-    protected String getGwtLauncherContent() {
-        return FileUtils
-                .readResourceFileAsString("generator/dynamic/templates/launchers/gwt.txt");
+    protected String getGwtLauncherContent(boolean isBefore12) {
+        final String PATH = isBefore12
+                ? "generator/dynamic/templates/launchers/gwt_old.txt"
+                : "generator/dynamic/templates/launchers/gwt.txt";
+        return FileUtils.readResourceFileAsString(PATH);
     }
 
     public void addGwtLauncher(GeneratorConfigs input, AppendableTree vfs,
             FileNode corePackage, String moduleName) {
         appendLauncher(corePackage, moduleName, "GwtLauncher.java",
-                getGwtLauncherContent(), input);
+                getGwtLauncherContent(input.getLibGdxVersionObject().isOlderThan("1.9.12")), input);
     }
 
     protected String getHeadlessLauncherContent() {

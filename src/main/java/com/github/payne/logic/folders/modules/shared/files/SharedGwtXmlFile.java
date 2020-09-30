@@ -6,7 +6,7 @@ import com.github.payne.logic.folders.DynamicFile;
 public class SharedGwtXmlFile extends DynamicFile {
 
     public SharedGwtXmlFile(GeneratorConfigs input) {
-        super("Shared.gwt.xml", "generator/dynamic/modules/shared/gwt.txt", input);
+        super("Shared.gwt.xml", "generator/dynamic/modules/shared/gwt-definition.txt", input);
     }
 
     @Override

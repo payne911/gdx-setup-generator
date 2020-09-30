@@ -47,7 +47,12 @@ While this file-oriented approach breaks a few software engineering principles, 
 * Another interesting difference is the existence of "dynamic files": instead of having text-blocks in the code, certain files are part of the resources and include "keys" at specific places which are to be dynamically replaced in the code.
 * Moreover, the project was ported from Kotlin to Java to increase maintainability on the long-term (as not everyone knows Kotlin). The secondary goal is to facilitate an eventually GWT-compatible version.
 
-## GWT
+## Commits
+A few of the more recent commits weren't yet ported in:
+
+* https://github.com/tommyettinger/gdx-liftoff/commit/8f4c20e2fb952a31be762091d0788af07f18afe4
+
+# GWT
 
 For GWT-compatibility, this needs to be changed:
 

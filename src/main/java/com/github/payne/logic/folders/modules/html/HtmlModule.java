@@ -46,17 +46,20 @@ public class HtmlModule extends GdxModule {
         List<String> webAppDestPath = FileUtils.appendFilePath(htmlModuleDestPath, "webapp");
 
         vfs.copyFolder("generator/static/html/webapp", htmlModuleDestPath, true);
-        vfs.copyFile(getSoundManagerPath(input), webAppDestPath, "soundmanager2-jsmin.js");
+
+        LibGdxVersion gdxVersion = input.getLibGdxVersionObject();
+        if (gdxVersion.isOlderThan("1.9.12")) {
+            vfs.copyFile(getSoundManagerPath(gdxVersion), webAppDestPath, "soundmanager2-jsmin.js");
+            vfs.copyFile("generator/static/html/alternates/index_old.html", webAppDestPath,
+                    "index.html");
+        } else {
+            vfs.copyFile("generator/static/html/alternates/index.html", webAppDestPath);
+        }
     }
 
-    private String getSoundManagerPath(GeneratorConfigs input) {
-        try {
-            LibGdxVersion gdxVersion = new LibGdxVersion(input.getLibGdxVersion());
-            return gdxVersion.isOlderThan("1.9.6")
-                    ? "generator/static/html/alternates/soundmanager2-jsmin_old.js"
-                    : "generator/static/html/alternates/soundmanager2-jsmin.js";
-        } catch (Exception e) {
-            return "generator/static/html/alternates/soundmanager2-jsmin.js";
-        }
+    private String getSoundManagerPath(LibGdxVersion gdxVersion) {
+        return gdxVersion.isOlderThan("1.9.6")
+                ? "generator/static/html/alternates/soundmanager2-jsmin_old.js"
+                : "generator/static/html/alternates/soundmanager2-jsmin.js";
     }
 }
