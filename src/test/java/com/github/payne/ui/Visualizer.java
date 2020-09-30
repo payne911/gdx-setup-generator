@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.SplitPane;
@@ -27,6 +26,7 @@ import com.github.payne.generator.input.model.enums.Template;
 import com.github.payne.generator.output.GeneratedProject;
 import com.github.payne.generator.output.vfs.FileNode;
 import com.github.payne.ui.components.FileContentDisplay;
+import com.github.payne.ui.components.FilesListDisplay;
 import com.github.payne.ui.components.InputConfigsDisplay;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -45,7 +45,7 @@ public class Visualizer extends Game {
     public GeneratedProject output;
 
     FileContentDisplay fileContentDisplay;
-    Table filesList;
+    FilesListDisplay filesListDisplay;
     SplitPane bottomSplit;
 
     @Override
@@ -61,28 +61,20 @@ public class Visualizer extends Game {
     }
 
     private void setUp() {
-        Table fileContentTable = new Table(skin);
-        fileContentDisplay = new FileContentDisplay(skin, fileContentTable);
-        fileContentDisplay.init();
+        fileContentDisplay = new FileContentDisplay(skin);
+        filesListDisplay = new FilesListDisplay(skin);
 
-        filesList = new Table(skin);
-        ScrollPane filesListScrollPane = new ScrollPane(filesList);
-        SplitPane topSplit = new SplitPane(filesListScrollPane, fileContentTable, false, skin);
+        SplitPane topSplit = new SplitPane(filesListDisplay.getTable(),
+                fileContentDisplay.getTable(), false, skin);
         Table bottomTable = new Table(skin);
         bottomSplit = new SplitPane(topSplit, bottomTable, true, skin);
-
-        filesList.add(new Label("Files will appear here", skin)).grow();
 
         Table inputTable = new Table(skin);
         ScrollPane inputPane = new ScrollPane(inputTable);
         Button generateBtn = new TextButton("GO", skin);
         bottomTable.add(inputPane).grow();
         bottomTable.add(generateBtn).width(160).growY();
-
-        int pad = 10;
-        fileContentTable.defaults().pad(pad);
-        bottomTable.defaults().pad(pad);
-        filesList.align(Align.topLeft).defaults().pad(2.5f);
+        bottomTable.defaults().pad(10);
 
         topSplit.setMinSplitAmount(.2f);
         topSplit.setMaxSplitAmount(.8f);
@@ -98,7 +90,7 @@ public class Visualizer extends Game {
         generateBtn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                filesList.clearChildren();
+                filesListDisplay.clear();
                 fileContentDisplay.getFileContent().setText("");
                 fileContentDisplay.getFileFullPath().setText("");
                 bottomSplit.setSplitAmount(.9f);
@@ -133,7 +125,7 @@ public class Visualizer extends Game {
         output = generator.generateFileStructure(input);
         output.getVirtualFileSystem().depthFirstTraversal((node, depth) -> {
             var fileBtn = new TextButton(prefix(node) + node.getName(), skin);
-            filesList.add(fileBtn).padLeft(depth * 20).growX().row();
+            filesListDisplay.add(fileBtn).padLeft(depth * 20).growX().row();
             fileBtn.getLabel().setAlignment(Align.left);
             fileBtn.addListener(new ClickListener() {
                 @Override

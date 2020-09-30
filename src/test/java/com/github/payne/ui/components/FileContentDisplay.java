@@ -15,12 +15,15 @@ public class FileContentDisplay {
 
     private final Skin skin;
     private final Table table;
+    private final ScrollPane scrollPane;
 
     private Label fileFullPath;
     private Label fileContent;
-    private ScrollPane scrollPane;
 
-    public void init() {
+    public FileContentDisplay(Skin skin) {
+        this.skin = skin;
+        table = new Table(skin);
+
         fileContent = new Label("Click on a file (on the left) to see its content", skin);
         fileContent.setAlignment(Align.topLeft);
 
@@ -29,5 +32,6 @@ public class FileContentDisplay {
 
         table.add(fileFullPath).padBottom(25).growX().row();
         table.add(scrollPane).grow();
+        table.defaults().pad(10);
     }
 }
