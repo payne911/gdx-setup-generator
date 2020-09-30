@@ -51,6 +51,7 @@ While this file-oriented approach breaks a few software engineering principles, 
 A few of the more recent commits weren't yet ported in:
 
 * https://github.com/tommyettinger/gdx-liftoff/commit/8f4c20e2fb952a31be762091d0788af07f18afe4
+* https://github.com/tommyettinger/gdx-liftoff/commit/9d06e3d524061c6090215a0b0a0c839428c7232b
 
 # GWT
 
