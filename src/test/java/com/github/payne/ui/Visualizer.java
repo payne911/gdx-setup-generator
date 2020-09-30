@@ -2,13 +2,18 @@ package com.github.payne.ui;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.SplitPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
@@ -26,6 +31,7 @@ import com.github.payne.generator.output.vfs.FileNode;
 import com.github.payne.ui.components.FileContentDisplay;
 import com.github.payne.ui.components.FilesListDisplay;
 import com.github.payne.ui.components.InputConfigsDisplay;
+import com.payne.games.piemenu.PieMenu;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -38,15 +44,17 @@ public class Visualizer extends Game {
     public Table main;
     public Skin skin;
 
+    public PieMenu menu;
+
     public Generator generator = new Generator();
     public GeneratorConfigs input;
     public GeneratedProject output;
 
-    FileContentDisplay contentDisplay;
-    FilesListDisplay listDisplay;
-    InputConfigsDisplay configsDisplay;
+    public FileContentDisplay contentDisplay;
+    public FilesListDisplay listDisplay;
+    public InputConfigsDisplay configsDisplay;
 
-    SplitPane bottomSplit;
+    public SplitPane bottomSplit;
 
     @Override
     public void create() {
@@ -57,10 +65,11 @@ public class Visualizer extends Game {
         stage.addActor(main);
         Gdx.input.setInputProcessor(stage);
 
-        setUp();
+        setUpComponents();
+        pieMenu();
     }
 
-    private void setUp() {
+    private void setUpComponents() {
         contentDisplay = new FileContentDisplay(skin);
         listDisplay = new FilesListDisplay(skin);
         configsDisplay = new InputConfigsDisplay(skin);
@@ -160,6 +169,54 @@ public class Visualizer extends Game {
         return (node.isFolder() ? "[X]" : "") + " ";
     }
 
+    /**
+     * Model taken from:  https://github.com/payne911/PieMenu/wiki/Examples#click-drag
+     */
+    private void pieMenu() {
+        PieMenu.PieMenuStyle style = new PieMenu.PieMenuStyle();
+        style.separatorWidth = 2;
+        style.circumferenceWidth = 2;
+        style.backgroundColor = new Color(1, 1, 1, .1f);
+        style.separatorColor = new Color(.1f, .1f, .1f, 1);
+        style.downColor = new Color(.7f, .2f, .2f, 1);
+        style.sliceColor = new Color(.4f, .1f, .1f, 1);
+        menu = new PieMenu(skin.getRegion("white"), style, 110, .33f);
+
+        menu.setInfiniteSelectionRange(true);
+        menu.setSelectionButton(Input.Buttons.RIGHT); // right-click for interactions
+
+        menu.addActor(new Label("EXPAND", skin));
+        menu.addActor(new Label("HIDE", skin));
+
+        menu.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                if (menu.getSelectedIndex() == 0) {
+                    bottomSplit.setSplitAmount(.15f);
+                } else {
+                    bottomSplit.setSplitAmount(.9f);
+                }
+
+                menu.setVisible(false);
+                menu.remove();
+            }
+        });
+    }
+
+    /**
+     * To be used to get the user to transition directly into {@code InputListener#touchDragged(InputEvent,
+     * float, float, int)} as if he had triggered {@code InputListener#touchDown(InputEvent, float,
+     * float, int, int)}.<br> I am not certain this is the recommended way of doing this, but for
+     * the purposes of this demonstration, it works!
+     *
+     * @param stage  the stage.
+     * @param widget the PieMenu on which to transfer the interaction.
+     */
+    private void transferInteraction(Stage stage, PieMenu widget) {
+        stage.addTouchFocus(widget.getPieMenuListener(), widget, widget, 0,
+                widget.getSelectionButton());
+    }
+
     @Override
     public void render() {
         Gdx.gl.glClearColor(.8f, .8f, 0.8f, 1);
@@ -168,6 +225,13 @@ public class Visualizer extends Game {
 
         stage.act();
         stage.draw();
+
+        if (Gdx.input.isButtonJustPressed(menu.getSelectionButton())) {
+            stage.addActor(menu);
+            menu.centerOnMouse();
+            menu.setVisible(true);
+            transferInteraction(stage, menu);
+        }
     }
 
     @Override

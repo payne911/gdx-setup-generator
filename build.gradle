@@ -16,9 +16,11 @@ group 'com.github.payne'
 version '1.0-SNAPSHOT'
 
 def gdxVersion = '1.9.11'
+def pieMenuVersion = '4.2.0'
 
 repositories {
     mavenCentral()
+    maven { url 'https://jitpack.io' }
 }
 
 dependencies {
@@ -26,6 +28,7 @@ dependencies {
 
     testImplementation group: 'com.badlogicgames.gdx', name: 'gdx-backend-lwjgl', version: gdxVersion
     testImplementation group: 'com.badlogicgames.gdx', name: 'gdx-platform', version: gdxVersion, classifier: 'natives-desktop'
+    testImplementation "com.github.payne911:PieMenu:$pieMenuVersion"
 }
 
 // TestLogger gradle plugin doc: https://github.com/radarsh/gradle-test-logger-plugin#configuration
