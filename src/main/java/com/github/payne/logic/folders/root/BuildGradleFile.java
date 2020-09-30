@@ -65,11 +65,14 @@ public abstract class BuildGradleFile extends DynamicFile {
     }
 
     /**
+     * Specifically designed for the treatment of dependencies coming from a JSON.
+     *
      * @param jsonDependency something like {@code com.github.crykn:libgdx-screenmanager} or {@code
      *                       com.badlogicgames.gdx:gdx-box2d-platform:natives-armeabi}
      * @param libraryName    something like {@code my-library}
      * @return something like {@code com.github.crykn:libgdx-screenmanager:$mylibraryVersion}
      * @see StringUtils#keepAlphaNumerics(String)
+     * @see GdxThirdParty
      */
     @NotTested
     protected String getDependencyString(String jsonDependency, String libraryName) {
@@ -92,12 +95,15 @@ public abstract class BuildGradleFile extends DynamicFile {
     }
 
     /**
+     * Specifically designed for the treatment of dependencies coming from a JSON.
+     *
      * @param dependenciesCollection the collection of dependencies that will have the string
      *                               appended
      * @param getModuleDeps          the extracted collection of dependencies coming from the json
      *                               for the appropriate module
      * @param key                    key to be replaced (for example: "{@code dependencies}")
      * @param depType                a dependency type, such as "{@code implementation}"
+     * @see GdxThirdParty
      */
     @NotTested
     protected void addThirdPartiesToModule(Set<String> dependenciesCollection,
