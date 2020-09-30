@@ -26,6 +26,7 @@ import com.github.payne.generator.input.model.enums.Platform;
 import com.github.payne.generator.input.model.enums.Template;
 import com.github.payne.generator.output.GeneratedProject;
 import com.github.payne.generator.output.vfs.FileNode;
+import com.github.payne.ui.components.FileContentDisplay;
 import com.github.payne.ui.components.InputConfigsDisplay;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -43,8 +44,7 @@ public class Visualizer extends Game {
     public GeneratorConfigs input;
     public GeneratedProject output;
 
-    Label fileContent;
-    Label fileFullPath;
+    FileContentDisplay fileContentDisplay;
     Table filesList;
     SplitPane bottomSplit;
 
@@ -61,20 +61,17 @@ public class Visualizer extends Game {
     }
 
     private void setUp() {
-        filesList = new Table(skin);
         Table fileContentTable = new Table(skin);
+        fileContentDisplay = new FileContentDisplay(skin, fileContentTable);
+        fileContentDisplay.init();
+
+        filesList = new Table(skin);
         ScrollPane filesListScrollPane = new ScrollPane(filesList);
         SplitPane topSplit = new SplitPane(filesListScrollPane, fileContentTable, false, skin);
         Table bottomTable = new Table(skin);
         bottomSplit = new SplitPane(topSplit, bottomTable, true, skin);
 
         filesList.add(new Label("Files will appear here", skin)).grow();
-        fileFullPath = new Label("Full path of the selected file", skin);
-        fileContent = new Label("Click on a file (on the left) to see its content", skin);
-        fileContent.setAlignment(Align.topLeft);
-        ScrollPane fileContentScrollPane = new ScrollPane(fileContent);
-        fileContentTable.add(fileFullPath).padBottom(25).growX().row();
-        fileContentTable.add(fileContentScrollPane).grow();
 
         Table inputTable = new Table(skin);
         ScrollPane inputPane = new ScrollPane(inputTable);
@@ -102,11 +99,11 @@ public class Visualizer extends Game {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 filesList.clearChildren();
-                fileContent.setText("");
-                fileFullPath.setText("");
+                fileContentDisplay.getFileContent().setText("");
+                fileContentDisplay.getFileFullPath().setText("");
                 bottomSplit.setSplitAmount(.9f);
                 generate();
-                fileContentScrollPane.setScrollBarPositions(false, false);
+                fileContentDisplay.getScrollPane().setScrollBarPositions(false, false);
             }
         });
     }
@@ -141,8 +138,9 @@ public class Visualizer extends Game {
             fileBtn.addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
-                    fileFullPath.setText(node.getFullPath());
-                    fileContent.setText(node.isFolder() ? "" : new String(node.getContent()));
+                    fileContentDisplay.getFileFullPath().setText(node.getFullPath());
+                    fileContentDisplay.getFileContent()
+                            .setText(node.isFolder() ? "" : new String(node.getContent()));
                 }
             });
         });
