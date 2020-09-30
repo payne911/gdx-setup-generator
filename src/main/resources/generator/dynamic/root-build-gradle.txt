@@ -34,3 +34,5 @@ subprojects {
 		jcenter()
 	}
 }
+
+eclipse.project.name = appName + '-parent'
