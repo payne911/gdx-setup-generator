@@ -99,31 +99,31 @@ public class InputConfigsDisplay {
         var defaults = new GeneratorConfigs(); // dummy to get default values
 
         title("MAIN SETTINGS");
-        textField("libGdxVersion", libGdxVersion, defaults.getLibGdxVersion());
-        textField("projectName", projectName, defaults.getProjectName());
+        libGdxVersion = textField("libGdxVersion", defaults.getLibGdxVersion()).getActor();
+        projectName = textField("projectName", defaults.getProjectName()).getActor();
         table.row();
-        textField("corePackage", corePackage, defaults.getCorePackage());
-        textField("mainClass", mainClass, defaults.getMainClass());
+        corePackage = textField("corePackage", defaults.getCorePackage()).getActor();
+        mainClass = textField("mainClass", defaults.getMainClass()).getActor();
         table.row();
-        textField("assetsFolderName", assetsFolderName, defaults.getAssetsFolderName());
-        textField("javaVersion", javaVersion, defaults.getJavaVersion());
+        assetsFolderName = textField("assetsFolderName", defaults.getAssetsFolderName()).getActor();
+        javaVersion = textField("javaVersion", defaults.getJavaVersion()).getActor();
 
         table.row();
         title("MODULES");
         Table platforms = new Table(skin);
         platforms.defaults().padLeft(30).padRight(30).align(Align.left);
         label(platforms, "Select a platform: ");
-        checkBox(platforms, "android", androidPlatform);
-        checkBox(platforms, "desktop", desktopPlatform);
-        checkBox(platforms, "lwjgl3", lwjgl3Platform, true);
-        checkBox(platforms, "html", htmlPlatform);
-        checkBox(platforms, "headless", headlessPlatform);
-        checkBox(platforms, "ios", iosPlatform);
+        androidPlatform = checkBox(platforms, Platform.ANDROID.getString()).getActor();
+        desktopPlatform = checkBox(platforms, Platform.DESKTOP_LEGACY.getString()).getActor();
+        lwjgl3Platform = checkBox(platforms, Platform.LWJGL_3.getString(), true).getActor();
+        htmlPlatform = checkBox(platforms, Platform.HTML.getString()).getActor();
+        headlessPlatform = checkBox(platforms, Platform.HEADLESS.getString()).getActor();
+        iosPlatform = checkBox(platforms, Platform.IOS.getString()).getActor();
         platforms.row();
         label(platforms, "Extra modules: ");
-        checkBox(platforms, "core", corePlatform, true, true);
-        checkBox(platforms, "server", serverPlatform);
-        checkBox(platforms, "shared", sharedPlatform).colspan(4);
+        corePlatform = checkBox(platforms, Platform.CORE.getString(), true, true).getActor();
+        serverPlatform = checkBox(platforms, Platform.SERVER.getString()).getActor();
+        sharedPlatform = checkBox(platforms, Platform.SHARED.getString()).colspan(4).getActor();
         table.add(platforms).colspan(4);
 
         table.row();
@@ -131,69 +131,80 @@ public class InputConfigsDisplay {
         Table templates = new Table(skin);
         templates.defaults().padLeft(30).padRight(30);
         label(templates, "Select a template: ");
-        selectBox(templates, templatesList, 2, "application-adapter", "application-listener",
-                "classic", "game", "input-processor", "scene2d");
+        templatesList = selectBox(templates, 2,
+                Template.APPLICATION_ADAPTER.getString(),
+                Template.APPLICATION_LISTENER.getString(),
+                Template.CLASSIC.getString(),
+                Template.GAME.getString(),
+                Template.INPUT_PROCESSOR.getString(),
+                Template.SCENE_2D.getString())
+                .getActor();
         table.add(templates).colspan(4);
 
         table.row();
         title("ADD ONS");
         Table addOns = new Table(skin);
         addOns.defaults().padLeft(30).padRight(30);
-        checkBox(addOns, "gui-assets", guiAssetsAddon, true);
-        checkBox(addOns, "readme", readMeAddon, true);
-        checkBox(addOns, "gradle-wrapper", gradleWrapperAddon);
+        guiAssetsAddon = checkBox(addOns, AddOn.GUI_ASSETS.getString(), true).getActor();
+        readMeAddon = checkBox(addOns, AddOn.README.getString(), true).getActor();
+        gradleWrapperAddon = checkBox(addOns, AddOn.GRADLE_WRAPPER.getString()).getActor();
         table.add(addOns).colspan(4);
 
         table.row();
         title("JVM LANGUAGES");
         Table jvmLanguages = new Table(skin);
         jvmLanguages.defaults().padLeft(30).padRight(30);
-        checkBox(jvmLanguages, "java", javaLanguage, true, true);
-        checkBox(jvmLanguages, "kotlin", kotlinLanguage);
-        checkBox(jvmLanguages, "scala", scalaLanguage);
-        checkBox(jvmLanguages, "groovy", groovyLanguage);
+        javaLanguage = checkBox(jvmLanguages, Language.JAVA.getString(), true, true).getActor();
+        kotlinLanguage = checkBox(jvmLanguages, Language.KOTLIN.getString()).getActor();
+        scalaLanguage = checkBox(jvmLanguages, Language.SCALA.getString()).getActor();
+        groovyLanguage = checkBox(jvmLanguages, Language.GROOVY.getString()).getActor();
         table.add(jvmLanguages).colspan(4);
 
         table.row();
         title("ADVANCED SETTINGS");
-        textField("applicationVersion", applicationVersion, defaults.getApplicationVersion());
-        textField("postGenerationTask", postGenerationTask, defaults.getPostGenerationTask());
+        applicationVersion = textField("applicationVersion", defaults.getApplicationVersion())
+                .getActor();
+        postGenerationTask = textField("postGenerationTask", defaults.getPostGenerationTask())
+                .getActor();
         table.row();
-        textField("serverJavaVersion", serverJavaVersion, defaults.getServerJavaVersion());
-        textField("desktopJavaVersion", desktopJavaVersion, defaults.getDesktopJavaVersion());
+        serverJavaVersion = textField("serverJavaVersion", defaults.getServerJavaVersion())
+                .getActor();
+        desktopJavaVersion = textField("desktopJavaVersion", defaults.getDesktopJavaVersion())
+                .getActor();
         table.row();
-        textField("gwtPluginVersion", gwtPluginVersion, defaults.getGwtPluginVersion());
-        textField("roboVmVersion", roboVmVersion, defaults.getRoboVmVersion());
+        gwtPluginVersion = textField("gwtPluginVersion", defaults.getGwtPluginVersion()).getActor();
+        roboVmVersion = textField("roboVmVersion", defaults.getRoboVmVersion()).getActor();
         table.row();
-        textField("androidSdkPath", androidSdkPath, "C:/something/somewhere/sdk");
-        textField("androidPluginVersion", androidPluginVersion, defaults.getAndroidPluginVersion());
+        androidSdkPath = textField("androidSdkPath", "C:/something/somewhere/sdk").getActor();
+        androidPluginVersion = textField("androidPluginVersion", defaults.getAndroidPluginVersion())
+                .getActor();
         table.row();
-        textField("targetAndroidApi", targetAndroidApi, defaults.getTargetAndroidApi().toString());
-        textField("fakeJsonDependencies", fakeJsonDependencies, "1");
+        targetAndroidApi = textField("targetAndroidApi", defaults.getTargetAndroidApi().toString())
+                .getActor();
+        fakeJsonDependencies = textField("fakeJsonDependencies", "1").getActor();
     }
 
-    private Cell<TextField> textField(String name, TextField injected, String defaults) {
+    private Cell<TextField> textField(String name, String defaults) {
         label(name + ":").align(Align.left);
-        injected = new TextField(defaults, skin);
+        var injected = new TextField(defaults, skin);
         return table.add(injected).growX();
     }
 
-    private Cell<CheckBox> checkBox(Table groupTable, String name, CheckBox checkBox,
-            boolean checkedByDefault, boolean isDisabled) {
-        checkBox = new CheckBox(" " + name, skin);
+    private Cell<CheckBox> checkBox(Table groupTable, String name, boolean checkedByDefault,
+            boolean isDisabled) {
+        var checkBox = new CheckBox(" " + name, skin);
         checkBox.setChecked(checkedByDefault);
         checkBox.setDisabled(isDisabled);
         checkBox.align(Align.left);
         return groupTable.add(checkBox).growX();
     }
 
-    private Cell<CheckBox> checkBox(Table groupTable, String name, CheckBox checkBox,
-            boolean checkedByDefault) {
-        return checkBox(groupTable, name, checkBox, checkedByDefault, false);
+    private Cell<CheckBox> checkBox(Table groupTable, String name, boolean checkedByDefault) {
+        return checkBox(groupTable, name, checkedByDefault, false);
     }
 
-    private Cell<CheckBox> checkBox(Table groupTable, String name, CheckBox checkBox) {
-        return checkBox(groupTable, name, checkBox, false, false);
+    private Cell<CheckBox> checkBox(Table groupTable, String name) {
+        return checkBox(groupTable, name, false, false);
     }
 
     private Cell<Label> title(String text) {
@@ -212,9 +223,8 @@ public class InputConfigsDisplay {
         return table.add(label);
     }
 
-    private Cell<SelectBox<String>> selectBox(Table table, SelectBox<String> selectBox, int index,
-            String... items) {
-        selectBox = new SelectBox<>(skin);
+    private Cell<SelectBox<String>> selectBox(Table table, int index, String... items) {
+        SelectBox<String> selectBox = new SelectBox<>(skin);
         selectBox.setItems(items);
         selectBox.setSelectedIndex(index);
         return table.add(selectBox);
