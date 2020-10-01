@@ -41,8 +41,8 @@ public class InputConfigsDisplay {
     private CheckBox serverPlatform;
     private CheckBox sharedPlatform;
 
-    /* Template */
-    private SelectBox<String> template;
+    /* Templates */
+    private SelectBox<String> templatesList;
 
     /* AddOns */
     private CheckBox readMeAddon;
@@ -64,6 +64,7 @@ public class InputConfigsDisplay {
     private TextField roboVmVersion;
     private TextField androidSdkPath;
     private TextField androidPluginVersion;
+    private TextField targetAndroidApi;
 
     public InputConfigsDisplay(Skin skin) {
         this.skin = skin;
@@ -78,9 +79,9 @@ public class InputConfigsDisplay {
     private void configureTable() {
         table.clearChildren();
         table.align(Align.topLeft);
-        table.defaults().pad(4);
+        table.defaults().align(Align.left).pad(4);
 
-        table.setDebug(true); // todo: comment
+//        table.setDebug(true); // todo: comment
     }
 
     private void setUp() {
@@ -116,15 +117,12 @@ public class InputConfigsDisplay {
 
         table.row();
         title("TEMPLATE");
-        template = new SelectBox<>(skin);
-        // TODO
-        template.setItems();
-//        APPLICATION_ADAPTER("application-adapter"),
-//        APPLICATION_LISTENER("application-listener"),
-//        CLASSIC("classic"),
-//        GAME("game"),
-//        INPUT_PROCESSOR("input-processor"),
-//        SCENE_2D("scene2d");
+        Table templates = new Table(skin);
+        templates.defaults().padLeft(30).padRight(30);
+        label(templates, "Select a template: ");
+        selectBox(templates, templatesList, 2, "application-adapter", "application-listener",
+                "classic", "game", "input-processor", "scene2d");
+        table.add(templates).colspan(4);
 
         table.row();
         title("ADD ONS");
@@ -159,8 +157,8 @@ public class InputConfigsDisplay {
         textField("androidSdkPath", androidSdkPath, "C:/something/somewhere/sdk");
         textField("androidPluginVersion", androidPluginVersion, defaults.getAndroidPluginVersion());
         table.row();
-        // todo: SelectBox of Integers (targetAndroidApi)
-        // todo: SelectBox of Integers (jsonLibraries) : amount of fake libs
+        textField("targetAndroidApi", targetAndroidApi, defaults.getTargetAndroidApi().toString());
+        // todo: SelectBox of Integers (jsonLibraries) : amount of fake libs ?
     }
 
     private Cell<TextField> textField(String name, TextField injected, String defaults) {
@@ -188,8 +186,9 @@ public class InputConfigsDisplay {
     }
 
     private Cell<Label> title(String text) {
-        label("-= " + text + " =-").colspan(4).padTop(20).padBottom(20);
-        return table.row();
+        var title = label("-= " + text + " =-").colspan(4).padTop(35).padBottom(10);
+        table.row();
+        return title.align(Align.center);
     }
 
     private Cell<Label> label(String text) {
@@ -201,6 +200,15 @@ public class InputConfigsDisplay {
         Label label = new Label(text, skin);
         return table.add(label);
     }
+
+    private Cell<SelectBox> selectBox(Table table, SelectBox selectBox, int index,
+            String... items) {
+        selectBox = new SelectBox<>(skin);
+        selectBox.setItems(items);
+        selectBox.setSelectedIndex(index);
+        return table.add(selectBox);
+    }
+
 
     public GeneratorConfigs extractConfigs() {
         GeneratorConfigs extracted = new GeneratorConfigs();
@@ -220,6 +228,7 @@ public class InputConfigsDisplay {
         extracted.setRoboVmVersion(roboVmVersion.getText());
         extracted.setAndroidSdkPath(androidSdkPath.getText());
         extracted.setAndroidPluginVersion(androidPluginVersion.getText());
+        extracted.setTargetAndroidApi(Integer.valueOf(targetAndroidApi.getText()));
 
         // todo: finish the mapping
 
