@@ -24,8 +24,6 @@ public class IosModule extends GdxModule {
 
     @Override
     protected void customize(GeneratorConfigs input, AppendableTree vfs) {
-        // todo: TEMPLATE
-
         vfs.copyFolder("generator/static/ios", Arrays.asList(folderName), false);
 
         DynamicFile roboProperties = new IosRobovmPropertiesFile(input);
@@ -33,8 +31,6 @@ public class IosModule extends GdxModule {
 
         DynamicFile roboXml = new IosRobovmXmlFile(input);
         modulePackage.addChild(roboXml.createFile());
-
-        // todo: Reflected classes (ios.ktx L94)
     }
 
     @Override

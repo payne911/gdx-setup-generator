@@ -11,7 +11,6 @@ public class HeadlessBuildGradleFile extends BuildGradleFile {
 
     @Override
     protected void assignKeys() {
-        // todo: "dependencies"
-//        assignKey("dependencies", joinDependencies(dependencies, "api"));
+        // nothing to do
     }
 }

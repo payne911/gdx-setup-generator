@@ -6,8 +6,6 @@ import lombok.Data;
 /**
  * The result of passing the {@link com.github.payne.generator.input.GeneratorConfigs} in the {@link
  * com.github.payne.generator.Generator}.
- * <p>
- * todo: implement Visitor pattern for the users to be able to easily do stuff with the VFS
  */
 @Data
 public class GeneratedProject {

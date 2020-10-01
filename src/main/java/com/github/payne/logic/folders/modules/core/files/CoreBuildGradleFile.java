@@ -17,7 +17,6 @@ public class CoreBuildGradleFile extends BuildGradleFile {
         addJvmLanguagesDependencies();
         addThirdPartiesToModule(dependencies, State::getCoreDependencies,
                 "dependencies", "api");
-        // todo: "${reflectedClasses}"
     }
 
     private void gdx() {

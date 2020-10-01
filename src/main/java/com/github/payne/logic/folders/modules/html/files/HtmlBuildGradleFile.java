@@ -14,10 +14,8 @@ public class HtmlBuildGradleFile extends BuildGradleFile {
     @Override
     protected void assignKeys() {
         sharedSourceSets();
-
         addThirdPartiesToModule(dependencies, State::getGwtDependencies,
                 "dependencies", "implementation");
-        // todo: gwt inherits?
     }
 
     private void sharedSourceSets() {
