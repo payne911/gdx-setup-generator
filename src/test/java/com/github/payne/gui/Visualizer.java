@@ -1,4 +1,4 @@
-package com.github.payne.ui;
+package com.github.payne.gui;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
@@ -21,9 +21,9 @@ import com.github.payne.generator.Generator;
 import com.github.payne.generator.input.GeneratorConfigs;
 import com.github.payne.generator.output.GeneratedProject;
 import com.github.payne.generator.output.vfs.FileNode;
-import com.github.payne.ui.components.FileContentDisplay;
-import com.github.payne.ui.components.FilesListDisplay;
-import com.github.payne.ui.components.InputConfigsDisplay;
+import com.github.payne.gui.components.FileContentDisplay;
+import com.github.payne.gui.components.FilesListDisplay;
+import com.github.payne.gui.components.InputConfigsDisplay;
 import com.payne.games.piemenu.PieMenu;
 
 public class Visualizer extends Game {

@@ -1,4 +1,4 @@
-package com.github.payne.ui.components;
+package com.github.payne.gui.components;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
