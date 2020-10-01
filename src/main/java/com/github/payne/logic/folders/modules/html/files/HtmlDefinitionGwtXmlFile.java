@@ -12,11 +12,10 @@ public class HtmlDefinitionGwtXmlFile extends DynamicFile {
 
     @Override
     protected void assignKeys() {
-        if (input.contains(Platform.SHARED)) {
-            // todo: if support 3rd parties, "sortedInherits" needs to be updated with pattern:
-            // gwtInherits.joinToString(separator = "\n") { "\t<inherits name=\"$it\" />" }}
-            assignKey("sortedInherits",
-                    "<inherits name=\"" + input.getCorePackage() + ".Shared\" />");
-        }
+        // todo: if support 3rd parties, "sharedInherits" needs to be updated with pattern:
+        // gwtInherits.joinToString(separator = "\n") { "\t<inherits name=\"$it\" />" }}
+        assignKey("sharedInherits", input.contains(Platform.SHARED)
+                ? "<inherits name=\"" + input.getCorePackage() + ".Shared\" />"
+                : "");
     }
 }
