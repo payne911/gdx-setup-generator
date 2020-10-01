@@ -14,6 +14,7 @@ import com.github.payne.logic.folders.root.files.ReadMeFile;
 import com.github.payne.logic.folders.root.files.RootBuildGradleFile;
 import com.github.payne.logic.folders.root.files.SettingsGradleFile;
 import com.github.payne.utils.EnumMapper;
+import com.github.payne.utils.FileUtils;
 import com.github.payne.utils.annotations.NotTested;
 import java.util.Arrays;
 
@@ -30,6 +31,7 @@ public class LogicProcessor {
         this.project = project;
         this.vfs = project.getVirtualFileSystem();
         this.root = vfs.getRoot();
+        FileUtils.clearCache();
     }
 
     public void applyInputs() {

@@ -260,6 +260,10 @@ public final class FileUtils {
         return replaceStringContent(initialText, REPLACEMENTS);
     }
 
+    public static void clearCache() {
+        REPLACEMENTS.clear();
+    }
+
     /**
      * Just a cleaner way to assign a key and a replacement value.
      */

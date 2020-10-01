@@ -2,7 +2,9 @@
 <!DOCTYPE module PUBLIC "-//Google Inc.//DTD Google Web Toolkit ${gwtVersion}//EN" "http://www.gwtproject.org/doctype/${gwtVersion}/gwt-module.dtd">
 <module rename-to="html">
 	<source path="" />
-${sortedInherits}
+  <inherits name="com.badlogic.gdx.backends.gdx_backends_gwt" />
+	<inherits name="${corePackage}.${mainClass}" />
+	${sortedInherits}
   <entry-point class="${corePackage}.gwt.GwtLauncher" />
   <!-- These two following lines reduce the work GWT has to do during compilation and also shrink output size. -->
   <set-configuration-property name="gdx.assetpath" value="../${assetsFolderName}" />

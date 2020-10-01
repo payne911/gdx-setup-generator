@@ -20,7 +20,7 @@ public class AndroidModule extends GdxModule {
 
     @Override
     protected void customize(GeneratorConfigs input, AppendableTree vfs) {
-        // todo
+        // nothing to do
     }
 
     @Override

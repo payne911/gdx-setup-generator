@@ -50,6 +50,7 @@ public class HtmlModule extends GdxModule {
         LibGdxVersion gdxVersion = input.getLibGdxVersionObject();
         if (gdxVersion.isOlderThan("1.9.12")) {
             vfs.copyFile(getSoundManagerPath(gdxVersion), webAppDestPath, "soundmanager2-jsmin.js");
+            vfs.copyFile("generator/static/html/alternates/soundmanager2-setup.js", webAppDestPath);
             vfs.copyFile("generator/static/html/alternates/index_old.html", webAppDestPath,
                     "index.html");
         } else {

@@ -12,6 +12,7 @@ public class CoreGwtXmlFile extends DynamicFile {
 
     @Override
     protected void assignKeys() {
-        // todo: "reflectedClasses" key
+        // this seems to only have been required by Autumn MVC from liftoff due to Reflection
+        assignKey("reflectedClasses", "");
     }
 }
