@@ -206,8 +206,10 @@ public class Visualizer extends Game {
     /**
      * To be used to get the user to transition directly into {@code InputListener#touchDragged(InputEvent,
      * float, float, int)} as if he had triggered {@code InputListener#touchDown(InputEvent, float,
-     * float, int, int)}.<br> I am not certain this is the recommended way of doing this, but for
-     * the purposes of this demonstration, it works!
+     * float, int, int)}.
+     * <p>
+     * I am not certain this is the recommended way of doing this, but for the purposes of this
+     * demonstration, it works!
      *
      * @param stage  the stage.
      * @param widget the PieMenu on which to transfer the interaction.

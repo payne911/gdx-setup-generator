@@ -30,6 +30,31 @@ public class InputConfigsDisplay {
     private TextField assetsFolderName;
     private TextField javaVersion;
 
+    /* Platforms */
+    private CheckBox corePlatform;
+    private CheckBox androidPlatform;
+    private CheckBox desktopPlatform;
+    private CheckBox headlessPlatform;
+    private CheckBox htmlPlatform;
+    private CheckBox iosPlatform;
+    private CheckBox lwjgl3Platform;
+    private CheckBox serverPlatform;
+    private CheckBox sharedPlatform;
+
+    /* Template */
+    private SelectBox<String> template;
+
+    /* AddOns */
+    private CheckBox readMeAddon;
+    private CheckBox guiAssetsAddon;
+    private CheckBox gradleWrapperAddon;
+
+    /* JVM Languages */
+    private CheckBox javaLanguage;
+    private CheckBox kotlinLanguage;
+    private CheckBox scalaLanguage;
+    private CheckBox groovyLanguage;
+
     /* Advanced settings */
     private TextField applicationVersion;
     private TextField postGenerationTask;
@@ -40,16 +65,6 @@ public class InputConfigsDisplay {
     private TextField androidSdkPath;
     private TextField androidPluginVersion;
 
-    private SelectBox<String> template;
-
-//    private Tree<Test, String> addons;
-//    static class Test extends Tree.Node<Test, String, Label> {
-//    }
-
-    private CheckBox readMeAddon;
-    private CheckBox guiAssetsAddon;
-    private CheckBox gradleWrapperAddon;
-
     public InputConfigsDisplay(Skin skin) {
         this.skin = skin;
         table = new Table(skin);
@@ -57,7 +72,6 @@ public class InputConfigsDisplay {
         generateBtn = new TextButton("GO", skin);
 
         configureTable();
-//        init();
         setUp();
     }
 
@@ -66,14 +80,13 @@ public class InputConfigsDisplay {
         table.align(Align.topLeft);
         table.defaults().pad(4);
 
-        table.setDebug(true);
+        table.setDebug(true); // todo: comment
     }
 
     private void setUp() {
         var defaults = new GeneratorConfigs(); // dummy to get default values
 
         title("MAIN SETTINGS");
-
         textField("libGdxVersion", libGdxVersion, defaults.getLibGdxVersion());
         textField("projectName", projectName, defaults.getProjectName());
         table.row();
@@ -84,38 +97,56 @@ public class InputConfigsDisplay {
         textField("javaVersion", javaVersion, defaults.getJavaVersion());
 
         table.row();
-        title("ADD ONS");
+        title("MODULES");
+        Table platforms = new Table(skin);
+        platforms.defaults().padLeft(30).padRight(30).align(Align.left);
+        label(platforms, "Select a platform: ");
+        checkBox(platforms, "android", androidPlatform);
+        checkBox(platforms, "desktop", desktopPlatform);
+        checkBox(platforms, "lwjgl3", lwjgl3Platform, true);
+        checkBox(platforms, "html", htmlPlatform);
+        checkBox(platforms, "headless", headlessPlatform);
+        checkBox(platforms, "ios", iosPlatform);
+        platforms.row();
+        label(platforms, "Extra modules: ");
+        checkBox(platforms, "core", corePlatform, true, true);
+        checkBox(platforms, "server", serverPlatform);
+        checkBox(platforms, "shared", sharedPlatform).colspan(4);
+        table.add(platforms).colspan(4);
 
+        table.row();
+        title("TEMPLATE");
+        template = new SelectBox<>(skin);
+        // TODO
+        template.setItems();
+//        APPLICATION_ADAPTER("application-adapter"),
+//        APPLICATION_LISTENER("application-listener"),
+//        CLASSIC("classic"),
+//        GAME("game"),
+//        INPUT_PROCESSOR("input-processor"),
+//        SCENE_2D("scene2d");
+
+        table.row();
+        title("ADD ONS");
         Table addOns = new Table(skin);
         addOns.defaults().padLeft(30).padRight(30);
-        checkBox(addOns, "GUI assets", guiAssetsAddon);
-        checkBox(addOns, "ReadMe", readMeAddon);
+        checkBox(addOns, "GUI assets", guiAssetsAddon, true);
+        checkBox(addOns, "ReadMe", readMeAddon, true);
         checkBox(addOns, "Gradle Wrapper", gradleWrapperAddon);
         table.add(addOns).colspan(4);
 
         table.row();
-        title("PLATFORMS");
-
-        Table platforms = new Table(skin);
-        platforms.defaults().padLeft(30).padRight(30);
-        checkBox(platforms, "GUI assets", guiAssetsAddon);
-        checkBox(platforms, "ReadMe", readMeAddon);
-        checkBox(platforms, "Gradle Wrapper", gradleWrapperAddon);
-        table.add(platforms).colspan(4);
-
-        table.row();
         title("JVM LANGUAGES");
-
         Table jvmLanguages = new Table(skin);
         jvmLanguages.defaults().padLeft(30).padRight(30);
-        checkBox(jvmLanguages, "GUI assets", guiAssetsAddon);
-        checkBox(jvmLanguages, "ReadMe", readMeAddon);
-        checkBox(jvmLanguages, "Gradle Wrapper", gradleWrapperAddon);
+        checkBox(jvmLanguages, "java", javaLanguage, true, true);
+        checkBox(jvmLanguages, "kotlin", kotlinLanguage);
+        checkBox(jvmLanguages, "scala", scalaLanguage);
+        checkBox(jvmLanguages, "groovy", groovyLanguage);
         table.add(jvmLanguages).colspan(4);
 
         table.row();
         title("ADVANCED SETTINGS");
-
         textField("applicationVersion", applicationVersion, defaults.getApplicationVersion());
         textField("postGenerationTask", postGenerationTask, defaults.getPostGenerationTask());
         table.row();
@@ -125,30 +156,48 @@ public class InputConfigsDisplay {
         textField("gwtPluginVersion", gwtPluginVersion, defaults.getGwtPluginVersion());
         textField("roboVmVersion", roboVmVersion, defaults.getRoboVmVersion());
         table.row();
-        textField("androidSdkPath", androidSdkPath, "C:/something/somewhere");
+        textField("androidSdkPath", androidSdkPath, "C:/something/somewhere/sdk");
         textField("androidPluginVersion", androidPluginVersion, defaults.getAndroidPluginVersion());
         table.row();
         // todo: SelectBox of Integers (targetAndroidApi)
         // todo: SelectBox of Integers (jsonLibraries) : amount of fake libs
     }
 
-    private void textField(String name, TextField injected, String defaults) {
+    private Cell<TextField> textField(String name, TextField injected, String defaults) {
         label(name + ":").align(Align.left);
         injected = new TextField(defaults, skin);
-        table.add(injected).growX();
+        return table.add(injected).growX();
     }
 
-    private void checkBox(Table groupTable, String name, CheckBox checkBox) {
-        checkBox = new CheckBox(name, skin);
-        groupTable.add(checkBox).growX();
+    private Cell<CheckBox> checkBox(Table groupTable, String name, CheckBox checkBox,
+            boolean checkedByDefault, boolean isDisabled) {
+        checkBox = new CheckBox(" " + name, skin);
+        checkBox.setChecked(checkedByDefault);
+        checkBox.setDisabled(isDisabled);
+        checkBox.align(Align.left);
+        return groupTable.add(checkBox).growX();
     }
 
-    private void title(String text) {
+    private Cell<CheckBox> checkBox(Table groupTable, String name, CheckBox checkBox,
+            boolean checkedByDefault) {
+        return checkBox(groupTable, name, checkBox, checkedByDefault, false);
+    }
+
+    private Cell<CheckBox> checkBox(Table groupTable, String name, CheckBox checkBox) {
+        return checkBox(groupTable, name, checkBox, false, false);
+    }
+
+    private Cell<Label> title(String text) {
         label("-= " + text + " =-").colspan(4).padTop(20).padBottom(20);
-        table.row();
+        return table.row();
     }
 
     private Cell<Label> label(String text) {
+        Label label = new Label(text, skin);
+        return table.add(label);
+    }
+
+    private Cell<Label> label(Table table, String text) {
         Label label = new Label(text, skin);
         return table.add(label);
     }
@@ -176,33 +225,4 @@ public class InputConfigsDisplay {
 
         return extracted;
     }
-
-//    @Deprecated
-//    private void init() {
-//        var defaults = new GeneratorConfigs();
-//
-//        boolean newRow = false;
-//        Field[] fields = GeneratorConfigs.class.getDeclaredFields();
-//        for (Field field : fields) {
-//            field.setAccessible(true);
-//            var label = new Label(field.getName() + ": ", skin);
-//            boolean isString = field.getType().getSimpleName().equals("String");
-//            TextField input;
-//            try {
-//                boolean nonNull = field.get(defaults) != null;
-//                input = new TextField(isString && nonNull ? field.get(defaults).toString() : "",
-//                        skin);
-//            } catch (IllegalAccessException e) {
-//                e.printStackTrace();
-//                input = new TextField("SOME ERROR HAPPENED", skin);
-//            }
-//
-//            table.add(label).align(Align.left);
-//            table.add(input).growX();
-//            if (newRow) {
-//                table.row();
-//            }
-//            newRow = !newRow;
-//        }
-//    }
 }
