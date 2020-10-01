@@ -224,6 +224,7 @@ public class InputConfigsDisplay {
     public GeneratorConfigs extractConfigs() {
         GeneratorConfigs extracted = new GeneratorConfigs();
 
+        /* Main settings */
         extracted.setLibGdxVersion(libGdxVersion.getText());
         extracted.setProjectName(projectName.getText());
         extracted.setCorePackage(corePackage.getText());
@@ -231,6 +232,7 @@ public class InputConfigsDisplay {
         extracted.setAssetsFolderName(assetsFolderName.getText());
         extracted.setJavaVersion(javaVersion.getText());
 
+        /* Advanced settings */
         extracted.setApplicationVersion(applicationVersion.getText());
         extracted.setPostGenerationTask(postGenerationTask.getText());
         extracted.setServerJavaVersion(serverJavaVersion.getText());
@@ -241,8 +243,10 @@ public class InputConfigsDisplay {
         extracted.setAndroidPluginVersion(androidPluginVersion.getText());
         extracted.setTargetAndroidApi(Integer.parseInt(targetAndroidApi.getText()));
 
+        /* Template */
         extracted.setTemplate(Template.fromString(templatesList.getSelected()));
 
+        /* JVM Languages */
         Set<VersionedLanguage> jvmLanguages = new HashSet<>();
         addJvmLanguage(jvmLanguages, javaLanguage);
         addJvmLanguage(jvmLanguages, kotlinLanguage);
@@ -250,6 +254,7 @@ public class InputConfigsDisplay {
         addJvmLanguage(jvmLanguages, groovyLanguage);
         extracted.setLanguages(jvmLanguages);
 
+        /* Platforms */
         Set<Platform> platforms = new HashSet<>();
         addPlatform(platforms, corePlatform);
         addPlatform(platforms, androidPlatform);
@@ -262,12 +267,14 @@ public class InputConfigsDisplay {
         addPlatform(platforms, sharedPlatform);
         extracted.setPlatforms(platforms);
 
+        /* AddOns */
         Set<AddOn> addOns = new HashSet<>();
         addAddOn(addOns, guiAssetsAddon);
         addAddOn(addOns, readMeAddon);
         addAddOn(addOns, gradleWrapperAddon);
         extracted.setAddOns(addOns);
 
+        /* Third-Party libraries */
         var fakeDependencies = getRandomThirdParty(extracted.getLibGdxVersionObject(),
                 Integer.parseInt(fakeJsonDependencies.getText()));
         extracted.getJsonLibraries().addAll(fakeDependencies);
