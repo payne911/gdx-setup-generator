@@ -54,7 +54,6 @@ A few of the more recent commits weren't yet ported in:
 * https://github.com/tommyettinger/gdx-liftoff/commit/9d06e3d524061c6090215a0b0a0c839428c7232b
 
 # GWT
-
 For GWT-compatibility, this needs to be changed:
 
 * ``FileUtils#readResourceFile`` uses a ClassLoader
@@ -66,7 +65,6 @@ For GWT-compatibility, this needs to be changed:
 Once the project is GWT-compatible, it should be possible to generate a file structure directly from a frontend.
 
 # Concerns
-
 The replacement algorithm used for generating content dynamically from static files has a vulnerability.
 
 It needs to check if the input text doesn't contain a key to avoid a "recursive" call which would explode the memory.
@@ -74,5 +72,9 @@ It needs to check if the input text doesn't contain a key to avoid a "recursive"
 The fix is easy to integrate, but for now this project is a MVP (Minimal Viable Product).
 
 # Documentation
-
 // todo... see: https://discordapp.com/channels/348229412858101762/522048465736433664/760021122217148466
+
+# Credits
+Thanks to:
+* [TEttinger](https://github.com/tommyettinger)
+* [czyzby](https://github.com/czyzby)
