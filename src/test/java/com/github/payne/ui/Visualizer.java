@@ -19,22 +19,12 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.github.payne.generator.Generator;
 import com.github.payne.generator.input.GeneratorConfigs;
-import com.github.payne.generator.input.model.GdxThirdParty;
-import com.github.payne.generator.input.model.GdxThirdParty.State;
-import com.github.payne.generator.input.model.VersionedLanguage;
-import com.github.payne.generator.input.model.enums.AddOn;
-import com.github.payne.generator.input.model.enums.Language;
-import com.github.payne.generator.input.model.enums.Platform;
-import com.github.payne.generator.input.model.enums.Template;
 import com.github.payne.generator.output.GeneratedProject;
 import com.github.payne.generator.output.vfs.FileNode;
 import com.github.payne.ui.components.FileContentDisplay;
 import com.github.payne.ui.components.FilesListDisplay;
 import com.github.payne.ui.components.InputConfigsDisplay;
 import com.payne.games.piemenu.PieMenu;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
 
 public class Visualizer extends Game {
 
@@ -104,22 +94,7 @@ public class Visualizer extends Game {
     }
 
     private void generate() {
-        input = new GeneratorConfigs(); // todo: construct from the InputConfigsDisplay values!
-        input.setProjectName("MyGdxProjectName");
-        input.setCorePackage("com.foo");
-        input.setAndroidSdkPath("C:/BobSdk");
-        input.setTemplate(Template.CLASSIC);
-        input.getPlatforms().addAll(Arrays
-                .asList(Platform.CORE, Platform.ANDROID, Platform.HTML, Platform.SERVER,
-                        Platform.DESKTOP_LEGACY, Platform.HEADLESS, Platform.IOS,
-                        Platform.LWJGL_3, Platform.SHARED));
-        input.getAddOns()
-                .addAll(Arrays.asList(AddOn.GRADLE_WRAPPER, AddOn.GUI_ASSETS, AddOn.README));
-        input.getLanguages().addAll(Arrays.asList(new VersionedLanguage(Language.JAVA),
-                new VersionedLanguage(Language.KOTLIN), new VersionedLanguage(Language.GROOVY),
-                new VersionedLanguage(Language.SCALA)));
-        input.getJsonLibraries().addAll(getRandomThirdParty(3));
-
+        input = configsDisplay.extractConfigs();
         output = generator.generateFileStructure(input);
         output.getVirtualFileSystem().depthFirstTraversal((node, depth) -> {
             var fileBtn = new TextButton(prefix(node) + node.getName(), skin);
@@ -135,34 +110,6 @@ public class Visualizer extends Game {
                 }
             });
         });
-    }
-
-    private Collection<GdxThirdParty> getRandomThirdParty(int amount) {
-        Collection<GdxThirdParty> libraries = new ArrayList<>();
-        for (int i = 0; i < amount; i++) {
-            GdxThirdParty library = new GdxThirdParty(1, "myName" + i, "myDesc", "myUrl");
-            State randomState = new State(i + "." + (i + 1) + "." + (i + 3));
-            randomState.getDesktopDependencies().add("random:desktop-dep" + i);
-            randomState.getDesktopDependencies().add("random:desktop-dep" + i + ":natives-desktop");
-            randomState.getDesktopDependencies().add("other.random:desk" + i);
-            randomState.getDesktopDependencies().add("other.random:desk" + i + ":natives-desktop");
-            randomState.getAndroidDependencies().add("some.stuff:for-android" + i);
-            randomState.getAndroidDependencies().add("some.other.stuff:for-android" + i);
-            randomState.getAndroidDependencies().add("some.more.stuff:for-android" + i);
-            randomState.getAndroidNativeDependencies().add("and:whats-ewa" + i + ":natives-armeai");
-            randomState.getAndroidNativeDependencies().add("and:whats-UWU" + i + ":natives-a-v7a");
-            randomState.getIOSDependencies().add("ios.stuff:is-crap" + i);
-            randomState.getIOSDependencies().add("ios.stuff:is-crap" + i + ":natives-ios");
-            randomState.getGwtDependencies().add("amazing-stuff:might-suck" + i);
-            randomState.getGwtDependencies().add("amazing-stuff:might-suck" + i + ":sources");
-            randomState.getGwtDependencies().add("amazing-stuff:mightyy-suck" + i);
-            randomState.getGwtDependencies().add("amazing-stuff:mightyy-suck" + i + ":sources");
-            randomState.getCoreDependencies().add("com.rafaskoberg.gdx:typing-label" + i);
-            randomState.getCoreDependencies().add("com.github.tommyettinger:regexodus" + i);
-            library.getStates().put(input.getLibGdxVersionObject(), randomState);
-            libraries.add(library);
-        }
-        return libraries;
     }
 
     private String prefix(FileNode node) {
@@ -192,7 +139,7 @@ public class Visualizer extends Game {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 if (menu.getSelectedIndex() == 0) {
-                    bottomSplit.setSplitAmount(.15f);
+                    bottomSplit.setSplitAmount(.10f);
                 } else {
                     bottomSplit.setSplitAmount(.9f);
                 }

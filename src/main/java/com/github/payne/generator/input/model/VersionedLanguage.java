@@ -16,7 +16,7 @@ public class VersionedLanguage {
     }
 
     public String getLanguage() {
-        return language.first.getValue();
+        return language.first.getString();
     }
 
     public String getDefaultVersion() {
@@ -24,6 +24,6 @@ public class VersionedLanguage {
     }
 
     public boolean isSameLanguage(Language other) {
-        return getLanguage().equals(other.getValue());
+        return getLanguage().equals(other.getString());
     }
 }

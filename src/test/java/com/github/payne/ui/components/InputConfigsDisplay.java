@@ -12,6 +12,18 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.utils.Align;
 import com.github.payne.generator.input.GeneratorConfigs;
+import com.github.payne.generator.input.model.GdxThirdParty;
+import com.github.payne.generator.input.model.GdxThirdParty.State;
+import com.github.payne.generator.input.model.LibGdxVersion;
+import com.github.payne.generator.input.model.VersionedLanguage;
+import com.github.payne.generator.input.model.enums.AddOn;
+import com.github.payne.generator.input.model.enums.Language;
+import com.github.payne.generator.input.model.enums.Platform;
+import com.github.payne.generator.input.model.enums.Template;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 import lombok.Data;
 
 @Data
@@ -65,6 +77,7 @@ public class InputConfigsDisplay {
     private TextField androidSdkPath;
     private TextField androidPluginVersion;
     private TextField targetAndroidApi;
+    private TextField fakeJsonDependencies;
 
     public InputConfigsDisplay(Skin skin) {
         this.skin = skin;
@@ -80,8 +93,6 @@ public class InputConfigsDisplay {
         table.clearChildren();
         table.align(Align.topLeft);
         table.defaults().align(Align.left).pad(4);
-
-//        table.setDebug(true); // todo: comment
     }
 
     private void setUp() {
@@ -128,9 +139,9 @@ public class InputConfigsDisplay {
         title("ADD ONS");
         Table addOns = new Table(skin);
         addOns.defaults().padLeft(30).padRight(30);
-        checkBox(addOns, "GUI assets", guiAssetsAddon, true);
-        checkBox(addOns, "ReadMe", readMeAddon, true);
-        checkBox(addOns, "Gradle Wrapper", gradleWrapperAddon);
+        checkBox(addOns, "gui-assets", guiAssetsAddon, true);
+        checkBox(addOns, "readme", readMeAddon, true);
+        checkBox(addOns, "gradle-wrapper", gradleWrapperAddon);
         table.add(addOns).colspan(4);
 
         table.row();
@@ -158,7 +169,7 @@ public class InputConfigsDisplay {
         textField("androidPluginVersion", androidPluginVersion, defaults.getAndroidPluginVersion());
         table.row();
         textField("targetAndroidApi", targetAndroidApi, defaults.getTargetAndroidApi().toString());
-        // todo: SelectBox of Integers (jsonLibraries) : amount of fake libs ?
+        textField("fakeJsonDependencies", fakeJsonDependencies, "1");
     }
 
     private Cell<TextField> textField(String name, TextField injected, String defaults) {
@@ -201,7 +212,7 @@ public class InputConfigsDisplay {
         return table.add(label);
     }
 
-    private Cell<SelectBox> selectBox(Table table, SelectBox selectBox, int index,
+    private Cell<SelectBox<String>> selectBox(Table table, SelectBox<String> selectBox, int index,
             String... items) {
         selectBox = new SelectBox<>(skin);
         selectBox.setItems(items);
@@ -228,10 +239,87 @@ public class InputConfigsDisplay {
         extracted.setRoboVmVersion(roboVmVersion.getText());
         extracted.setAndroidSdkPath(androidSdkPath.getText());
         extracted.setAndroidPluginVersion(androidPluginVersion.getText());
-        extracted.setTargetAndroidApi(Integer.valueOf(targetAndroidApi.getText()));
+        extracted.setTargetAndroidApi(Integer.parseInt(targetAndroidApi.getText()));
 
-        // todo: finish the mapping
+        extracted.setTemplate(Template.fromString(templatesList.getSelected()));
+
+        Set<VersionedLanguage> jvmLanguages = new HashSet<>();
+        addJvmLanguage(jvmLanguages, javaLanguage);
+        addJvmLanguage(jvmLanguages, kotlinLanguage);
+        addJvmLanguage(jvmLanguages, scalaLanguage);
+        addJvmLanguage(jvmLanguages, groovyLanguage);
+        extracted.setLanguages(jvmLanguages);
+
+        Set<Platform> platforms = new HashSet<>();
+        addPlatform(platforms, corePlatform);
+        addPlatform(platforms, androidPlatform);
+        addPlatform(platforms, desktopPlatform);
+        addPlatform(platforms, headlessPlatform);
+        addPlatform(platforms, htmlPlatform);
+        addPlatform(platforms, iosPlatform);
+        addPlatform(platforms, lwjgl3Platform);
+        addPlatform(platforms, serverPlatform);
+        addPlatform(platforms, sharedPlatform);
+        extracted.setPlatforms(platforms);
+
+        Set<AddOn> addOns = new HashSet<>();
+        addAddOn(addOns, guiAssetsAddon);
+        addAddOn(addOns, readMeAddon);
+        addAddOn(addOns, gradleWrapperAddon);
+        extracted.setAddOns(addOns);
+
+        var fakeDependencies = getRandomThirdParty(extracted.getLibGdxVersionObject(),
+                Integer.parseInt(fakeJsonDependencies.getText()));
+        extracted.getJsonLibraries().addAll(fakeDependencies);
 
         return extracted;
+    }
+
+    private void addJvmLanguage(Set<VersionedLanguage> collection, CheckBox checkBox) {
+        if (checkBox.isChecked()) {
+            var text = checkBox.getText().toString().trim();
+            var lang = new VersionedLanguage(Language.fromString(text));
+            collection.add(lang);
+        }
+    }
+
+    private void addPlatform(Set<Platform> collection, CheckBox checkBox) {
+        if (checkBox.isChecked()) {
+            collection.add(Platform.fromString(checkBox.getText().toString().trim()));
+        }
+    }
+
+    private void addAddOn(Set<AddOn> collection, CheckBox checkBox) {
+        if (checkBox.isChecked()) {
+            collection.add(AddOn.fromString(checkBox.getText().toString().trim()));
+        }
+    }
+
+    private Collection<GdxThirdParty> getRandomThirdParty(LibGdxVersion libGdxVersion, int amount) {
+        Collection<GdxThirdParty> libraries = new ArrayList<>();
+        for (int i = 0; i < amount; i++) {
+            GdxThirdParty library = new GdxThirdParty(1, "myName" + i, "myDesc", "myUrl");
+            State randomState = new State(i + "." + (i + 1) + "." + (i + 3));
+            randomState.getDesktopDependencies().add("random:desktop-dep" + i);
+            randomState.getDesktopDependencies().add("random:desktop-dep" + i + ":natives-desktop");
+            randomState.getDesktopDependencies().add("other.random:desk" + i);
+            randomState.getDesktopDependencies().add("other.random:desk" + i + ":natives-desktop");
+            randomState.getAndroidDependencies().add("some.stuff:for-android" + i);
+            randomState.getAndroidDependencies().add("some.other.stuff:for-android" + i);
+            randomState.getAndroidDependencies().add("some.more.stuff:for-android" + i);
+            randomState.getAndroidNativeDependencies().add("and:whats-ewa" + i + ":natives-armeai");
+            randomState.getAndroidNativeDependencies().add("and:whats-UWU" + i + ":natives-a-v7a");
+            randomState.getIOSDependencies().add("ios.stuff:is-crap" + i);
+            randomState.getIOSDependencies().add("ios.stuff:is-crap" + i + ":natives-ios");
+            randomState.getGwtDependencies().add("amazing-stuff:might-suck" + i);
+            randomState.getGwtDependencies().add("amazing-stuff:might-suck" + i + ":sources");
+            randomState.getGwtDependencies().add("amazing-stuff:mightyy-suck" + i);
+            randomState.getGwtDependencies().add("amazing-stuff:mightyy-suck" + i + ":sources");
+            randomState.getCoreDependencies().add("com.rafaskoberg.gdx:typing-label" + i);
+            randomState.getCoreDependencies().add("com.github.tommyettinger:regexodus" + i);
+            library.getStates().put(libGdxVersion, randomState);
+            libraries.add(library);
+        }
+        return libraries;
     }
 }

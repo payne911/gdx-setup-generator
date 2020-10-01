@@ -16,7 +16,7 @@ public class SettingsGradleFile extends DynamicFile {
 
     @Override
     protected void assignKeys() {
-        input.getPlatforms().forEach(platform -> modules.add(platform.getValue()));
+        input.getPlatforms().forEach(platform -> modules.add(platform.getString()));
         modules.sort(Comparator.naturalOrder()); // sorting to help with predictable tests
         assignKey("modules", String.join(", ", modules));
     }

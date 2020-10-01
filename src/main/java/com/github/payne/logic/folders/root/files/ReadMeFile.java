@@ -95,7 +95,7 @@ public class ReadMeFile extends DynamicFile {
             return;
         }
 
-        final String PLATFORM_NAME = platform.getValue();
+        final String PLATFORM_NAME = platform.getString();
         description = FileUtils.replaceStringContent(description, "name", PLATFORM_NAME);
         addTask(PLATFORM_NAME + ":" + command, description);
     }

@@ -18,5 +18,14 @@ public enum Platform {
     SERVER("server"),
     SHARED("shared");
 
-    private final String value;
+    private final String string;
+
+    public static Platform fromString(String text) {
+        for (Platform x : Platform.values()) {
+            if (x.string.equalsIgnoreCase(text)) {
+                return x;
+            }
+        }
+        throw new IllegalArgumentException("No constant with text " + text + " found");
+    }
 }

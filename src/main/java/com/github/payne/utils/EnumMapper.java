@@ -55,15 +55,15 @@ public final class EnumMapper {
     }
 
     private static void initModules() {
-        PLATFORM_MAPPINGS.put(ANDROID, new AndroidModule(ANDROID.getValue()));
-        PLATFORM_MAPPINGS.put(CORE, new CoreModule(CORE.getValue()));
-        PLATFORM_MAPPINGS.put(DESKTOP_LEGACY, new DesktopModule(DESKTOP_LEGACY.getValue()));
-        PLATFORM_MAPPINGS.put(HEADLESS, new HeadlessModule(HEADLESS.getValue()));
-        PLATFORM_MAPPINGS.put(HTML, new HtmlModule(HTML.getValue()));
-        PLATFORM_MAPPINGS.put(IOS, new IosModule(IOS.getValue()));
-        PLATFORM_MAPPINGS.put(LWJGL_3, new Lwjgl3Module(LWJGL_3.getValue()));
-        PLATFORM_MAPPINGS.put(SERVER, new ServerModule(SERVER.getValue()));
-        PLATFORM_MAPPINGS.put(SHARED, new SharedModule(SHARED.getValue()));
+        PLATFORM_MAPPINGS.put(ANDROID, new AndroidModule(ANDROID.getString()));
+        PLATFORM_MAPPINGS.put(CORE, new CoreModule(CORE.getString()));
+        PLATFORM_MAPPINGS.put(DESKTOP_LEGACY, new DesktopModule(DESKTOP_LEGACY.getString()));
+        PLATFORM_MAPPINGS.put(HEADLESS, new HeadlessModule(HEADLESS.getString()));
+        PLATFORM_MAPPINGS.put(HTML, new HtmlModule(HTML.getString()));
+        PLATFORM_MAPPINGS.put(IOS, new IosModule(IOS.getString()));
+        PLATFORM_MAPPINGS.put(LWJGL_3, new Lwjgl3Module(LWJGL_3.getString()));
+        PLATFORM_MAPPINGS.put(SERVER, new ServerModule(SERVER.getString()));
+        PLATFORM_MAPPINGS.put(SHARED, new SharedModule(SHARED.getString()));
     }
 
     private static void initTemplates() {

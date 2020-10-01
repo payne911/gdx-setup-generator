@@ -16,5 +16,14 @@ public enum Template {
     INPUT_PROCESSOR("input-processor"),
     SCENE_2D("scene2d");
 
-    private final String value;
+    private final String string;
+
+    public static Template fromString(String text) {
+        for (Template x : Template.values()) {
+            if (x.string.equalsIgnoreCase(text)) {
+                return x;
+            }
+        }
+        throw new IllegalArgumentException("No constant with text " + text + " found");
+    }
 }
