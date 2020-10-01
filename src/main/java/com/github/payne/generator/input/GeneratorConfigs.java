@@ -26,7 +26,7 @@ public class GeneratorConfigs {
     private String corePackage = "com.gdx.game";
     private String mainClass = "MainClass";
     private String assetsFolderName = "assets";
-    private String androidSdkPath;
+    private String javaVersion = "8.0";
 
     private Template template = Template.CLASSIC;
 
@@ -43,13 +43,13 @@ public class GeneratorConfigs {
 
     /* Advanced configuration. */
     private String applicationVersion = "0.0.1-SNAPSHOT";
-    private String javaVersion = "8.0";
+    private String postGenerationTask;
     private String serverJavaVersion = "8.0";
     private String desktopJavaVersion = "8.0";
-    private String androidPluginVersion = "4.0.0";
     private String gwtPluginVersion = "1.0.13";
     private String roboVmVersion = "2.3.9";
-    private String postGenerationTask;
+    private String androidSdkPath;
+    private String androidPluginVersion = "4.0.0";
     private Integer targetAndroidApi = 29;
 
 
