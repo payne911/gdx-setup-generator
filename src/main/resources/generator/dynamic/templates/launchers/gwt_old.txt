@@ -36,8 +36,8 @@ public class GwtLauncher extends GwtApplication {
 	//			if (Gdx.graphics.isFullscreen()) return;
 	//			int width = event.getWidth() - PADDING;
 	//			int height = event.getHeight() - PADDING;
-	//			getRootPanel().setWidth("" + width + "px");
-	//			getRootPanel().setHeight("" + height + "px");
+	//			getRootPanel().setWidth(width + "px");
+	//			getRootPanel().setHeight(height + "px");
 	//			getApplicationListener().resize(width, height);
 	//			Gdx.graphics.setWindowedMode(width, height);
 	//		}
