@@ -31,8 +31,8 @@ public class InputConfigsDisplay {
 
     private final Skin skin;
     private final Table table;
-    private final ScrollPane scrollPane;
     private final Button generateBtn;
+    private final ScrollPane scrollPane;
 
     /* Main settings */
     private TextField libGdxVersion;
@@ -82,7 +82,8 @@ public class InputConfigsDisplay {
     public InputConfigsDisplay(Skin skin) {
         this.skin = skin;
         table = new Table(skin);
-        scrollPane = new ScrollPane(table);
+        scrollPane = new ScrollPayne(table, skin);
+        scrollPane.setOverscroll(false, false);
         generateBtn = new TextButton("GO", skin);
 
         configureTable();

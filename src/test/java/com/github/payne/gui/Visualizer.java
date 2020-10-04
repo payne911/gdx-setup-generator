@@ -123,14 +123,14 @@ public class Visualizer extends Game {
         PieMenu.PieMenuStyle style = new PieMenu.PieMenuStyle();
         style.separatorWidth = 2;
         style.circumferenceWidth = 2;
-        style.backgroundColor = new Color(1, 1, 1, .1f);
-        style.separatorColor = new Color(.1f, .1f, .1f, 1);
+        style.backgroundColor = new Color(1, 1, 1, .5f);
         style.downColor = new Color(.7f, .2f, .2f, 1);
-        style.sliceColor = new Color(.4f, .1f, .1f, 1);
+        style.sliceColor = new Color(.6f, .1f, .1f, 1);
         menu = new PieMenu(skin.getRegion("white"), style, 110, .33f);
 
         menu.setInfiniteSelectionRange(true);
         menu.setSelectionButton(Input.Buttons.RIGHT); // right-click for interactions
+        menu.setMiddleCancel(true);
 
         menu.addActor(new Label("EXPAND", skin));
         menu.addActor(new Label("HIDE", skin));
@@ -139,13 +139,14 @@ public class Visualizer extends Game {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 if (menu.getSelectedIndex() == 0) {
-                    bottomSplit.setSplitAmount(.10f);
-                } else {
+                    bottomSplit.setSplitAmount(.1f);
+                } else if (menu.getSelectedIndex() == 1) {
                     bottomSplit.setSplitAmount(.9f);
                 }
 
                 menu.setVisible(false);
                 menu.remove();
+                menu.resetSelection();
             }
         });
     }

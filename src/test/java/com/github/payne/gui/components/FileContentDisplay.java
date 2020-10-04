@@ -27,7 +27,8 @@ public class FileContentDisplay {
         content = new Label("Click on a file (on the left) to see its content", skin);
         content.setAlignment(Align.topLeft);
 
-        scrollPane = new ScrollPane(content);
+        scrollPane = new ScrollPayne(content, skin);
+        scrollPane.setOverscroll(false, false);
         fullPath = new Label("Full path of the selected file", skin);
 
         table.add(fullPath).padBottom(25).growX().row();

@@ -20,7 +20,8 @@ public class FilesListDisplay {
         this.skin = skin;
         table = new Table(skin);
 
-        scrollPane = new ScrollPane(table);
+        scrollPane = new ScrollPayne(table, skin);
+        scrollPane.setOverscroll(false, false);
         table.add(new Label("Files will appear here", skin)).grow();
         table.align(Align.topLeft).defaults().pad(2.5f);
     }
