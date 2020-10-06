@@ -24,13 +24,11 @@ public class LogicProcessor {
     private final GeneratorConfigs input;
     private final GeneratedProject project; // used to inject Error Messages, if any
     private final AppendableTree vfs;
-    private final FileNode root;
 
     public LogicProcessor(GeneratorConfigs input, GeneratedProject project) {
         this.input = input;
         this.project = project;
         this.vfs = project.getVirtualFileSystem();
-        this.root = vfs.getRoot();
         FileUtils.clearCache();
     }
 
