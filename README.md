@@ -1,3 +1,4 @@
+[![](https://jitpack.io/v/payne911/gdx-setup-generator.svg)](https://jitpack.io/#payne911/gdx-setup-generator)
 ![build](https://github.com/payne911/gdx-setup-generator/workflows/build/badge.svg)
 
 # API
