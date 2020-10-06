@@ -37,7 +37,6 @@ public class LogicProcessor {
     public void applyInputs() {
         addRootFiles();
         addRootFolders();
-        addGradleWrapper();
     }
 
     public void addRootFiles() {
@@ -51,6 +50,7 @@ public class LogicProcessor {
 
     public void addRootFolders() {
         addAssets();
+        addGradleWrapper();
         addPlatforms();
     }
 
@@ -67,24 +67,24 @@ public class LogicProcessor {
 
     public void addRootBuildGradle() {
         DynamicFile rootBuildGradle = new RootBuildGradleFile(input);
-        vfs.addToParent(root, rootBuildGradle.createFile());
+        vfs.addToRoot(rootBuildGradle.createFile());
     }
 
     public void addGradleProperties() {
         DynamicFile gradleProperties = new GradlePropertiesFile(input);
-        vfs.addToParent(root, gradleProperties.createFile());
+        vfs.addToRoot(gradleProperties.createFile());
     }
 
     public void addLocalProperties() {
         if (input.contains(Platform.ANDROID)) {
             DynamicFile localProperties = new LocalPropertiesFile(input);
-            vfs.addToParent(root, localProperties.createFile());
+            vfs.addToRoot(localProperties.createFile());
         }
     }
 
     public void addAssets() {
         final String DEST_FOLDER = input.getAssetsFolderName();
-        vfs.addToParent(root, new FileNode(DEST_FOLDER));
+        vfs.addToRoot(new FileNode(DEST_FOLDER));
         if (input.contains(AddOn.GUI_ASSETS)) {
             vfs.copyFolder("generator/static/assets", Arrays.asList(DEST_FOLDER), false);
         }
@@ -100,12 +100,12 @@ public class LogicProcessor {
     public void addReadmeFile() {
         if (input.contains(AddOn.README)) {
             DynamicFile readme = new ReadMeFile(input);
-            vfs.addToParent(root, readme.createFile());
+            vfs.addToRoot(readme.createFile());
         }
     }
 
     private void addSettingsGradle() {
         DynamicFile modules = new SettingsGradleFile(input);
-        vfs.addToParent(root, modules.createFile());
+        vfs.addToRoot(modules.createFile());
     }
 }
